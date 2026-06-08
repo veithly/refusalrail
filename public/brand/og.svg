@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#080b12"/>
+  <rect x="56" y="54" width="1088" height="522" rx="22" fill="#101826" stroke="#2d3a51" stroke-width="2"/>
+  <text x="104" y="142" fill="#f4f7fb" font-family="Arial, sans-serif" font-size="48" font-weight="800">RefusalRail</text>
+  <text x="104" y="252" fill="#f4f7fb" font-family="Arial, sans-serif" font-size="72" font-weight="900">Reject 1 unsafe RWA trade in 60 seconds.</text>
+  <text x="108" y="330" fill="#9ba9bd" font-family="Arial, sans-serif" font-size="30">A policy flight recorder for agentic tokenized asset actions.</text>
+  <g transform="translate(730 344) rotate(-10)">
+    <rect x="0" y="0" width="280" height="122" rx="10" fill="none" stroke="#ec3b31" stroke-width="10"/>
+    <text x="60" y="82" fill="#ec3b31" font-family="Arial Black, Arial, sans-serif" font-size="70">NO</text>
+  </g>
+  <text x="104" y="492" fill="#f4f7fb" font-family="Arial, sans-serif" font-size="26">proof hash · policy hash · calldata hash · receipt ledger</text>
+</svg>

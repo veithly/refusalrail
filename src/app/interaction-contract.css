@@ -1,0 +1,9 @@
+:root[data-density="compact"] {
+  --space-1: 4px;
+  --row-h: 28px;
+}
+
+:root[data-density="comfortable"] {
+  --space-1: 8px;
+  --row-h: 44px;
+}

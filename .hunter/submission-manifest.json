@@ -1,0 +1,41 @@
+{
+  "project": "RefusalRail",
+  "tagline": "Reject 1 unsafe RWA trade in 60 seconds.",
+  "live_url": "https://refusalrail.veithly.workers.dev",
+  "worker_version_id": "2097af97-31b8-4248-8748-7fc91f493340",
+  "build_id": "wallet-final-2026-06-08T193725Z",
+  "repo_url": "",
+  "video_url": "",
+  "video_file": "pitch/recording/pitch-demo-combined-final.mp4",
+  "deck_url": "",
+  "deck_file": "pitch/polish-combined/index.html",
+  "readme": "README.md",
+  "submission": "SUBMISSION.md",
+  "deployment": "docs/DEPLOYMENT.md",
+  "contracts": {
+    "chain": "Arbitrum Sepolia",
+    "chain_id": "421614",
+    "policy_registry": "0xa9df142D14218CC99f3068CBADC1D1965f7623B7",
+    "refusal_receipt": "0xf6aC320e7C4E865A72c588c89BE23Ff12ca543C3",
+    "refusal_hub": "0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8",
+    "demo_rwa_asset": "0x320392A010982f8F8F81e9E8aE8aaD083Be69810",
+    "refused_demo_tx": "0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
+  },
+  "verification": {
+    "build": "passed",
+    "unit": "3 passed",
+    "e2e_local": "16 passed, 2 skipped",
+    "e2e_deployed": "18 passed",
+    "hackathonhunter_main_audit": "passed",
+    "build_plan_audit": "passed",
+    "onboarding_audit": "passed",
+    "interaction_audit": "passed",
+    "seed_audit": "passed",
+    "visual_qa": "0 errors, 0 warnings",
+    "cloudflare_dry_run": "passed",
+    "cloudflare_deploy": "passed",
+    "final_video": "86s, 1920x1200, H.264 High, AAC stereo"
+  },
+  "status": "ready-for-final-submit",
+  "human_confirmation_required_before_final_submit": true
+}

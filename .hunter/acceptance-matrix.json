@@ -1,0 +1,34 @@
+{
+  "user_case_beats": [
+    {
+      "id": "ACCEPT-001",
+      "user_case": "HERO PATH",
+      "route": "/app",
+      "action_selector": "[data-testid='run-refusal']",
+      "visible_state_change": "NO stamp and refused receipt appear",
+      "storage_evidence": "Durable Object receipt with ownerId and proofHash",
+      "test": "tests/hero.spec.ts",
+      "status": "passed-local"
+    },
+    {
+      "id": "ACCEPT-002",
+      "user_case": "Safe standing action executes under same policy",
+      "route": "/app",
+      "action_selector": "[data-testid='run-safe']",
+      "visible_state_change": "OK stamp and allowed receipt appear",
+      "storage_evidence": "Durable Object receipt with same policyHash and allowed status",
+      "test": "tests/hero.spec.ts",
+      "status": "passed-local"
+    },
+    {
+      "id": "ACCEPT-003",
+      "user_case": "Builder audits the safety rail",
+      "route": "/app/receipts/[id]",
+      "action_selector": "[data-testid='open-latest-receipt']",
+      "visible_state_change": "proof table shows policyHash and calldataHash",
+      "storage_evidence": "GET /api/receipts/:id reads persisted receipt",
+      "test": "tests/hero.spec.ts",
+      "status": "passed-local"
+    }
+  ]
+}

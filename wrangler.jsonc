@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "refusalrail",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-05",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "LEDGER",
+        "class_name": "RefusalLedger"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "RefusalLedger"
+      ]
+    }
+  ],
+  "vars": {
+    "APP_ENV": "production",
+    "BUILD_ID": "wallet-final-2026-06-08T193725Z",
+    "CHAIN_ID": "421614",
+    "CHAIN_NAME": "Arbitrum Sepolia",
+    "EXPLORER_BASE_URL": "https://sepolia.arbiscan.io",
+    "REFUSAL_HUB_ADDRESS": "0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8",
+    "POLICY_REGISTRY_ADDRESS": "0xa9df142D14218CC99f3068CBADC1D1965f7623B7",
+    "REFUSAL_RECEIPT_ADDRESS": "0xf6aC320e7C4E865A72c588c89BE23Ff12ca543C3",
+    "DEMO_RWA_ASSET_ADDRESS": "0x320392A010982f8F8F81e9E8aE8aaD083Be69810",
+    "CONTRACTS_DEPLOYED_AT": "2026-06-08T12:03:14.518Z"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "current_gate": "G7_SUBMISSION_PACK",
+  "last_passed_gate": "G7_SUBMISSION_PACK_READY",
+  "status": "READY_FOR_HUMAN_AUTH",
+  "blocked": false,
+  "blocked_gate": null,
+  "reports": {
+    "G1_idea_tournament": "pass",
+    "G2_prd": "pass",
+    "G2_delivery_mode": "pass",
+    "G3_ui_libs": "pass",
+    "G4_feature_density": "pass",
+    "G4_realness": "pass",
+    "G5_cloudflare_dry_run": "pass",
+    "G5_public_url_smoke": "pass",
+    "G6_pitch_video_repo_sync": "pass",
+    "G7_submission_pack": "ready_for_human_confirmation"
+  }
+}

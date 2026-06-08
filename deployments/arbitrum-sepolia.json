@@ -1,0 +1,27 @@
+{
+  "chainId": "421614",
+  "chainName": "Arbitrum Sepolia",
+  "explorerBaseUrl": "https://sepolia.arbiscan.io",
+  "deployer": "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66",
+  "deployedAt": "2026-06-08T12:03:14.518Z",
+  "contracts": {
+    "PolicyRegistry": "0xa9df142D14218CC99f3068CBADC1D1965f7623B7",
+    "RefusalReceipt": "0xf6aC320e7C4E865A72c588c89BE23Ff12ca543C3",
+    "RefusalHub": "0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8",
+    "DemoRWAAsset": "0x320392A010982f8F8F81e9E8aE8aaD083Be69810"
+  },
+  "transactions": {
+    "setHub": "0x13f26db9e16555d510d8f1e122c4a50aeeac20de6c256d208c9b44081195bff2",
+    "refusedDemo": "0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
+  },
+  "env": {
+    "REFUSAL_HUB_ADDRESS": "0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8",
+    "POLICY_REGISTRY_ADDRESS": "0xa9df142D14218CC99f3068CBADC1D1965f7623B7",
+    "REFUSAL_RECEIPT_ADDRESS": "0xf6aC320e7C4E865A72c588c89BE23Ff12ca543C3",
+    "DEMO_RWA_ASSET_ADDRESS": "0x320392A010982f8F8F81e9E8aE8aaD083Be69810",
+    "CONTRACTS_DEPLOYED_AT": "2026-06-08T12:03:14.518Z",
+    "CHAIN_ID": "421614",
+    "CHAIN_NAME": "Arbitrum Sepolia",
+    "EXPLORER_BASE_URL": "https://sepolia.arbiscan.io"
+  }
+}

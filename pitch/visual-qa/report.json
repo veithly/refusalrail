@@ -1,0 +1,152 @@
+{
+  "projectRoot": "/Users/rick/Documents/Project/Hackathon/RefusalRail",
+  "baseUrl": "https://refusalrail.veithly.workers.dev",
+  "routes": [
+    "/",
+    "/app",
+    "/about",
+    "/policy",
+    "/receipts"
+  ],
+  "viewports": [
+    "desktop",
+    "mobile"
+  ],
+  "generatedAt": "2026-06-08T19:40:19.900Z",
+  "scans": [
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/",
+        "title": "RefusalRail",
+        "width": 1920,
+        "height": 1200,
+        "scrollWidth": 1920,
+        "scrollHeight": 2424
+      },
+      "issues": [],
+      "route": "/",
+      "viewport": "desktop"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/app",
+        "title": "RefusalRail Workbench",
+        "width": 1920,
+        "height": 1200,
+        "scrollWidth": 1920,
+        "scrollHeight": 1200
+      },
+      "issues": [],
+      "route": "/app",
+      "viewport": "desktop"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/about",
+        "title": "RefusalRail Build",
+        "width": 1920,
+        "height": 1200,
+        "scrollWidth": 1920,
+        "scrollHeight": 1200
+      },
+      "issues": [],
+      "route": "/about",
+      "viewport": "desktop"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/app/policy",
+        "title": "RefusalRail Policy",
+        "width": 1920,
+        "height": 1200,
+        "scrollWidth": 1920,
+        "scrollHeight": 1200
+      },
+      "issues": [],
+      "route": "/policy",
+      "viewport": "desktop"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/app/receipts",
+        "title": "RefusalRail Receipts",
+        "width": 1920,
+        "height": 1200,
+        "scrollWidth": 1920,
+        "scrollHeight": 1200
+      },
+      "issues": [],
+      "route": "/receipts",
+      "viewport": "desktop"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/",
+        "title": "RefusalRail",
+        "width": 393,
+        "height": 852,
+        "scrollWidth": 393,
+        "scrollHeight": 4110
+      },
+      "issues": [],
+      "route": "/",
+      "viewport": "mobile"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/app",
+        "title": "RefusalRail Workbench",
+        "width": 393,
+        "height": 852,
+        "scrollWidth": 393,
+        "scrollHeight": 2795
+      },
+      "issues": [],
+      "route": "/app",
+      "viewport": "mobile"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/about",
+        "title": "RefusalRail Build",
+        "width": 393,
+        "height": 852,
+        "scrollWidth": 393,
+        "scrollHeight": 1996
+      },
+      "issues": [],
+      "route": "/about",
+      "viewport": "mobile"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/app/policy",
+        "title": "RefusalRail Policy",
+        "width": 393,
+        "height": 852,
+        "scrollWidth": 393,
+        "scrollHeight": 1440
+      },
+      "issues": [],
+      "route": "/policy",
+      "viewport": "mobile"
+    },
+    {
+      "page": {
+        "url": "https://refusalrail.veithly.workers.dev/app/receipts",
+        "title": "RefusalRail Receipts",
+        "width": 393,
+        "height": 852,
+        "scrollWidth": 393,
+        "scrollHeight": 1087
+      },
+      "issues": [],
+      "route": "/receipts",
+      "viewport": "mobile"
+    }
+  ],
+  "summary": {
+    "error": 0,
+    "warn": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "project": "RefusalRail",
+  "status": "outline-only",
+  "first_sentence": "Reject 1 unsafe RWA trade, stamp NO, in 60 seconds.",
+  "scenes": [
+    {
+      "id": "hook",
+      "route": "/",
+      "narration": "This demo only wins if the trade fails."
+    },
+    {
+      "id": "refusal",
+      "route": "/app",
+      "narration": "The judge chooses a shock and the policy rail refuses the unsafe principal sale."
+    },
+    {
+      "id": "proof",
+      "route": "/app/receipts/[id]",
+      "narration": "The receipt survives refresh and exposes the policy, calldata, and proof hashes."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "gate": "G5_PUBLIC_URL_SMOKE",
+  "status": "passed",
+  "checked_at": "2026-06-08T19:39:22Z",
+  "wrangler_version": "4.98.0",
+  "worker_version_id": "2097af97-31b8-4248-8748-7fc91f493340",
+  "build_id": "wallet-final-2026-06-08T193725Z",
+  "commands": {
+    "build": "passed",
+    "unit": "passed",
+    "e2e_local": "16 passed, 2 skipped",
+    "deploy_dry_run": "passed",
+    "whoami": "authenticated",
+    "deploy": "passed",
+    "e2e_deployed": "18 passed",
+    "visual_qa": "0 errors, 0 warnings",
+    "health": "buildId wallet-final-2026-06-08T193725Z, chainStatus configured"
+  },
+  "live_url": "https://refusalrail.veithly.workers.dev",
+  "blocker": ""
+}

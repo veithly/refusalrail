@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+.dev.vars
+.wrangler/
+.DS_Store
+node_modules/
+dist-worker/
+test-results/
+playwright-report/
+pitch/_raw-recording/
+pitch/_qa/hackquest-registration-*.png
+pitch/recording/*.webm
+pitch/recording/pitch-demo-combined.mp4
+pitch/recording/tight.mp4
+pitch/recording/narration-tight.mp3
+pitch/recording/voiceover.concat.txt

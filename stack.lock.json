@@ -1,0 +1,172 @@
+{
+  "$schema": "https://hackathonhunter.example.com/schemas/stack.lock.json",
+  "project_language": "English",
+  "require_zh_mirror": false,
+  "branch": "Web3",
+  "delivery_mode": "combined-pitch-demo",
+  "delivery_mode_reason": "Online judging is expected to consume one demo video URL plus live/repo links; build the product demo and pitch as one combined artifact.",
+  "video_target_duration_s": 240,
+  "video_resolution": "1920x1200",
+  "video_composer": "hyperframes",
+  "hackathon": {
+    "name": "Arbitrum Open House London: Online Buildathon",
+    "url": "https://www.hackquest.io/en/hackathons/Arbitrum-Open-House-London-Online-Buildathon",
+    "deadline": "2026-06-14T22:59:00Z"
+  },
+  "frontend": {
+    "framework": "cloudflare-worker-rendered-html",
+    "framework_override_reason": "Cloudflare deploy confidence and Durable Object state are higher priority than OpenNext adapter complexity for this build turn.",
+    "styling": "custom-css",
+    "dependency_policy": "runtime deps kept minimal; dev deps install with @latest/unversioned targets unless a compatibility bug is recorded",
+    "visual_style_lane": "operational-dashboard",
+    "primary_ui_library": "shadcn-inspired primitives",
+    "supporting_ui_library": "custom Cloudflare Worker HTML/CSS components",
+    "non_tailwind_visual_signature": "policy flight-recorder HUD with red NO stamp, ledger rails, and evidence cells",
+    "component_blocks": ["ShockCard", "ActionCard", "NoStamp", "ReceiptRail", "PolicyMatrix", "ProofTable"],
+    "hero_composition": "cockpit workbench with action card, shock switches, and receipt rail",
+    "visual_differentiation_note": "centers refusal evidence instead of charts, APY cards, chat bubbles, or wallet dashboards",
+    "forbidden_lookalikes": ["Robinhood brokerage clone", "generic DeFi dashboard", "purple AI copilot", "static compliance PDF"],
+    "qr_mobile_access": {
+      "entry": "QR code opens /app on the live Cloudflare Worker URL",
+      "mobile_primary_flow": "tap a shock, tap Let the agent try, open the latest receipt",
+      "desktop_parity_plan": "desktop shows policy, action, receipt rail, and proof hash simultaneously",
+      "viewports_to_test": ["390x844", "1920x1200"]
+    },
+    "asset_sources": {
+      "logo": "logo-generator style pack represented by hand-authored SVG files under public/brand",
+      "avatars": "none; roles shown as holder, agent, auditor labels",
+      "generated_images": ["not used"],
+      "cutout_assets": {
+        "raw_dirs": ["public/art/raw"],
+        "output_dirs": ["public/art/cutouts"],
+        "command": "node hackathonhunter/scripts/cutout_assets.mjs public/art/raw --out public/art/cutouts --brief-dir public/art/briefs --usage \"not used for RefusalRail app shell\" --auto-key --trim"
+      }
+    },
+    "motion": ["state-change motion only", "reduced-motion safe"]
+  },
+  "web3": {
+    "chain": "Arbitrum Sepolia primary fallback; Robinhood Chain when public deployment endpoint and funded wallet are available",
+    "chain_id": 421614,
+    "rpc_env": "ARBITRUM_SEPOLIA_RPC_URL",
+    "contracts": ["RefusalHub", "PolicyRegistry", "RefusalReceipt", "DemoRWAAsset"],
+    "contract_evidence": "contracts/*.sol compile with scripts/compile-contracts.mjs; deployed on Arbitrum Sepolia with refused demo tx 0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372",
+    "explorer_base_url": "https://sepolia.arbiscan.io",
+    "wallet_flow": "browser EIP-1193 sendTransaction path is optional and never gates the hero moment"
+  },
+  "deploy": {
+    "frontend": "cloudflare-workers",
+    "backend": "cloudflare-workers",
+    "adapter": "wrangler",
+    "bindings": {
+      "durable_objects": [
+        {
+          "name": "LEDGER",
+          "class_name": "RefusalLedger"
+        }
+      ],
+      "d1": [],
+      "kv": [],
+      "r2": [],
+      "queues": []
+    },
+    "production_url": "https://refusalrail.veithly.workers.dev",
+    "smoke_tested_at": "2026-06-08T12:20:00Z",
+    "cloudflare_override_reason": ""
+  },
+  "required_env": [
+    {
+      "name": "PRIVATE_KEY",
+      "scope": "local-secret-source",
+      "required_for": "contract deployment only; Cloudflare hero path reads deployed addresses from Wrangler vars",
+      "official_key_url": "https://docs.arbitrum.io/build-decentralized-apps/how-to-deploy-a-smart-contract",
+      "storage": "$HOME/use_key.txt -> .env.local or deployment shell; never committed",
+      "status": "provided",
+      "optional": true,
+      "alias_source": "development wallet PRIVATE_KEY"
+    },
+    {
+      "name": "ARBITRUM_SEPOLIA_RPC_URL",
+      "scope": "server",
+      "required_for": "contract deployment and explorer proof",
+      "official_key_url": "https://docs.arbitrum.io/for-devs/dev-tools-and-resources/chain-info",
+      "storage": ".env.local or shell environment",
+      "status": "available",
+      "optional": true
+    },
+    {
+      "name": "CLOUDFLARE_API_TOKEN",
+      "scope": "local-secret-source",
+      "required_for": "real wrangler deploy from local machine; dry-run/build works without printing token",
+      "official_key_url": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
+      "storage": "Wrangler login or local environment",
+      "status": "configured",
+      "optional": true
+    }
+  ],
+  "real_data_sources": [
+    {
+      "id": "receipt-ledger",
+      "type": "database",
+      "source": "Cloudflare Durable Object SQLite-backed storage",
+      "evidence": "receipt id and proof hash survive refresh and role switch"
+    },
+    {
+      "id": "contract-source",
+      "type": "contract",
+      "source": "contracts/RefusalHub.sol and related Solidity sources",
+      "evidence": "compiled artifacts under artifacts/contracts"
+    },
+    {
+      "id": "chain-export",
+      "type": "wallet",
+      "source": "Arbitrum Sepolia deployment and RefusalHub transaction",
+      "evidence": "RefusalHub deployed at 0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8; refused demo tx 0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
+    }
+  ],
+  "product_backbone": {
+    "identity": "guest cookie plus role switch",
+    "storage": "Durable Object SQLite-backed storage",
+    "ownership_fields": ["userId", "ownerId", "sessionId", "roleId", "walletAddress"],
+    "multi_user_proof": "holder session creates receipts; auditor role can inspect public receipts from a second browser context",
+    "stateless_exception_reason": ""
+  },
+  "feature_density": {
+    "user_case_beats": [
+      {
+        "user_case": "HERO PATH",
+        "beat": "Judge selects a market shock and runs unsafe action",
+        "route": "/app",
+        "action_selector": "[data-testid='run-refusal']",
+        "state_change": "receipt drawer shows refused status, proof hash, and NO stamp",
+        "backend_evidence": "POST /api/runs/refuse writes ownerId receipt in Durable Object storage"
+      },
+      {
+        "user_case": "Safe standing action executes under same policy",
+        "beat": "User runs safe sweep",
+        "route": "/app",
+        "action_selector": "[data-testid='run-safe']",
+        "state_change": "allowed receipt appears with same policy hash and balance snapshot",
+        "backend_evidence": "POST /api/runs/safe writes allowed receipt in Durable Object storage"
+      },
+      {
+        "user_case": "Builder audits the safety rail",
+        "beat": "Judge opens receipt detail",
+        "route": "/app/receipts/[id]",
+        "action_selector": "[data-testid='open-latest-receipt']",
+        "state_change": "proof table shows calldata hash, policy hash, shock snapshot, ownerId, and proof hash",
+        "backend_evidence": "GET /api/receipts/:id reads persisted receipt by id"
+      }
+    ]
+  },
+  "prd_coverage": {
+    "source": "pitch/project_prd.md",
+    "minimum": "every P0/P1 REQ-### row has route/API/real-data/test/deploy evidence before recording"
+  },
+  "extras": {
+    "auth": "guest cookie",
+    "db": "Durable Object SQLite-backed storage",
+    "analytics": null,
+    "errorTracking": null
+  },
+  "notes": "Cloudflare Worker implementation intentionally replaces the default Next/OpenNext path to maximize deploy confidence. The app now ships a live Worker URL, Durable Object storage, deployed contracts, and a real refused demo transaction."
+}

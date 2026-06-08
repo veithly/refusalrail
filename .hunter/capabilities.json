@@ -1,0 +1,28 @@
+{
+  "project": "RefusalRail",
+  "guest_mode": true,
+  "first_run_contract": {
+    "entry": "/",
+    "first_meaningful_action": "/app -> select shock -> POST /api/runs/refuse",
+    "success_artifact": "persisted refusal receipt with reasonCode, policyHash, calldataHash, proofHash",
+    "fallback": "/about static deployment proof and receipt ledger retry states"
+  },
+  "latency_budget_ms": {
+    "landing_visible": 3000,
+    "workbench_ready": 8000,
+    "first_session_complete": 60000,
+    "receipt_detail_visible": 90000
+  },
+  "interactive_surfaces": [
+    "/app",
+    "/app/policy",
+    "/app/receipts",
+    "/app/receipts/[id]",
+    "/about"
+  ],
+  "empty_state_contract": {
+    "/app": ["receipt-empty-state", "calldata-preview-state"],
+    "/app/policy": ["policy-fallback-matrix", "contract-address-pending"],
+    "/app/receipts": ["receipt-history-empty", "role-switch-state"]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "project": "RefusalRail",
+  "gate": "G2_PRD_STACK_LOCK",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "priority": "P0",
+      "route": "/app",
+      "api": "POST /api/runs/refuse",
+      "component": "ShockCard + ActionCard + NoStamp + ReceiptRail",
+      "real_data_source": "Cloudflare Durable Object receipt storage",
+      "state_contract": "Receipt.status=refused, ownerId, policyHash, calldataHash, proofHash",
+      "test": "tests/hero.spec.ts",
+      "deployment_evidence": ".hunter/gates/G5-public-smoke.report.json"
+    },
+    {
+      "id": "REQ-002",
+      "priority": "P0",
+      "route": "/app",
+      "api": "POST /api/runs/safe",
+      "component": "SafeActionPanel + ReceiptRail",
+      "real_data_source": "Cloudflare Durable Object receipt storage",
+      "state_contract": "Receipt.status=allowed, balanceSnapshot, policyHash",
+      "test": "tests/hero.spec.ts",
+      "deployment_evidence": ".hunter/gates/G5-public-smoke.report.json"
+    },
+    {
+      "id": "REQ-003",
+      "priority": "P0",
+      "route": "/app/receipts/[id]",
+      "api": "GET /api/receipts/:id",
+      "component": "ProofTable + ReceiptDetail",
+      "real_data_source": "Cloudflare Durable Object receipt storage",
+      "state_contract": "proofHash, reasonCode, shockSnapshot, ownerId",
+      "test": "tests/receipt.spec.ts",
+      "deployment_evidence": "live receipt URL"
+    },
+    {
+      "id": "REQ-004",
+      "priority": "P1",
+      "route": "/app/policy",
+      "api": "GET /api/policy",
+      "component": "PolicyMatrix",
+      "real_data_source": "policy engine constants and Solidity compile output",
+      "state_contract": "PolicySnapshot",
+      "test": "tests/policy.spec.ts",
+      "deployment_evidence": "README compile output"
+    },
+    {
+      "id": "REQ-005",
+      "priority": "P1",
+      "route": "/app/receipts",
+      "api": "GET /api/receipts?scope=public",
+      "component": "ReceiptTimeline + RoleSwitch",
+      "real_data_source": "Cloudflare Durable Object receipt storage",
+      "state_contract": "roleId, ownerId, public receipt list",
+      "test": "tests/roles.spec.ts",
+      "deployment_evidence": "second-context smoke output"
+    },
+    {
+      "id": "REQ-006",
+      "priority": "P1",
+      "route": "/about",
+      "api": "GET /api/health",
+      "component": "ArchitectureSummary",
+      "real_data_source": "Wrangler Worker runtime",
+      "state_contract": "health JSON with binding status",
+      "test": "tests/health.spec.ts",
+      "deployment_evidence": "wrangler deploy --dry-run"
+    }
+  ]
+}

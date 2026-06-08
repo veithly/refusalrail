@@ -1,0 +1,29 @@
+{
+  "rows": 3,
+  "source": "scripts/seed_demo.mjs",
+  "mode": "explicit-demo-seed",
+  "records": [
+    {
+      "label": "demo-market-halt",
+      "route": "/api/runs/refuse",
+      "shock": "MARKET_HALT",
+      "walletAddress": "seed-demo-wallet",
+      "expected": "refused"
+    },
+    {
+      "label": "demo-stale-price",
+      "route": "/api/runs/refuse",
+      "shock": "STALE_PRICE",
+      "walletAddress": "seed-demo-wallet",
+      "expected": "refused"
+    },
+    {
+      "label": "demo-safe-sweep",
+      "route": "/api/runs/safe",
+      "shock": "NONE",
+      "walletAddress": "seed-demo-wallet",
+      "expected": "allowed"
+    }
+  ],
+  "reviewer_note": "Normal guest receipts are created live. Seed rows are marked with data-demo-badge/(demo) when this optional script is run."
+}

@@ -1,0 +1,25 @@
+{
+  "flows": [
+    {
+      "route": "/app",
+      "ui": "ShockCard -> run-refusal button -> receipt rail",
+      "api": "POST /api/runs/refuse",
+      "state": "RefusalLedger.insertReceipt",
+      "test": "tests/hero.spec.ts"
+    },
+    {
+      "route": "/app",
+      "ui": "safe sweep button -> receipt rail",
+      "api": "POST /api/runs/safe",
+      "state": "RefusalLedger.insertReceipt",
+      "test": "tests/hero.spec.ts"
+    },
+    {
+      "route": "/app/receipts/[id]",
+      "ui": "ReceiptDetail -> ProofTable",
+      "api": "GET /api/receipts/:id",
+      "state": "RefusalLedger.getReceipt",
+      "test": "tests/hero.spec.ts"
+    }
+  ]
+}

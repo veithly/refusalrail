@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1200" viewBox="0 0 1920 1200">
+  <rect width="1920" height="1200" fill="#080b12"/>
+  <text x="72" y="96" fill="#f1f4f8" font-family="Arial, sans-serif" font-size="34" font-weight="700">Refusal workbench</text>
+  <rect x="72" y="146" width="410" height="880" rx="18" fill="#101826" stroke="#2d3a51" stroke-width="2"/>
+  <text x="112" y="212" fill="#f1f4f8" font-family="Arial, sans-serif" font-size="28" font-weight="700">Shock cards</text>
+  <rect x="112" y="272" width="330" height="110" rx="14" fill="#b92822"/>
+  <text x="144" y="340" fill="#fff" font-family="Arial, sans-serif" font-size="28" font-weight="700">MARKET_HALT</text>
+  <rect x="112" y="418" width="330" height="110" rx="14" fill="#172236" stroke="#334057" stroke-width="2"/>
+  <text x="144" y="486" fill="#dce5f2" font-family="Arial, sans-serif" font-size="28" font-weight="700">STALE_PRICE</text>
+  <rect x="112" y="564" width="330" height="110" rx="14" fill="#172236" stroke="#334057" stroke-width="2"/>
+  <text x="144" y="632" fill="#dce5f2" font-family="Arial, sans-serif" font-size="28" font-weight="700">MAX_EXPOSURE</text>
+  <rect x="538" y="146" width="790" height="880" rx="18" fill="#101826" stroke="#2d3a51" stroke-width="2"/>
+  <text x="592" y="222" fill="#f1f4f8" font-family="Arial, sans-serif" font-size="36" font-weight="800">Agent wants to sell principal</text>
+  <text x="592" y="286" fill="#9ba9bd" font-family="Arial, sans-serif" font-size="26">Policy permits distribution sweep only.</text>
+  <rect x="592" y="366" width="682" height="230" rx="18" fill="#0a0f18" stroke="#394860" stroke-width="2"/>
+  <text x="640" y="448" fill="#f1f4f8" font-family="Arial, sans-serif" font-size="30">calldata hash pending</text>
+  <text x="640" y="506" fill="#9ba9bd" font-family="Arial, sans-serif" font-size="24">shock snapshot: MARKET_HALT</text>
+  <rect x="592" y="674" width="310" height="86" rx="14" fill="#b92822"/>
+  <text x="626" y="728" fill="#fff" font-family="Arial, sans-serif" font-size="28" font-weight="700">Let the agent try</text>
+  <rect x="928" y="674" width="302" height="86" rx="14" fill="#143623"/>
+  <text x="964" y="728" fill="#d8f8e4" font-family="Arial, sans-serif" font-size="28" font-weight="700">Run safe sweep</text>
+  <rect x="1378" y="146" width="470" height="880" rx="18" fill="#101826" stroke="#2d3a51" stroke-width="2"/>
+  <text x="1424" y="220" fill="#f1f4f8" font-family="Arial, sans-serif" font-size="30" font-weight="700">Receipt drawer</text>
+  <rect x="1424" y="282" width="378" height="126" rx="14" fill="#24131a" stroke="#b92822" stroke-width="2"/>
+  <text x="1452" y="334" fill="#fff" font-family="Arial, sans-serif" font-size="24">refused receipt</text>
+  <text x="1452" y="374" fill="#f2a29d" font-family="Arial, sans-serif" font-size="20">reason: MARKET_HALT</text>
+  <rect x="1424" y="444" width="378" height="126" rx="14" fill="#102518" stroke="#2d8c53" stroke-width="2"/>
+  <text x="1452" y="496" fill="#fff" font-family="Arial, sans-serif" font-size="24">allowed sweep</text>
+  <text x="1452" y="536" fill="#a4e0bd" font-family="Arial, sans-serif" font-size="20">same policy hash</text>
+</svg>
