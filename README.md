@@ -4,7 +4,7 @@
 
 RefusalRail is a Cloudflare Worker app for the Arbitrum Open House London Online Buildathon. A judge selects a market shock, lets a bounded RWA agent try an unsafe action, and gets a durable refusal receipt with policy hash, calldata hash, shock hash, owner, and proof hash.
 
-[Live demo](https://refusalrail.veithly.workers.dev) · [Deployment runbook](./docs/DEPLOYMENT.md) · [Submission pack](./SUBMISSION.md)
+[Live demo](https://refusalrail.veithly.workers.dev) · [Repository](https://github.com/veithly/refusalrail) · [Demo video](https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4) · [Deployment runbook](./docs/DEPLOYMENT.md) · [Submission pack](./SUBMISSION.md)
 
 ## What Ships
 

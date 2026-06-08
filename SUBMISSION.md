@@ -30,7 +30,8 @@ RefusalRail is a policy flight recorder for agentic tokenized asset actions. A j
 
 - Live URL: https://refusalrail.veithly.workers.dev
 - Cloudflare Worker version: `2097af97-31b8-4248-8748-7fc91f493340`
-- Repository: current workspace.
+- Repository: https://github.com/veithly/refusalrail
+- Public video URL: https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4
 - Deployment runbook: `docs/DEPLOYMENT.md`.
 - PRD: `pitch/project_prd.md`.
 - Visual contract: `pitch/visual-build-contract.md`.
