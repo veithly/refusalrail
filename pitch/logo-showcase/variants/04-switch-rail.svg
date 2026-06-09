@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail switch rail logo">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 70c22 0 31-8 42-25" stroke-width="5"/>
+    <path d="M18 30c24 0 34 6 48 24" stroke-width="5" opacity=".46"/>
+    <path d="M62 45l17-17" stroke-width="5"/>
+    <path d="M62 45l18 18" stroke-width="5"/>
+    <circle cx="27" cy="70" r="5" fill="currentColor" stroke="none"/>
+    <circle cx="78" cy="28" r="6" stroke-width="5"/>
+    <path d="M74 24l8 8" stroke-width="4"/>
+  </g>
+</svg>

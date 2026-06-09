@@ -74,11 +74,11 @@ https://refusalrail.veithly.workers.dev
 - `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e`: 18 public tests passed.
 - `npm run deploy:dry`: passed with Wrangler 4.98.0.
 - `npm run contracts:deploy`: passed on Arbitrum Sepolia.
-- `npm run deploy`: published `https://refusalrail.veithly.workers.dev` as Worker version `2097af97-31b8-4248-8748-7fc91f493340`.
+- `npm run deploy`: published `https://refusalrail.veithly.workers.dev` as Worker version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.
 - `visual_qa_scan.mjs --url https://refusalrail.veithly.workers.dev --fail-on error`: 0 errors and 0 warnings across desktop/mobile routes.
 - Runtime audit: `npm audit --omit=dev` found 0 vulnerabilities.
 - Dev audit note: `solc` currently brings dev-only `tmp` advisories; it is not shipped in the Worker runtime.
-- Final video: `pitch/recording/pitch-demo-combined-final.mp4`, 86 seconds, 1920x1200, H.264 High, AAC stereo.
+- Final video: `pitch/recording/pitch-demo-combined-final.mp4`, 96 seconds, 1920x1200, H.264 High, AAC stereo, MiMo TTS narration.
 
 ## Cloudflare Note
 

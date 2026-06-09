@@ -1,22 +1,202 @@
 {
+  "$schema": "narration.v1",
   "project": "RefusalRail",
-  "status": "outline-only",
-  "first_sentence": "Reject 1 unsafe RWA trade, stamp NO, in 60 seconds.",
+  "language": "en",
+  "voice": "mimo:selected-by-env",
+  "first_sentence": "Reject 1 unsafe RWA agent trade in 60 seconds.",
   "scenes": [
     {
-      "id": "hook",
-      "route": "/",
-      "narration": "This demo only wins if the trade fails."
+      "id": "01_cold_open",
+      "title": "Cold open: shipped proof package",
+      "text": "Reject 1 unsafe RWA agent trade in 60 seconds. RefusalRail stamps NO and keeps the proof. The package is live: a Worker, a wallet-aware ledger, deployed Arbitrum Sepolia contracts, and a path a judge can open.",
+      "playwright_url": "http://localhost:4391",
+      "playwright_actions": [
+        {
+          "kind": "goto",
+          "url": "http://localhost:4391"
+        },
+        {
+          "kind": "wait_for_selector",
+          "selector": "[data-hero-text]"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 1500,
+          "selector": "[data-wallet-dock]",
+          "mode": "component_lift",
+          "min_scale": 1.26,
+          "duration_ms": 2600
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/01_cold_open.wav",
+      "duration_ms": 14560
     },
     {
-      "id": "refusal",
-      "route": "/app",
-      "narration": "The judge chooses a shock and the policy rail refuses the unsafe principal sale."
+      "id": "02_wallet_entry",
+      "title": "Wallet entry and judge fallback",
+      "text": "The first screen puts the wallet in the path. A judge can connect a browser wallet, or choose the test wallet and still create a receipt with an explicit wallet address.",
+      "playwright_actions": [
+        {
+          "kind": "click",
+          "selector": "[data-testid='connect-wallet']"
+        },
+        {
+          "kind": "click",
+          "selector": "[data-testid='use-test-wallet']"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 3000,
+          "selector": "[data-testid='rainbowkit-wallet']",
+          "mode": "component_lift",
+          "min_scale": 1.28,
+          "duration_ms": 3000
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/02_wallet_entry.wav",
+      "duration_ms": 14080
     },
     {
-      "id": "proof",
-      "route": "/app/receipts/[id]",
-      "narration": "The receipt survives refresh and exposes the policy, calldata, and proof hashes."
+      "id": "03_shock_selection",
+      "title": "Shock becomes input",
+      "text": "Now pick the failing case. MARKET_HALT becomes the live input, so the agent can try to sell principal under a condition the policy forbids.",
+      "playwright_actions": [
+        {
+          "kind": "goto",
+          "url": "http://localhost:4391/app"
+        },
+        {
+          "kind": "click",
+          "selector": "input[value='MARKET_HALT']"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 2800,
+          "selector": "[data-testid='run-refusal']",
+          "mode": "component_lift",
+          "min_scale": 1.26,
+          "duration_ms": 2600
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/03_shock_selection.wav",
+      "duration_ms": 10240
+    },
+    {
+      "id": "04_live_refusal_loop",
+      "title": "Live refusal, receipt, and wallet transaction",
+      "text": "In the workbench, the test wallet owns the run. The policy refuses the sell, writes walletAddress into Durable Object storage, and opens the receipt. On the detail page, the app prepares RefusalHub calldata. A connected browser wallet can send that transaction and bind the hash back to the same receipt.",
+      "playwright_actions": [
+        {
+          "kind": "click",
+          "selector": "[data-testid='run-refusal']"
+        },
+        {
+          "kind": "click",
+          "selector": "[data-testid='open-latest-receipt']"
+        },
+        {
+          "kind": "click",
+          "selector": "[data-testid='prepare-chain-action']"
+        },
+        {
+          "kind": "click",
+          "selector": "[data-testid='send-chain-wallet']"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 5000,
+          "selector": ".receipt-card",
+          "mode": "component_lift",
+          "min_scale": 1.3,
+          "duration_ms": 3600
+        },
+        {
+          "at_ms": 13000,
+          "selector": "#chain-action-output",
+          "mode": "component_lift",
+          "min_scale": 1.26,
+          "duration_ms": 3600
+        },
+        {
+          "at_ms": 20500,
+          "selector": "[data-testid='chain-proof-submitted']",
+          "mode": "component_lift",
+          "min_scale": 1.26,
+          "duration_ms": 3000
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/04_live_refusal_loop.wav",
+      "duration_ms": 18880
+    },
+    {
+      "id": "05_proof_montage",
+      "title": "Proof montage",
+      "text": "The evidence is not a paragraph. It has policy hash, calldata hash, proof hash, wallet address, contract address, and chain proof status.",
+      "playwright_actions": [
+        {
+          "kind": "goto",
+          "url": "http://localhost:4391/app/receipts"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 2200,
+          "selector": ".receipt-card",
+          "mode": "component_lift",
+          "min_scale": 1.26,
+          "duration_ms": 3200
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/05_proof_montage.wav",
+      "duration_ms": 10880
+    },
+    {
+      "id": "06_architecture",
+      "title": "Mechanism reveal",
+      "text": "The mechanism stays small: Worker UI and API, Durable Object ledger, Solidity contracts, Arbitrum Sepolia explorer proof. The agent proposes, policy decides, receipt proves.",
+      "playwright_actions": [
+        {
+          "kind": "goto",
+          "url": "http://localhost:4391/about"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 2500,
+          "selector": "[data-testid='deployment-proof']",
+          "mode": "component_lift",
+          "min_scale": 1.24,
+          "duration_ms": 2600
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/06_architecture.wav",
+      "duration_ms": 14560
+    },
+    {
+      "id": "07_outro",
+      "title": "Final action",
+      "text": "Open the Worker, connect a wallet or use the test wallet, run the refusal, then inspect the receipt.",
+      "playwright_actions": [
+        {
+          "kind": "goto",
+          "url": "https://refusalrail.veithly.workers.dev"
+        }
+      ],
+      "focus": [
+        {
+          "at_ms": 1200,
+          "selector": ".brand",
+          "mode": "component_lift",
+          "min_scale": 1.24,
+          "duration_ms": 2200
+        }
+      ],
+      "audio_path": "artifacts/tts_chunks/07_outro.wav",
+      "duration_ms": 6880
     }
   ]
 }

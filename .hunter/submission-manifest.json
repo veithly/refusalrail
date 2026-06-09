@@ -2,8 +2,8 @@
   "project": "RefusalRail",
   "tagline": "Reject 1 unsafe RWA trade in 60 seconds.",
   "live_url": "https://refusalrail.veithly.workers.dev",
-  "worker_version_id": "2097af97-31b8-4248-8748-7fc91f493340",
-  "build_id": "wallet-final-2026-06-08T193725Z",
+  "worker_version_id": "07ec3378-01eb-4df1-ab1c-c9ad9e40038e",
+  "build_id": "wallet-rainbowkit-mimo-2026-06-09T150658Z",
   "repo_url": "https://github.com/veithly/refusalrail",
   "video_url": "https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4",
   "video_file": "pitch/recording/pitch-demo-combined-final.mp4",
@@ -34,7 +34,7 @@
     "visual_qa": "0 errors, 0 warnings",
     "cloudflare_dry_run": "passed",
     "cloudflare_deploy": "passed",
-    "final_video": "86s, 1920x1200, H.264 High, AAC stereo"
+    "final_video": "96s, 1920x1200, H.264 High, AAC stereo, MiMo TTS narration"
   },
   "status": "ready-for-final-submit",
   "human_confirmation_required_before_final_submit": true

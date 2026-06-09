@@ -29,7 +29,7 @@ RefusalRail is a policy flight recorder for agentic tokenized asset actions. A j
 ## Links
 
 - Live URL: https://refusalrail.veithly.workers.dev
-- Cloudflare Worker version: `2097af97-31b8-4248-8748-7fc91f493340`
+- Cloudflare Worker version: `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`
 - Repository: https://github.com/veithly/refusalrail
 - Public video URL: https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4
 - Deployment runbook: `docs/DEPLOYMENT.md`.
@@ -50,12 +50,12 @@ RefusalRail is a policy flight recorder for agentic tokenized asset actions. A j
 - Browser tests: `npm run test:e2e` passed locally with 16 tests and 2 deployed-only skips.
 - Public browser tests: `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e` passed with 18 tests.
 - Cloudflare dry-run: `npm run deploy:dry` passed.
-- Cloudflare deploy: `npm run deploy` published https://refusalrail.veithly.workers.dev as Worker version `2097af97-31b8-4248-8748-7fc91f493340`.
+- Cloudflare deploy: `npm run deploy` published https://refusalrail.veithly.workers.dev as Worker version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.
 - Contract deployment: `npm run contracts:deploy` passed on Arbitrum Sepolia.
 - HackathonHunter main audit: `prd,delivery-mode,ui-libs,build-plan,feature-density,realness,cloudflare,video` passed.
 - G4 onboarding, interaction, and seed audits passed.
 - Visual QA: desktop/mobile routes passed with 0 errors and 0 warnings.
-- Final video: `pitch/recording/pitch-demo-combined-final.mp4`, 86 seconds, 1920x1200, H.264 High, AAC stereo.
+- Final video: `pitch/recording/pitch-demo-combined-final.mp4`, 96 seconds, 1920x1200, H.264 High, AAC stereo, MiMo TTS narration.
 
 ## Known Limitations
 

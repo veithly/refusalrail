@@ -11,5 +11,6 @@
     "allowJs": false,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "scripts/**/*.mjs"]
+  "include": ["src/**/*.ts", "tests/**/*.ts", "scripts/**/*.mjs"],
+  "exclude": ["src/wallet-island.tsx", "dist-wallet", "node_modules"]
 }

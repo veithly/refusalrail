@@ -44,6 +44,8 @@ export function getDeploymentInfo(env: Env): DeploymentInfo {
     chainId: env.CHAIN_ID || "421614",
     chainName: env.CHAIN_NAME || "Arbitrum Sepolia",
     explorerBaseUrl: env.EXPLORER_BASE_URL || "https://sepolia.arbiscan.io",
+    walletConnectProjectId: env.WALLETCONNECT_PROJECT_ID || "refusalrail-demo-walletconnect",
+    publicRpcUrl: env.PUBLIC_ARBITRUM_SEPOLIA_RPC_URL || "https://sepolia-rollup.arbitrum.io/rpc",
     refusalHub,
     policyRegistry,
     refusalReceipt,

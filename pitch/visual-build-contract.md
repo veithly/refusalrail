@@ -57,6 +57,17 @@ No cheap section markers; connect-wallet and test-wallet buttons have high-contr
 - Official docs checked: Cloudflare Workers, Wrangler, Durable Objects, HackathonHunter visual references.
 - Install commands: `npm install -D wrangler typescript @cloudflare/workers-types @playwright/test vitest solc`.
 
+## Component-system lock
+
+- Primary UI library: RainbowKit + Wagmi for wallet identity and transaction actions; shadcn-inspired primitives for product controls.
+- Supporting UI library: custom Cloudflare Worker HTML/CSS components for the policy workbench, receipt rail, proof table, density controls, and command palette.
+- Why this library fits the lane: RainbowKit gives the wallet connection a familiar Web3 affordance, while the rest of the app stays in the restrained operational-dashboard lane instead of becoming a generic wallet landing page.
+- Components used on screen: `ConnectButton`, `WagmiProvider`, `RainbowKitProvider`, `ShockCard`, `ReceiptCard`, `PolicyTable`, `ChainProofPanel`.
+- Official docs checked: RainbowKit/Wagmi installed package APIs, Cloudflare Workers/Wrangler local docs, Durable Object binding docs, HackathonHunter G3/G4 references.
+- Install commands: `npm install react react-dom @rainbow-me/rainbowkit wagmi viem @tanstack/react-query` and `npm install -D esbuild @types/react @types/react-dom`.
+- Tailwind role: no Tailwind dependency in the Worker app; custom CSS tokens and media queries are the visual substrate.
+- Tailwind/shadcn rejection note: this is not Tailwind-only or shadcn-only. The visible signature is the refusal stamp, ledger rail, policy table, chain proof panel, RainbowKit wallet dock, and low-glare flight-recorder layout.
+
 ## Route and component map
 
 | Route | Mockup source | Hero/user-case beat | Components | Source marker |
@@ -76,6 +87,16 @@ No cheap section markers; connect-wallet and test-wallet buttons have high-contr
 - Mobile primary flow: select shock, tap "Let the agent try", open the latest receipt in two taps.
 - Touch-first action path: shock cards have large hit targets and no hover-only affordances.
 - Desktop parity plan: desktop keeps policy matrix, action state, receipt history, and proof hash visible together.
+
+## Layout and motion math
+
+- H1 width and line-limit check: `/` uses `max-width: min(1120px, 100%)` on `.hero-chapter h1` with `font-size: clamp(3rem, 5vw, 5.5rem)`, keeping the hero claim to 2-3 lines without overflow.
+- Bento grid math, if used: `.proof-bento` is a 12-column dense grid; first row is 7 + 5, second row is 4 + 4 + 4, with `grid-auto-flow: dense` and no empty grid corner.
+- AIDA coverage for `/`: navigation and wallet dock, Attention hero with refusal preview, Interest proof bento, Desire scroll-revealed evidence/marquee proof loop, Action final workbench CTA.
+- GSAP / motion implementation: image scale/fade on the hero chapter and scrubbed bento reveals; state motion is used for stamps and proof cards rather than decorative page-load choreography.
+- Reduced-motion fallback: `@media (prefers-reduced-motion: reduce)` forces 1ms animation/transition duration and disables smooth scrolling.
+- CTA contrast check: danger CTA uses refusal red with white text; ghost CTA uses white surface with near-black text; focus ring uses green `--focus` with visible 3px outline.
+- Cheap-label sweep: no `SECTION 01`, `QUESTION 05`, or repeated numbered eyebrows; remaining compact labels such as "Judge input" and "Flight recorder" are task labels inside the product UI.
 
 ## V0 anchor and critique
 

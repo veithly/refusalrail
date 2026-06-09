@@ -232,6 +232,7 @@ async function handleApi(request: Request, env: Env, session: SessionInfo, url: 
 async function handlePage(request: Request, env: Env, session: SessionInfo, url: URL): Promise<Response> {
   const asset = renderAsset(url.pathname);
   if (asset) return asset;
+  const deployment = getDeploymentInfo(env);
 
   if (url.pathname === "/policy") {
     return Response.redirect(`${url.origin}/app/policy`, 301);
@@ -243,33 +244,33 @@ async function handlePage(request: Request, env: Env, session: SessionInfo, url:
 
   if (url.pathname === "/") {
     const receipts = await getReceipts(env, session);
-    return htmlResponse(renderHome(receipts), session);
+    return htmlResponse(renderHome(receipts, deployment), session);
   }
 
   if (url.pathname === "/app") {
     const receipts = await getReceipts(env, session);
-    return htmlResponse(renderApp(receipts, getDeploymentInfo(env)), session);
+    return htmlResponse(renderApp(receipts, deployment), session);
   }
 
   if (url.pathname === "/app/policy") {
-    return htmlResponse(renderPolicy(await currentPolicy()), session);
+    return htmlResponse(renderPolicy(await currentPolicy(), deployment), session);
   }
 
   if (url.pathname === "/app/receipts") {
     const scope = session.roleId === "auditor" ? "public" : "mine";
     const receipts = await getReceipts(env, session, scope);
-    return htmlResponse(renderReceipts(receipts, session.roleId), session);
+    return htmlResponse(renderReceipts(receipts, session.roleId, deployment), session);
   }
 
   const receiptMatch = url.pathname.match(/^\/app\/receipts\/([^/]+)$/);
   if (receiptMatch) {
     const response = await ledgerFetch(env, `/receipts/${encodeURIComponent(receiptMatch[1])}`);
     const data = response.ok ? ((await response.json()) as { receipt: ReceiptRecord | null }) : { receipt: null };
-    return htmlResponse(renderReceiptDetail(data.receipt, getDeploymentInfo(env)), session);
+    return htmlResponse(renderReceiptDetail(data.receipt, deployment), session);
   }
 
   if (url.pathname === "/about") {
-    return htmlResponse(renderAbout(getDeploymentInfo(env)), session);
+    return htmlResponse(renderAbout(deployment), session);
   }
 
   return textResponse("Not found", { status: 404 });

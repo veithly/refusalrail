@@ -34,18 +34,20 @@
 
 - `npm run build` passed.
 - `npm test` passed.
-- `PORT=4391 npm run test:e2e` passed locally with 16 tests and 2 deployed-only skips.
+- `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4392 npm run test:e2e` passed locally with 16 tests and 2 deployed-only skips after the RainbowKit/MiMo update.
 - `npm run deploy:dry` passed with Wrangler 4.98.0.
-- `npm run deploy` published `https://refusalrail.veithly.workers.dev` as Worker version `2097af97-31b8-4248-8748-7fc91f493340`.
-- `curl -fsS https://refusalrail.veithly.workers.dev/api/health` returned `buildId=wallet-final-2026-06-08T193725Z` and `chainStatus=configured`.
-- `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e` passed with 18 tests.
-- `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/visual_qa_scan.mjs . --url https://refusalrail.veithly.workers.dev --fail-on error` passed with 0 errors and 0 warnings.
+- `npm run deploy` published `https://refusalrail.veithly.workers.dev` as Worker version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.
+- `curl -fsS https://refusalrail.veithly.workers.dev/api/health` returned `buildId=wallet-rainbowkit-mimo-2026-06-09T150658Z` and `chainStatus=configured`.
+- `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e` passed with 18 tests after the RainbowKit/MiMo redeploy.
+- `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/visual_qa_scan.mjs . --url https://refusalrail.veithly.workers.dev --fail-on warning` passed with 0 errors and 0 warnings.
 
 ## G6 Pitch / Video / Repo Sync
 
 - Re-recorded wallet demo with browser-wallet mock and built-in test wallet path.
+- Regenerated MiMo TTS from `artifacts/narration.json`.
+- Re-recorded `pitch/recording/wallet-demo.webm` with the RainbowKit/browser-wallet mock and test-wallet path.
 - Rendered `pitch/recording/pitch-demo-combined-final.mp4`.
-- Verified final MP4: 86 seconds, 1920x1200, H.264 High, AAC stereo.
+- Verified final MP4: 96 seconds, 1920x1200, H.264 High, AAC stereo, mean volume -17.3 dB, max volume -1.2 dB.
 - `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/audit_hero.mjs .` passed.
 - `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/audit_project.mjs . --phase video` passed.
 

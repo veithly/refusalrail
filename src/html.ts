@@ -1,5 +1,6 @@
 import { POLICY, shortHash } from "./policy";
 import type { DeploymentInfo, PolicySnapshot, ReceiptRecord, ShockCode } from "./types";
+import { walletIslandCssBase64, walletIslandJsBase64 } from "./generated/wallet-island";
 
 const shockCopy: Record<ShockCode, string> = {
   NONE: "No shock",
@@ -20,6 +21,22 @@ function escapeHtml(value: string): string {
     return map[char] || char;
   });
 }
+
+function scriptSafe(value: string): string {
+  return value.replace(/<\/script/gi, "<\\/script");
+}
+
+function decodeBase64(value: string): string {
+  const binary = atob(value);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return new TextDecoder().decode(bytes);
+}
+
+const walletIslandJs = decodeBase64(walletIslandJsBase64);
+const walletIslandCss = decodeBase64(walletIslandCssBase64);
 
 function receiptStatusLabel(receipt: ReceiptRecord): string {
   return receipt.status === "refused" ? "NO" : "OK";
@@ -78,7 +95,13 @@ function emptyState(
   </div>`;
 }
 
-function shell(title: string, body: string, options: { composition?: string; path?: string } = {}): string {
+function shell(title: string, body: string, options: { composition?: string; path?: string; deployment?: DeploymentInfo } = {}): string {
+  const deployment = options.deployment;
+  const walletConfig = {
+    projectId: deployment?.walletConnectProjectId || "refusalrail-demo-walletconnect",
+    rpcUrl: deployment?.publicRpcUrl || "https://sepolia-rollup.arbitrum.io/rpc",
+    chainId: Number(deployment?.chainId || "421614")
+  };
   return `<!doctype html>
 <html lang="en" data-density="comfortable">
 <head>
@@ -86,14 +109,17 @@ function shell(title: string, body: string, options: { composition?: string; pat
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="Reject 1 unsafe RWA trade in 60 seconds.">
+  <meta property="og:title" content="RefusalRail">
+  <meta property="og:description" content="Reject 1 unsafe RWA trade, stamp NO, and save proof.">
+  <meta property="og:image" content="/brand/og.svg">
   <link rel="icon" href="/brand/logomark.svg">
-  <style>${styles()}</style>
+  <style>${styles()}${walletIslandCss}</style>
 </head>
 <body>
   <main class="shell" data-mode="test-mode" data-visual-lane="operational-dashboard" data-hero-composition="${escapeHtml(options.composition || "cockpit-workbench")}">
     <header class="topbar">
       <a class="brand" href="/" aria-label="RefusalRail home">
-        <span class="brand-mark">RR</span>
+        <span class="brand-mark"><img src="/brand/logomark.svg" alt="RefusalRail logomark"></span>
         <span>RefusalRail</span>
       </a>
       <nav aria-label="Primary">
@@ -111,8 +137,9 @@ function shell(title: string, body: string, options: { composition?: string; pat
         <button class="tool-btn" type="button" data-mode-button="live-mode">LiveMode</button>
       </div>
       <div class="wallet-dock" data-wallet-dock aria-label="Wallet controls">
-        <span class="wallet-status" data-wallet-status>Guest proof mode</span>
-        <button class="tool-btn wallet-btn" type="button" data-testid="connect-wallet" data-wallet-connect>Connect wallet</button>
+        <div class="rainbowkit-mount" data-rainbowkit-root>
+          <span class="wallet-status" data-wallet-status>Loading wallet</span>
+        </div>
         <button class="tool-btn wallet-btn" type="button" data-testid="use-test-wallet" data-test-wallet>Use test wallet</button>
       </div>
     </header>
@@ -137,14 +164,16 @@ function shell(title: string, body: string, options: { composition?: string; pat
       </section>
     </div>
   </main>
+  <script>window.__RR_WALLET_CONFIG__ = ${scriptSafe(JSON.stringify(walletConfig))};</script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script>${clientScript()}</script>
+  <script>${scriptSafe(walletIslandJs)}</script>
 </body>
 </html>`;
 }
 
-export function renderHome(receipts: ReceiptRecord[]): string {
+export function renderHome(receipts: ReceiptRecord[], deployment?: DeploymentInfo): string {
   const latest = receipts[0];
   return shell(
     "RefusalRail",
@@ -153,7 +182,7 @@ export function renderHome(receipts: ReceiptRecord[]): string {
         <h1 data-hero-text>Reject 1 unsafe RWA agent trade in 60 seconds.</h1>
         <p class="lede">Connect a wallet or use the built-in test wallet, choose a shock, and watch the policy rail refuse unsafe calldata while saving a durable receipt.</p>
         <div class="hero-actions">
-          <button class="rr-btn rr-btn-danger" data-cta-primary data-wallet-connect type="button">Connect wallet</button>
+          <button class="rr-btn rr-btn-danger" data-testid="connect-wallet" data-cta-primary data-wallet-connect type="button">Connect wallet</button>
           <button class="rr-btn rr-btn-secondary" data-test-wallet type="button">Use test wallet</button>
           <a class="rr-btn rr-btn-ghost" href="/app">Run refused trade</a>
         </div>
@@ -227,7 +256,7 @@ export function renderHome(receipts: ReceiptRecord[]): string {
       <h2>Run the refusal path with a wallet in the loop.</h2>
       <a class="rr-btn rr-btn-danger" href="/app">Open workbench</a>
     </section>`,
-    { composition: "cockpit-workbench", path: "/" }
+    { composition: "cockpit-workbench", path: "/", deployment }
   );
 }
 
@@ -305,11 +334,11 @@ export function renderApp(
         <div id="receipt-list" class="receipt-list">${receiptList(receipts.slice(0, 4))}</div>
       </aside>
     </section>`,
-    { composition: "policy-flight-recorder", path: "/app" }
+    { composition: "policy-flight-recorder", path: "/app", deployment }
   );
 }
 
-export function renderPolicy(policy: PolicySnapshot): string {
+export function renderPolicy(policy: PolicySnapshot, deployment?: DeploymentInfo): string {
   return shell(
     "RefusalRail Policy",
     `<section class="page-grid">
@@ -338,11 +367,11 @@ expected: ActionRefused</pre>
         <p class="policy-note" contenteditable="true" data-inline-edit="policy-note">Reviewer note: distribution sweeps can pass; principal sales are refused during shocks.</p>
       </div>
     </section>`,
-    { composition: "policy-flight-recorder", path: "/app/policy" }
+    { composition: "policy-flight-recorder", path: "/app/policy", deployment }
   );
 }
 
-export function renderReceipts(receipts: ReceiptRecord[], roleId: string): string {
+export function renderReceipts(receipts: ReceiptRecord[], roleId: string, deployment?: DeploymentInfo): string {
   return shell(
     "RefusalRail Receipts",
     `<section class="page-grid">
@@ -360,7 +389,7 @@ export function renderReceipts(receipts: ReceiptRecord[], roleId: string): strin
         <div class="receipt-list grid">${receiptList(receipts)}</div>
       </div>
     </section>`,
-    { composition: "policy-flight-recorder", path: "/app/receipts" }
+    { composition: "policy-flight-recorder", path: "/app/receipts", deployment }
   );
 }
 
@@ -376,7 +405,7 @@ export function renderReceiptDetail(receipt: ReceiptRecord | null, deployment: D
         "Back to receipts",
         ["latest refused receipt", "prepared chain proof", "JSON export"]
       )}</section>`,
-      { composition: "policy-flight-recorder" }
+      { composition: "policy-flight-recorder", path: "/app/receipts", deployment }
     );
   }
   const rows = [
@@ -447,7 +476,7 @@ export function renderReceiptDetail(receipt: ReceiptRecord | null, deployment: D
       </div>
       ${chainPanel}
     </section>`,
-    { composition: "policy-flight-recorder" }
+    { composition: "policy-flight-recorder", path: "/app/receipts", deployment }
   );
 }
 
@@ -488,15 +517,20 @@ npm run contracts:deploy</pre>
         <a class="rr-btn rr-btn-secondary" href="/api/health">Open health JSON</a>
       </div>
     </section>`,
-    { composition: "policy-flight-recorder", path: "/about" }
+    { composition: "policy-flight-recorder", path: "/about", deployment }
   );
 }
 
 export function renderAsset(pathname: string): Response | null {
+  const svgHeaders = { "content-type": "image/svg+xml; charset=utf-8", "cache-control": "public, max-age=86400" };
   if (pathname === "/brand/logomark.svg") {
-    return new Response(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="20" fill="#0b1019"/><path d="M26 30h43c20 0 33 12 33 30 0 14-8 24-21 28l24 10v12H81L54 94H44v16H26V30Zm18 17v31h22c11 0 17-6 17-16 0-9-6-15-17-15H44Z" fill="#f4f7fb"/><path d="M22 18h84v14H22z" fill="#c52a24"/></svg>`, {
-      headers: { "content-type": "image/svg+xml; charset=utf-8" }
-    });
+    return new Response(`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail logomark"><rect width="100" height="100" rx="14" fill="#0b1019"/><g fill="none" stroke="#f4f7fb" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></svg>`, { headers: svgHeaders });
+  }
+  if (pathname === "/brand/wordmark.svg") {
+    return new Response(`<svg viewBox="0 0 560 120" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail wordmark"><g transform="translate(0 10)"><rect width="100" height="100" rx="14" fill="#0b1019"/><g fill="none" stroke="#f4f7fb" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></g><text x="124" y="72" fill="#f4f7fb" font-family="Geist, Arial, sans-serif" font-size="48" font-weight="800">RefusalRail</text><text x="126" y="98" fill="#9ba9bd" font-family="Geist Mono, Menlo, monospace" font-size="16">policy flight recorder</text></svg>`, { headers: svgHeaders });
+  }
+  if (pathname === "/brand/og.svg") {
+    return new Response(`<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail social preview"><rect width="1200" height="630" fill="#0b1019"/><circle cx="980" cy="90" r="300" fill="#c52a24" opacity=".22"/><circle cx="120" cy="560" r="260" fill="#33885c" opacity=".16"/><g transform="translate(96 94)"><rect width="112" height="112" rx="16" fill="#f4f7fb"/><g fill="none" stroke="#0b1019" stroke-linecap="round" stroke-linejoin="round" transform="translate(6 6)"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></g><text x="96" y="284" fill="#f4f7fb" font-family="Geist, Arial, sans-serif" font-size="82" font-weight="850">Reject 1 unsafe RWA trade.</text><text x="100" y="354" fill="#b5becc" font-family="Geist, Arial, sans-serif" font-size="34">Connect a wallet, run the shock, stamp NO, save proof.</text><text x="100" y="512" fill="#f4f7fb" font-family="Geist Mono, Menlo, monospace" font-size="24">Arbitrum Sepolia · Cloudflare Worker · Durable receipts</text></svg>`, { headers: svgHeaders });
   }
   return null;
 }
@@ -534,7 +568,8 @@ a { color: inherit; }
 .shell { min-height: 100vh; width: 100%; max-width: 100%; overflow-x: hidden; padding: 18px; background: radial-gradient(circle at 78% 14%, rgba(184, 38, 32, 0.22), transparent 34rem), radial-gradient(circle at 10% 80%, rgba(51, 136, 92, 0.16), transparent 28rem), var(--bg); }
 .topbar { position: sticky; top: 12px; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 auto 22px; max-width: 1500px; flex-wrap: wrap; padding: 10px; border: 1px solid var(--line); background: rgba(11, 16, 25, 0.88); backdrop-filter: blur(14px); }
 .brand { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; }
-.brand-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); background: oklch(0.16 0.03 250); color: var(--ink); font-size: 13px; }
+.brand-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); background: oklch(0.16 0.03 250); color: var(--ink); font-size: 13px; overflow: hidden; }
+.brand-mark img { width: 100%; height: 100%; display: block; object-fit: cover; }
 nav { display: flex; gap: 8px; flex-wrap: wrap; }
 nav a { display: inline-flex; min-height: 44px; align-items: center; padding: 9px 12px; color: var(--muted); text-decoration: none; border: 1px solid transparent; }
 nav a[aria-current="page"], nav a:hover { color: var(--ink); border-color: var(--line); background: var(--surface); }
@@ -542,6 +577,14 @@ nav a[aria-current="page"], nav a:hover { color: var(--ink); border-color: var(-
 .tool-btn { min-height: 44px; min-width: 44px; border: 1px solid var(--line); background: transparent; color: var(--muted); padding: 0 10px; font-weight: 750; cursor: pointer; }
 .tool-btn.active, .tool-btn:hover { color: var(--ink); background: var(--surface); }
 .wallet-dock { display: flex; min-height: 44px; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.rainbowkit-mount { min-height: 44px; display: flex; align-items: center; justify-content: flex-end; }
+.rr-rainbow-shell { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.rainbowkit-mount [data-rk] button { min-height: 44px !important; border-radius: 6px !important; font-weight: 850 !important; box-shadow: none !important; }
+.rainbowkit-mount [data-rk] button div { font-weight: 850 !important; }
+.rr-wallet-connect { min-height: 44px; min-width: 44px; border: 1px solid transparent; background: var(--danger); color: white; padding: 0 12px; font-weight: 850; cursor: pointer; }
+.rr-wallet-connect:hover { filter: brightness(1.08); }
+.rr-chain-switch { min-height: 40px; border: 1px solid oklch(0.62 0.1 75); background: oklch(0.18 0.04 75 / 0.72); color: var(--ink); padding: 0 10px; font-weight: 850; cursor: pointer; }
+.rr-chain-switch:disabled { opacity: 0.65; cursor: wait; }
 .wallet-status { display: inline-flex; min-height: 38px; align-items: center; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0 10px; font-weight: 800; }
 .wallet-btn { color: var(--ink); }
 .wallet-btn[data-wallet-connect] { background: var(--danger); border-color: transparent; color: white; }
@@ -765,6 +808,14 @@ function clientScript(): string {
     walletAddressEls.forEach((el) => { el.textContent = addressText; });
     if (shell) shell.setAttribute("data-wallet-mode", mode);
   }
+  window.addEventListener("rr:rainbowkit-account", (event) => {
+    const detail = event && event.detail ? event.detail : {};
+    if (detail.connected && detail.address) {
+      setWallet("browser", detail.address);
+      return;
+    }
+    if (state.walletMode === "browser" && !window.ethereum) setWallet("guest", "");
+  });
   async function ensureArbitrumSepolia(provider) {
     try {
       await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: ARBITRUM_SEPOLIA.chainId }] });
@@ -777,6 +828,12 @@ function clientScript(): string {
   async function connectWallet() {
     const provider = window.ethereum;
     if (!provider || typeof provider.request !== "function") {
+      if (typeof window.__RR_OPEN_WALLET__ === "function") {
+        window.__RR_OPEN_WALLET__();
+        const runStatus = document.querySelector("#run-status");
+        if (runStatus) runStatus.textContent = "Choose a wallet in RainbowKit, or use the test wallet to keep the judge path moving.";
+        return;
+      }
       setWallet("guest", "");
       const runStatus = document.querySelector("#run-status");
       if (runStatus) runStatus.textContent = "No browser wallet detected. Use the test wallet to run the full judge path without private keys.";
@@ -888,8 +945,8 @@ function clientScript(): string {
   const refusalButton = document.querySelector("[data-testid='run-refusal']");
   if (refusalButton) refusalButton.addEventListener("click", async () => {
     try {
-      const result = await run("/api/runs/refuse", { shock: state.shock, roleId: "holder", walletAddress: state.walletAddress || "guest-wallet" });
       if (stampTarget) stampTarget.innerHTML = '<div class="stamp-big" aria-label="Refused">NO</div>';
+      const result = await run("/api/runs/refuse", { shock: state.shock, roleId: "holder", walletAddress: state.walletAddress || "guest-wallet" });
       if (receiptListEl) receiptListEl.insertAdjacentHTML("afterbegin", renderReceipt(result.receipt));
       setStatus("Refused. Receipt " + result.receipt.id + " saved for " + compactAddress(result.receipt.walletAddress) + " with proof " + shortHash(result.receipt.proofHash) + ".");
     } catch (error) {
@@ -899,8 +956,8 @@ function clientScript(): string {
   const safeButton = document.querySelector("[data-testid='run-safe']");
   if (safeButton) safeButton.addEventListener("click", async () => {
     try {
-      const result = await run("/api/runs/safe", { roleId: "holder", walletAddress: state.walletAddress || "guest-wallet" });
       if (stampTarget) stampTarget.innerHTML = '<div class="stamp-big" style="color: var(--success); border-color: var(--success); transform:none" aria-label="Allowed">OK</div>';
+      const result = await run("/api/runs/safe", { roleId: "holder", walletAddress: state.walletAddress || "guest-wallet" });
       if (receiptListEl) receiptListEl.insertAdjacentHTML("afterbegin", renderReceipt(result.receipt));
       setStatus("Allowed. Safe sweep receipt " + result.receipt.id + " saved for " + compactAddress(result.receipt.walletAddress) + ".");
     } catch (error) {
@@ -937,26 +994,39 @@ function clientScript(): string {
     const bindStatus = document.querySelector("#chain-bind-status");
     const receiptId = sendWalletButton.getAttribute("data-receipt-id");
     try {
-      const provider = window.ethereum;
-      if (!provider || typeof provider.request !== "function") {
-        throw new Error("Connect a browser wallet before sending the chain transaction. Test wallet mode prepares proof but cannot sign.");
-      }
-      const accounts = await provider.request({ method: "eth_requestAccounts" });
-      await ensureArbitrumSepolia(provider);
-      if (accounts && accounts[0]) setWallet("browser", accounts[0]);
       const response = await fetch("/api/receipts/" + encodeURIComponent(receiptId || "") + "/chain-action");
       const data = await response.json();
       if (!response.ok || !data.action) throw new Error(data.error || "Could not prepare wallet transaction.");
-      const txHash = await provider.request({
-        method: "eth_sendTransaction",
-        params: [{
-          from: accounts && accounts[0] ? accounts[0] : undefined,
-          to: data.action.to,
-          data: data.action.data,
-          value: data.action.value,
-          chainId: data.action.chainId
-        }]
-      });
+      let txHash = "";
+      let rainbowKitError = null;
+      if (typeof window.__RR_SEND_WALLET_TX__ === "function") {
+        try {
+          txHash = await window.__RR_SEND_WALLET_TX__(data.action);
+        } catch (error) {
+          rainbowKitError = error;
+        }
+      }
+      if (!txHash) {
+        const provider = window.ethereum;
+        if (!provider || typeof provider.request !== "function") {
+          throw rainbowKitError instanceof Error
+            ? rainbowKitError
+            : new Error("Connect a browser wallet before sending the chain transaction. Test wallet mode prepares proof but cannot sign.");
+        }
+        const accounts = await provider.request({ method: "eth_requestAccounts" });
+        await ensureArbitrumSepolia(provider);
+        if (accounts && accounts[0]) setWallet("browser", accounts[0]);
+        txHash = await provider.request({
+          method: "eth_sendTransaction",
+          params: [{
+            from: accounts && accounts[0] ? accounts[0] : undefined,
+            to: data.action.to,
+            data: data.action.data,
+            value: data.action.value,
+            chainId: data.action.chainId
+          }]
+        });
+      }
       if (output) output.textContent = JSON.stringify({ sent: true, txHash, action: data.action }, null, 2);
       if (bindStatus) bindStatus.textContent = "Wallet submitted tx " + txHash + ". Binding proof...";
       const bindResponse = await fetch("/api/receipts/" + encodeURIComponent(receiptId || "") + "/chain", {

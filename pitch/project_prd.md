@@ -255,10 +255,14 @@
 - Official docs checked: Cloudflare Workers, Wrangler config, Durable Objects, and HackathonHunter visual references.
 - Install commands: `npm install -D wrangler typescript @cloudflare/workers-types @playwright/test vitest solc`.
 - Tailwind role: none in the runtime; visual system is hand-authored CSS to keep the Worker deploy small.
+- Tailwind/shadcn rejection note: this is not Tailwind-only or shadcn-only; the visible system is the refusal stamp, ledger rail, policy proof table, chain proof panel, and RainbowKit wallet dock inside a low-glare flight-recorder layout.
+- gpt-taste design_plan: seed 42 selected Cinematic Center, Geist, Inline Typography Images, Horizontal Accordions, Infinite Marquee, Scrubbing Text Reveals, and Card Stacking; applied with product restraint.
+- impeccable register/color strategy/audit notes: setup read `PRODUCT.md`, register is `product`, scene is a low-glare financial flight recorder for a judge under time pressure, color strategy is restrained with refusal red as the only saturated action color.
 
 | Library | Component / block | Where it lives | Why it fits the lane |
 |---|---|---|---|
-| shadcn-inspired primitives | Button, field, segmented control, status pill | `/`, `/app` | familiar product affordances without importing a React bundle |
+| shadcn-inspired primitives | Button, field, segmented control, status pill | `/`, `/app` | familiar product affordances without turning the app into generic card UI |
+| RainbowKit + Wagmi | wallet dock, injected wallet connection, wallet transaction bridge | `/`, `/app/receipts/[id]` | judges see a real wallet connection pattern while the test wallet keeps the no-secret demo path available |
 | custom CSS HUD | NO stamp, ledger rail, evidence cells | `/app`, `/app/receipts/[id]` | product-specific silhouette |
 | native HTML dialog/details | proof export and architecture disclosure | `/app/receipts/[id]`, `/about` | accessible without heavy client dependencies |
 

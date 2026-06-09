@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RefusalRail Logo Exploration</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1019;
+      --surface: #141d2a;
+      --ink: #f4f7fb;
+      --muted: #aeb8c8;
+      --line: #3f4d63;
+      --accent: #c52a24;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 78% 8%, rgba(197, 42, 36, .24), transparent 34rem), var(--bg);
+      color: var(--ink);
+      font-family: Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { width: min(1180px, calc(100vw - 40px)); margin: 0 auto; padding: 80px 0; }
+    h1 { margin: 0; font-size: clamp(42px, 7vw, 82px); line-height: .98; letter-spacing: 0; max-width: 980px; text-wrap: balance; }
+    .lead { color: var(--muted); font-size: 18px; line-height: 1.65; max-width: 760px; margin: 24px 0 56px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    article { border: 1px solid var(--line); background: rgba(20, 29, 42, .82); min-height: 380px; padding: 24px; display: grid; align-content: space-between; }
+    .logo { width: 132px; height: 132px; display: grid; place-items: center; color: var(--ink); }
+    .logo svg { width: 100%; height: 100%; }
+    h2 { margin: 28px 0 8px; font-size: 24px; }
+    p { color: var(--muted); line-height: 1.58; }
+    .selected { border-color: var(--accent); background: linear-gradient(135deg, rgba(197, 42, 36, .22), rgba(20, 29, 42, .92)); }
+    .tag { color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+    a { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>RefusalRail logo system</h1>
+    <p class="lead">Six SVG directions generated for a forensic RWA policy workbench. The selected mark is Rail Gate: a policy stop placed directly on the execution rail.</p>
+    <section class="grid">
+      <article class="selected">
+        <div class="logo"><img src="./variants/01-rail-gate.svg" alt="Rail Gate"></div>
+        <div>
+          <span class="tag">selected</span>
+          <h2>Rail Gate</h2>
+          <p>Two execution rails meet a visible stop. It scales cleanly to a favicon and reads as product-specific rather than generic security.</p>
+        </div>
+      </article>
+      <article>
+        <div class="logo"><img src="./variants/02-policy-aperture.svg" alt="Policy Aperture"></div>
+        <div>
+          <span class="tag">variant</span>
+          <h2>Policy Aperture</h2>
+          <p>A circular inspection lens around a constrained decision point. Strong for audit, weaker for the rail metaphor.</p>
+        </div>
+      </article>
+      <article>
+        <div class="logo"><img src="./variants/03-receipt-stamp.svg" alt="Receipt Stamp"></div>
+        <div>
+          <span class="tag">variant</span>
+          <h2>Receipt Stamp</h2>
+          <p>Combines receipt document and refusal mark. Clear in deck slides, slightly too document-heavy for the app icon.</p>
+        </div>
+      </article>
+      <article>
+        <div class="logo"><img src="./variants/04-switch-rail.svg" alt="Switch Rail"></div>
+        <div>
+          <span class="tag">variant</span>
+          <h2>Switch Rail</h2>
+          <p>A route switch with a blocked branch. Good motion potential, but less stable at tiny sizes.</p>
+        </div>
+      </article>
+      <article>
+        <div class="logo"><img src="./variants/05-ledger-spine.svg" alt="Ledger Spine"></div>
+        <div>
+          <span class="tag">variant</span>
+          <h2>Ledger Spine</h2>
+          <p>Receipt rows attach to a durable ledger spine. The mark is trustworthy but not as retellable as Rail Gate.</p>
+        </div>
+      </article>
+      <article>
+        <div class="logo"><img src="./variants/06-boundary-void.svg" alt="Boundary Void"></div>
+        <div>
+          <span class="tag">variant</span>
+          <h2>Boundary Void</h2>
+          <p>Negative space cuts the forbidden route from the rail. The idea is strong, but the mask is less robust in older renderers.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

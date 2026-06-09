@@ -54,6 +54,8 @@ export interface DeploymentInfo {
   chainId: string;
   chainName: string;
   explorerBaseUrl: string;
+  walletConnectProjectId: string;
+  publicRpcUrl: string;
   refusalHub: string;
   policyRegistry: string;
   refusalReceipt: string;
@@ -68,6 +70,8 @@ export interface Env {
   CHAIN_ID?: string;
   CHAIN_NAME?: string;
   EXPLORER_BASE_URL?: string;
+  WALLETCONNECT_PROJECT_ID?: string;
+  PUBLIC_ARBITRUM_SEPOLIA_RPC_URL?: string;
   REFUSAL_HUB_ADDRESS?: string;
   POLICY_REGISTRY_ADDRESS?: string;
   REFUSAL_RECEIPT_ADDRESS?: string;

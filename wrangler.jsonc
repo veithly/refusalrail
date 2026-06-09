@@ -21,10 +21,12 @@
   ],
   "vars": {
     "APP_ENV": "production",
-    "BUILD_ID": "wallet-final-2026-06-08T193725Z",
+    "BUILD_ID": "wallet-rainbowkit-mimo-2026-06-09T150658Z",
     "CHAIN_ID": "421614",
     "CHAIN_NAME": "Arbitrum Sepolia",
     "EXPLORER_BASE_URL": "https://sepolia.arbiscan.io",
+    "PUBLIC_ARBITRUM_SEPOLIA_RPC_URL": "https://sepolia-rollup.arbitrum.io/rpc",
+    "WALLETCONNECT_PROJECT_ID": "refusalrail-demo-walletconnect",
     "REFUSAL_HUB_ADDRESS": "0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8",
     "POLICY_REGISTRY_ADDRESS": "0xa9df142D14218CC99f3068CBADC1D1965f7623B7",
     "REFUSAL_RECEIPT_ADDRESS": "0xf6aC320e7C4E865A72c588c89BE23Ff12ca543C3",

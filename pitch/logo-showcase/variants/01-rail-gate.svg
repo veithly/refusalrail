@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail rail gate logo">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 22v56" stroke-width="5"/>
+    <path d="M40 22v56" stroke-width="5"/>
+    <path d="M26 34h46" stroke-width="5"/>
+    <path d="M26 50h34" stroke-width="5"/>
+    <path d="M26 66h46" stroke-width="5"/>
+    <circle cx="72" cy="50" r="15" stroke-width="5"/>
+    <path d="M63 41l18 18" stroke-width="5"/>
+  </g>
+</svg>

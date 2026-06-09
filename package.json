@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --port ${PORT:-4387} --local",
-    "build": "tsc --noEmit && npm run contracts:compile",
+    "build": "npm run build:wallet && tsc --noEmit && npm run contracts:compile",
+    "build:wallet": "node scripts/build-wallet-island.mjs",
     "contracts:compile": "node scripts/compile-contracts.mjs",
     "contracts:deploy": "node scripts/deploy-contracts.mjs",
     "seed": "node scripts/seed_demo.mjs",
+    "render:combined": "node scripts/render-combined-video.mjs",
+    "record:wallet": "node scripts/record-wallet-demo.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "deploy:dry": "wrangler deploy --dry-run --outdir dist-worker",
@@ -19,10 +22,21 @@
     "@cloudflare/workers-types": "latest",
     "@playwright/test": "latest",
     "@types/node": "^25.9.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "esbuild": "^0.28.0",
     "ethers": "^6.16.0",
     "solc": "latest",
     "typescript": "latest",
     "vitest": "latest",
     "wrangler": "latest"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.11",
+    "@tanstack/react-query": "^5.101.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "viem": "^2.52.2",
+    "wagmi": "^2.19.5"
   }
 }

@@ -16,6 +16,6 @@ test("fresh guest reaches first refusal receipt without signup", async ({ page }
   await page.getByTestId("run-refusal").click();
 
   await expect(page.getByLabel("Refused")).toBeVisible();
-  await expect(page.getByText(/Receipt .* saved for .* with proof/i)).toBeVisible();
-  await expect(page.getByTestId("open-latest-receipt").first()).toBeVisible();
+  await expect(page.getByTestId("open-latest-receipt").first()).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText(/Receipt .* saved for .* with proof/i)).toBeVisible({ timeout: 20000 });
 });

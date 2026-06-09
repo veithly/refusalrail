@@ -39,8 +39,8 @@ Current deployment:
 
 ```txt
 https://refusalrail.veithly.workers.dev
-Worker version: 2097af97-31b8-4248-8748-7fc91f493340
-Build ID: wallet-final-2026-06-08T193725Z
+Worker version: 07ec3378-01eb-4df1-ab1c-c9ad9e40038e
+Build ID: wallet-rainbowkit-mimo-2026-06-09T150658Z
 ```
 
 After deploy, run public smoke:
@@ -49,17 +49,17 @@ After deploy, run public smoke:
 DEPLOYED_URL=https://<worker-name>.<account>.workers.dev npm run test:e2e
 ```
 
-Final public verification on 2026-06-08:
+Final public verification on 2026-06-09:
 
 ```bash
 DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e
 # 18 passed
 
-node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/visual_qa_scan.mjs . --url https://refusalrail.veithly.workers.dev --fail-on error
+node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/visual_qa_scan.mjs . --url https://refusalrail.veithly.workers.dev --fail-on warning
 # 0 errors, 0 warnings
 
 curl -fsS https://refusalrail.veithly.workers.dev/api/health
-# buildId wallet-final-2026-06-08T193725Z, chainStatus configured
+# buildId wallet-rainbowkit-mimo-2026-06-09T150658Z, chainStatus configured
 ```
 
 ## Contract Deployment
@@ -105,4 +105,4 @@ On-chain smoke:
 
 ## Current Status
 
-Wrangler is authenticated for `veithly@live.com`, and `npm run deploy` published Worker version `2097af97-31b8-4248-8748-7fc91f493340`.
+Wrangler is authenticated for `veithly@live.com`, and `npm run deploy` published Worker version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.

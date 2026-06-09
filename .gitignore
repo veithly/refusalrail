@@ -5,6 +5,7 @@
 .wrangler/
 .DS_Store
 node_modules/
+dist-wallet/
 dist-worker/
 test-results/
 playwright-report/

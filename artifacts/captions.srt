@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:14,560
+Reject 1 unsafe RWA agent trade in 60 seconds. RefusalRail stamps NO and keeps the proof. The package is live: a Worker, a wallet-aware ledger, deployed Arbitrum Sepolia contracts, and a path a judge can open.
+
+2
+00:00:14,560 --> 00:00:28,640
+The first screen puts the wallet in the path. A judge can connect a browser wallet, or choose the test wallet and still create a receipt with an explicit wallet address.
+
+3
+00:00:28,640 --> 00:00:38,880
+Now pick the failing case. MARKET_HALT becomes the live input, so the agent can try to sell principal under a condition the policy forbids.
+
+4
+00:00:38,880 --> 00:00:57,760
+In the workbench, the test wallet owns the run. The policy refuses the sell, writes walletAddress into Durable Object storage, and opens the receipt. On the detail page, the app prepares RefusalHub calldata. A connected browser wallet can send that transaction and bind the hash back to the same receipt.
+
+5
+00:00:57,760 --> 00:01:08,640
+The evidence is not a paragraph. It has policy hash, calldata hash, proof hash, wallet address, contract address, and chain proof status.
+
+6
+00:01:08,640 --> 00:01:23,200
+The mechanism stays small: Worker UI and API, Durable Object ledger, Solidity contracts, Arbitrum Sepolia explorer proof. The agent proposes, policy decides, receipt proves.
+
+7
+00:01:23,200 --> 00:01:30,080
+Open the Worker, connect a wallet or use the test wallet, run the refusal, then inspect the receipt.

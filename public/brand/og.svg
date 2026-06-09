@@ -1,12 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#080b12"/>
-  <rect x="56" y="54" width="1088" height="522" rx="22" fill="#101826" stroke="#2d3a51" stroke-width="2"/>
-  <text x="104" y="142" fill="#f4f7fb" font-family="Arial, sans-serif" font-size="48" font-weight="800">RefusalRail</text>
-  <text x="104" y="252" fill="#f4f7fb" font-family="Arial, sans-serif" font-size="72" font-weight="900">Reject 1 unsafe RWA trade in 60 seconds.</text>
-  <text x="108" y="330" fill="#9ba9bd" font-family="Arial, sans-serif" font-size="30">A policy flight recorder for agentic tokenized asset actions.</text>
-  <g transform="translate(730 344) rotate(-10)">
-    <rect x="0" y="0" width="280" height="122" rx="10" fill="none" stroke="#ec3b31" stroke-width="10"/>
-    <text x="60" y="82" fill="#ec3b31" font-family="Arial Black, Arial, sans-serif" font-size="70">NO</text>
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail social preview">
+  <rect width="1200" height="630" fill="#0b1019"/>
+  <circle cx="980" cy="90" r="300" fill="#c52a24" opacity=".22"/>
+  <circle cx="120" cy="560" r="260" fill="#33885c" opacity=".16"/>
+  <g transform="translate(96 94)">
+    <rect width="112" height="112" rx="16" fill="#f4f7fb"/>
+    <g fill="none" stroke="#0b1019" stroke-linecap="round" stroke-linejoin="round" transform="translate(6 6)">
+      <path d="M24 22v56" stroke-width="5"/>
+      <path d="M40 22v56" stroke-width="5"/>
+      <path d="M26 34h46" stroke-width="5"/>
+      <path d="M26 50h34" stroke-width="5"/>
+      <path d="M26 66h46" stroke-width="5"/>
+      <circle cx="72" cy="50" r="15" stroke-width="5"/>
+      <path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/>
+    </g>
   </g>
-  <text x="104" y="492" fill="#f4f7fb" font-family="Arial, sans-serif" font-size="26">proof hash · policy hash · calldata hash · receipt ledger</text>
+  <text x="96" y="284" fill="#f4f7fb" font-family="Geist, Arial, sans-serif" font-size="82" font-weight="850">Reject 1 unsafe RWA trade.</text>
+  <text x="100" y="354" fill="#b5becc" font-family="Geist, Arial, sans-serif" font-size="34">Connect a wallet, run the shock, stamp NO, save proof.</text>
+  <text x="100" y="512" fill="#f4f7fb" font-family="Geist Mono, Menlo, monospace" font-size="24">Arbitrum Sepolia · Cloudflare Worker · Durable receipts</text>
 </svg>

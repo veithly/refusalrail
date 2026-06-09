@@ -12,7 +12,7 @@
     "desktop",
     "mobile"
   ],
-  "generatedAt": "2026-06-08T19:40:19.900Z",
+  "generatedAt": "2026-06-09T15:16:36.388Z",
   "scans": [
     {
       "page": {
@@ -86,7 +86,7 @@
         "width": 393,
         "height": 852,
         "scrollWidth": 393,
-        "scrollHeight": 4110
+        "scrollHeight": 4058
       },
       "issues": [],
       "route": "/",
@@ -99,7 +99,7 @@
         "width": 393,
         "height": 852,
         "scrollWidth": 393,
-        "scrollHeight": 2795
+        "scrollHeight": 2743
       },
       "issues": [],
       "route": "/app",
@@ -112,7 +112,7 @@
         "width": 393,
         "height": 852,
         "scrollWidth": 393,
-        "scrollHeight": 1996
+        "scrollHeight": 1944
       },
       "issues": [],
       "route": "/about",
@@ -125,7 +125,7 @@
         "width": 393,
         "height": 852,
         "scrollWidth": 393,
-        "scrollHeight": 1440
+        "scrollHeight": 1388
       },
       "issues": [],
       "route": "/policy",
@@ -138,7 +138,7 @@
         "width": 393,
         "height": 852,
         "scrollWidth": 393,
-        "scrollHeight": 1087
+        "scrollHeight": 1035
       },
       "issues": [],
       "route": "/receipts",
