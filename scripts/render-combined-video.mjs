@@ -6,10 +6,10 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const compositionPath = resolve(projectRoot, "pitch", "polish-combined", "index.html");
-const outVideo = resolve(projectRoot, "pitch", "recording", "pitch-demo-combined.mp4");
-const framesDir = resolve(projectRoot, "pitch", "_render-frames", "combined");
-const snapshotDir = resolve(projectRoot, "pitch", "polish-combined", "snapshots");
+const compositionPath = resolve(projectRoot, process.env.RENDER_COMPOSITION || "pitch/polish-combined/index.html");
+const outVideo = resolve(projectRoot, process.env.RENDER_OUT || "pitch/recording/pitch-demo-combined.mp4");
+const framesDir = resolve(projectRoot, process.env.RENDER_FRAMES_DIR || "pitch/_render-frames/combined");
+const snapshotDir = resolve(projectRoot, process.env.RENDER_SNAPSHOT_DIR || "pitch/polish-combined/snapshots");
 
 const width = Number(process.env.RENDER_WIDTH || "1920");
 const height = Number(process.env.RENDER_HEIGHT || "1200");
@@ -18,7 +18,10 @@ const duration = Number(process.env.RENDER_DURATION || "86");
 const frameExt = (process.env.RENDER_FRAME_EXT || "jpg").replace(/^\./, "");
 const jpegQuality = Number(process.env.RENDER_JPEG_QUALITY || "92");
 const frameCount = Math.ceil(duration * fps);
-const snapshotTimes = [2, 10, 24, 42, 62, 74, 83];
+const snapshotTimes = (process.env.RENDER_SNAPSHOT_TIMES || "2,10,24,42,62,74,83")
+  .split(",")
+  .map((value) => Number(value.trim()))
+  .filter((value) => Number.isFinite(value) && value >= 0);
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {

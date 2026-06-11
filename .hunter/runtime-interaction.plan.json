@@ -1,0 +1,39 @@
+{
+  "$schema": "runtime-interaction-plan.v1",
+  "project": "RefusalRail",
+  "url": "https://refusalrail.veithly.workers.dev",
+  "required_contexts": ["chromium", "firefox", "webkit", "mobile"],
+  "cases": [
+    {
+      "name": "fresh visitor refusal path",
+      "route": "/",
+      "actions": ["open home", "click Run refused trade", "choose shock", "click Let the agent try", "open latest receipt"],
+      "proof": "NO receipt with wallet, policyHash, calldataHash, shockHash, proofHash"
+    },
+    {
+      "name": "safe sweep contrast",
+      "route": "/app",
+      "actions": ["click Safe sweep", "inspect allowed receipt"],
+      "proof": "OK receipt with POLICY_PASS under same policy"
+    },
+    {
+      "name": "wallet and chain proof",
+      "route": "/app/receipts/[id]",
+      "actions": ["use test wallet or injected browser wallet", "prepare tx data", "send or bind tx hash"],
+      "proof": "RefusalHub tx data or explorer link"
+    },
+    {
+      "name": "auditor history",
+      "route": "/app/receipts?role=auditor",
+      "actions": ["switch role", "open persisted receipt history"],
+      "proof": "second role/history view"
+    }
+  ],
+  "trace_on_failure": true,
+  "refresh_persistence_required": true,
+  "second_context_required": true,
+  "evidence_commands": [
+    "DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e",
+    "node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/visual_qa_scan.mjs . --url https://refusalrail.veithly.workers.dev --fail-on warning"
+  ]
+}

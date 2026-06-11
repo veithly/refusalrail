@@ -60,7 +60,7 @@
     {
       "id": "REQ-006",
       "priority": "P1",
-      "route": "/about",
+      "route": "/app/build",
       "api": "GET /api/health",
       "component": "ArchitectureSummary",
       "real_data_source": "Wrangler Worker runtime",

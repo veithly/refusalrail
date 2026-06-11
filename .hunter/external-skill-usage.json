@@ -1,0 +1,76 @@
+{
+  "$schema": "external-skill-usage.v1",
+  "rule": "Every non-HackathonHunter skill named by this project was loaded from the installed skill path shown in the current Codex skill list.",
+  "skills": [
+  {
+    "skill": "gpt-pro-think",
+    "installed_path": "/Users/rick/Documents/MySkill/gpt-pro-think/SKILL.md",
+    "loaded_at": "2026-06-10T21:49:00+08:00",
+    "why_used": "Major visual, deck, asset, and video narrative redesign decisions for the refreshed Hunter flow.",
+    "output_file": "public/art/raw/refusalrail-evidence-parallel-manifest.json",
+    "evidence_summary": "Returned judge-first diagnosis, frontend redesign direction, image asset plan, 12-slide Swiss deck outline, video narrative, and implementation priorities. A follow-up GPT Pro image run produced two composite evidence images; five accepted cropped assets are stored under public/art/refusalrail/ and mirrored to pitch/deck/images/generated/.",
+    "fallback_if_missing": "Block G3/G6 creative work and ask for user approval to proceed locally.",
+    "status": "used"
+  },
+  {
+    "skill": "gpt-taste",
+    "installed_path": "/Users/rick/.codex/skills/gpt-taste/SKILL.md",
+    "loaded_at": "2026-06-10T21:34:00+08:00",
+    "why_used": "Required premium AIDA structure, layout variance, proof bento math, and motion vocabulary for the frontend refresh.",
+    "output_file": "pitch/visual-build-contract.md",
+    "evidence_summary": "Captured deterministic design_plan selections for cinematic proof cockpit, Geist typography, proof accordions, receipt rail, verdict card stack, scrubbed proof reveal, and card stacking.",
+    "fallback_if_missing": "Block G3 visual contract until the installed skill can be loaded.",
+    "status": "used"
+  },
+  {
+    "skill": "impeccable",
+    "installed_path": "/Users/rick/.skills-manager/skills/impeccable/SKILL.md",
+    "loaded_at": "2026-06-10T21:41:00+08:00",
+    "why_used": "Required product-register anti-slop audit and craft constraints for a trusted financial workbench.",
+    "output_file": "pitch/visual-build-contract.md",
+    "evidence_summary": "Loaded PRODUCT.md and product register; constrained the redesign to a restrained, trustworthy operational tool with no decorative dashboard tricks.",
+    "fallback_if_missing": "Block G3 visual contract or continue only with a logged Hunter override.",
+    "status": "used"
+  },
+  {
+    "skill": "logo-generator",
+    "installed_path": "/Users/rick/.skills-manager/skills/logo-generator/SKILL.md",
+    "loaded_at": "2026-06-10T21:38:00+08:00",
+    "why_used": "Generate and select a forensic rail/receipt brand mark for the product chrome, deck, and video lockup.",
+    "output_file": "pitch/logo-showcase/index.html",
+    "evidence_summary": "Produced six SVG logo variants in pitch/logo-showcase/variants and shipped the selected mark as public/brand/logomark.svg, wordmark.svg, logo-mono.svg, and og assets.",
+    "fallback_if_missing": "Use the hand-authored temporary mark only after logging the Hunter brand-skill blocker.",
+    "status": "used"
+  },
+  {
+    "skill": "guizang-ppt-skill",
+    "installed_path": "/Users/rick/.skills-manager/skills/guizang-ppt-skill/SKILL.md",
+    "loaded_at": "2026-06-10T21:43:00+08:00",
+    "why_used": "Rebuild the pitch deck as a single-file Swiss International Style HTML deck with registered S01-S22 layouts.",
+    "output_file": "pitch/deck/index.html",
+    "evidence_summary": "Selected Swiss / IKB theme, loaded template-swiss, layouts-swiss, and validator requirements. Rebuilt pitch/deck/index.html with product screenshots plus GPT Pro evidence assets; validator passed with layout warnings only.",
+    "fallback_if_missing": "Use plain HTML deck only after recording a Hunter blocker and user approval.",
+    "status": "used"
+  },
+  {
+    "skill": "hyperframes",
+    "installed_path": "/Users/rick/.skills-manager/skills/hyperframes/SKILL.md",
+    "loaded_at": "2026-06-12T01:31:00+08:00",
+    "why_used": "Rebuild the combined pitch/demo video as an HTML motion composition with proof cards, component lifts, and a single post-render audio mux.",
+    "output_file": "pitch/recording/pitch-demo-combined-final.mp4",
+    "evidence_summary": "Loaded the installed HyperFrames workflow, kept the composition visual-only, rendered the 3:30 full judge video from latest product plates, and muxed one narration bus after render.",
+    "fallback_if_missing": "Use the existing Playwright screen recording only after logging a Hunter video-polish blocker and user approval.",
+    "status": "used"
+  },
+  {
+    "skill": "stop-slop",
+    "installed_path": "/Users/rick/.skills-manager/skills/stop-slop/SKILL.md",
+    "loaded_at": "2026-06-12T01:31:00+08:00",
+    "why_used": "Apply Hunter's final copy taste gate to README, SUBMISSION, deck notes, narration source, and HackQuest-facing prose.",
+    "output_file": "SUBMISSION.md",
+    "evidence_summary": "Removed generic platform language from judge-facing copy where possible, kept claims concrete, and anchored the submission around the visible refusal receipt, Arbitrum proof, and live app path.",
+    "fallback_if_missing": "Manually run the same directness, rhythm, trust, authenticity, and density checks before final submission.",
+    "status": "used"
+  }
+  ]
+}

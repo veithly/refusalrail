@@ -157,7 +157,7 @@
 - User: Arbitrum / Robinhood Chain technical judge.
 - Situation: judge wants evidence this is not only a UI.
 - Pain: thin demos often hide missing contracts and tests.
-- Trigger: judge opens receipt detail, `/app/policy`, and `/about`.
+- Trigger: judge opens receipt detail, `/app/policy`, and `/app/build`.
 - Desired outcome: proof paths are visible and reproducible.
 - Product response: app shows contracts, compile command, Worker deployment path, and receipt schema.
 - Demo-visible moment: detail route shows policy source, proof hash, and deployment readiness.
@@ -222,7 +222,7 @@
 | `/app/policy` | Policy editor | Show bounded standing-action rules and allow threshold toggles | Policy matrix, rule toggles, calldata preview |
 | `/app/receipts` | Receipt history | Inspect persisted refusal and allowed receipts | Timeline, filters, role switch, receipt rows |
 | `/app/receipts/[id]` | Receipt detail | Show one proof artifact with hash, policy, owner, and replay data | Flight-recorder detail, proof table, JSON export |
-| `/about` | Architecture + deployment | Show stack, contracts, Cloudflare deployment, and limitations | Architecture bands, command list, cut list |
+| `/app/build` | Architecture + deployment | Show stack, contracts, Cloudflare deployment, and limitations | Architecture bands, command list, cut list |
 
 ## 11. Visual direction & UI principles
 
@@ -264,7 +264,7 @@
 | shadcn-inspired primitives | Button, field, segmented control, status pill | `/`, `/app` | familiar product affordances without turning the app into generic card UI |
 | RainbowKit + Wagmi | wallet dock, injected wallet connection, wallet transaction bridge | `/`, `/app/receipts/[id]` | judges see a real wallet connection pattern while the test wallet keeps the no-secret demo path available |
 | custom CSS HUD | NO stamp, ledger rail, evidence cells | `/app`, `/app/receipts/[id]` | product-specific silhouette |
-| native HTML dialog/details | proof export and architecture disclosure | `/app/receipts/[id]`, `/about` | accessible without heavy client dependencies |
+| native HTML dialog/details | proof export and architecture disclosure | `/app/receipts/[id]`, `/app/build` | accessible without heavy client dependencies |
 
 ### Asset sources
 
@@ -356,5 +356,5 @@
 | `REQ-003` | P0 | Audit proof | `/app/receipts/[id]` | `GET /api/receipts/:id` | Durable Object receipt storage | proof hash, calldata hash, shock snapshot | `tests/receipt.spec.ts` | live detail URL smoke | planned |
 | `REQ-004` | P1 | Policy audit | `/app/policy` | `GET /api/policy` | policy engine constants + contract source | `PolicySnapshot` and Solidity compile output | `tests/policy.spec.ts` | README contract compile output | planned |
 | `REQ-005` | P1 | Multi-role proof | `/app/receipts` role switch | `GET /api/receipts?scope=public` | Durable Object receipt storage | `roleId`, `ownerId`, public receipt visibility | `tests/roles.spec.ts` | smoke report with second context | planned |
-| `REQ-006` | P1 | Deployment proof | `/about` | `GET /api/health` | Wrangler Worker runtime | build id, compatibility date, binding status | `tests/health.spec.ts` | `wrangler deploy --dry-run` | planned |
+| `REQ-006` | P1 | Deployment proof | `/app/build` | `GET /api/health` | Wrangler Worker runtime | build id, compatibility date, binding status | `tests/hero.spec.ts` | `wrangler deploy --dry-run` | verified |
 | `REQ-007` | P2 | Optional chain path | receipt detail export | browser `sendTransaction` when env configured | connected EIP-1193 wallet | compiled contracts, optional explorer tx | manual wallet smoke | chain tx/explorer after wallet funding | planned |

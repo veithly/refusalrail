@@ -109,7 +109,17 @@ async function getReceipts(env: Env, session: SessionInfo, scope = "mine"): Prom
   );
   if (!response.ok) return [];
   const data = (await response.json()) as { receipts: ReceiptRecord[] };
-  return data.receipts;
+  return data.receipts.filter((receipt) => !isPlaceholderReceipt(receipt));
+}
+
+function isPlaceholderReceipt(receipt: ReceiptRecord): boolean {
+  const walletAddress = receipt.walletAddress.toLowerCase();
+  const chainTxHash = (receipt.chainTxHash || "").toLowerCase();
+  return (
+    /^0x1{40}$/.test(walletAddress) ||
+    /^0x0{36}beef$/.test(walletAddress) ||
+    /^0x([1-4])\1{63}$/.test(chainTxHash)
+  );
 }
 
 async function handleApi(request: Request, env: Env, session: SessionInfo, url: URL): Promise<Response> {
@@ -270,6 +280,10 @@ async function handlePage(request: Request, env: Env, session: SessionInfo, url:
   }
 
   if (url.pathname === "/about") {
+    return Response.redirect(`${url.origin}/app/build`, 301);
+  }
+
+  if (url.pathname === "/app/build") {
     return htmlResponse(renderAbout(deployment), session);
   }
 

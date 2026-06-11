@@ -10,9 +10,15 @@ dist-worker/
 test-results/
 playwright-report/
 pitch/_raw-recording/
+pitch/_raw-recording-full/
+pitch/_render-frames/
+pitch/_qa/full-final-frames/
 pitch/_qa/hackquest-registration-*.png
 pitch/recording/*.webm
 pitch/recording/pitch-demo-combined.mp4
+pitch/recording/pitch-demo-full.mp4
+pitch/recording/pitch-demo-full-final.mp4
+pitch/recording/full-demo.mp4
 pitch/recording/tight.mp4
 pitch/recording/narration-tight.mp3
 pitch/recording/voiceover.concat.txt

@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --port ${PORT:-4387} --local",
-    "build": "npm run build:wallet && tsc --noEmit && npm run contracts:compile",
+    "build": "npm run build:wallet && npm run build:art && tsc --noEmit && npm run contracts:compile",
     "build:wallet": "node scripts/build-wallet-island.mjs",
+    "build:art": "node scripts/build-art-assets.mjs",
     "contracts:compile": "node scripts/compile-contracts.mjs",
     "contracts:deploy": "node scripts/deploy-contracts.mjs",
     "seed": "node scripts/seed_demo.mjs",

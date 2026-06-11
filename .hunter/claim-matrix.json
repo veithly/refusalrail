@@ -1,0 +1,90 @@
+{
+  "$schema": "claim-matrix.v1",
+  "rule": "A judge-facing claim may appear in README, video, deck, or SUBMISSION only when this matrix has a verified row with product and proof evidence.",
+  "claims": [
+    {
+      "claim": "A judge can reject one unsafe RWA agent trade in about 60 seconds.",
+      "judge_surface": ["README.md", "SUBMISSION.md", "pitch/recording/video-outline.md"],
+      "surface": "/app",
+      "user_action": "Click Run refused trade, choose a shock, then click Let the agent try.",
+      "visible_result": "The workbench shows a red NO receipt with refusal reason and proof fields.",
+      "backend_or_storage_proof": "POST /api/runs/refuse writes a Durable Object receipt record; tests/hero.spec.ts verifies the saved receipt text.",
+      "proof_type": "Playwright test plus live receipt screen",
+      "repo_path": "tests/hero.spec.ts",
+      "test": "DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e",
+      "video_timecode": "01:04-01:22",
+      "submission_field": "Short description",
+      "status": "verified"
+    },
+    {
+      "claim": "The refusal receipt records wallet identity, policy hash, calldata hash, shock hash, and proof hash.",
+      "judge_surface": ["README.md", "SUBMISSION.md", "pitch/recording/video-outline.md"],
+      "surface": "/app/receipts/[id]",
+      "user_action": "Open the latest receipt after a refused run.",
+      "visible_result": "The receipt detail page lists walletAddress, policyHash, calldataHash, shockHash, and proofHash.",
+      "backend_or_storage_proof": "GET /api/receipts/:id reads the persisted receipt record from the Durable Object ledger.",
+      "proof_type": "Receipt detail page and Playwright row assertions",
+      "repo_path": "src/html.ts",
+      "test": "npm run test:e2e tests/hero.spec.ts",
+      "video_timecode": "01:22-01:40",
+      "submission_field": "What it does",
+      "status": "verified"
+    },
+    {
+      "claim": "The chain path prepares and binds RefusalHub proof on Arbitrum Sepolia.",
+      "judge_surface": ["README.md", "SUBMISSION.md", "pitch/recording/video-outline.md"],
+      "surface": "/app/receipts/[id]",
+      "user_action": "Click Prepare tx data or send/bind the chain proof from the receipt detail page.",
+      "visible_result": "The receipt shows RefusalHub transaction data or an explorer tx link.",
+      "backend_or_storage_proof": "Arbitrum Sepolia refused demo tx https://sepolia.arbiscan.io/tx/0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372 and deployments/arbitrum-sepolia.json.",
+      "proof_type": "Explorer transaction and deployment JSON",
+      "repo_path": "deployments/arbitrum-sepolia.json",
+      "test": "npm run test:e2e tests/hero.spec.ts",
+      "video_timecode": "01:40-01:59",
+      "submission_field": "How we built it",
+      "status": "verified"
+    },
+    {
+      "claim": "The same policy can allow a safe standing action while refusing the unsafe principal sale.",
+      "judge_surface": ["README.md", "SUBMISSION.md", "pitch/recording/video-outline.md"],
+      "surface": "/app",
+      "user_action": "Click Safe sweep after a refusal run.",
+      "visible_result": "An OK receipt appears next to NO receipts with POLICY_PASS.",
+      "backend_or_storage_proof": "POST /api/runs/safe writes an allowed Durable Object record; tests/hero.spec.ts checks Allowed and POLICY_PASS.",
+      "proof_type": "Playwright test and receipt history",
+      "repo_path": "src/policy.ts",
+      "test": "npm run test:e2e tests/hero.spec.ts",
+      "video_timecode": "01:59-02:15",
+      "submission_field": "Why it fits the judging criteria",
+      "status": "verified"
+    },
+    {
+      "claim": "The product has a second-role auditor/history surface, not only a single demo screen.",
+      "judge_surface": ["README.md", "SUBMISSION.md", "pitch/recording/video-outline.md"],
+      "surface": "/app/receipts?role=auditor",
+      "user_action": "Open receipt history as auditor after creating receipts.",
+      "visible_result": "The page shows persisted proof rail records for auditor review.",
+      "backend_or_storage_proof": "Durable Object receipt records are listed across role/history views; tests/hero.spec.ts verifies auditor role access.",
+      "proof_type": "Playwright role/history assertion",
+      "repo_path": "tests/hero.spec.ts",
+      "test": "npm run test:e2e tests/hero.spec.ts",
+      "video_timecode": "02:15-02:30",
+      "submission_field": "What it does",
+      "status": "verified"
+    },
+    {
+      "claim": "The public deployment and tests are judge-ready.",
+      "judge_surface": ["README.md", "SUBMISSION.md", "pitch/recording/video-outline.md", "pitch/deck/index.html"],
+      "surface": "https://refusalrail.veithly.workers.dev",
+      "user_action": "Open the live URL and run the deployed Playwright smoke path.",
+      "visible_result": "The public hero and workbench CTA load, then the deployed E2E path passes.",
+      "backend_or_storage_proof": ".hunter/gates/G5-public-smoke.report.json records deployed 18-test pass and deployment version 07ec3378-01eb-4df1-ab1c-c9ad9e40038e.",
+      "proof_type": "Public smoke report and test command",
+      "repo_path": ".hunter/gates/G5-public-smoke.report.json",
+      "test": "DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e",
+      "video_timecode": "02:50-03:08",
+      "submission_field": "Accomplishments we're proud of",
+      "status": "verified"
+    }
+  ]
+}

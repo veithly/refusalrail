@@ -5,7 +5,7 @@ export const routeEvidence = {
   primaryCta: { "data-cta-primary": "connect-wallet-and-run-refusal" },
   walletContract: {
     connect: { "data-testid": "connect-wallet", text: "Connect wallet" },
-    testWallet: { "data-testid": "use-test-wallet", address: "0x000000000000000000000000000000000000BEEF" },
+    testWallet: { "data-testid": "use-test-wallet", address: "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66" },
     sendTx: { "data-testid": "send-chain-wallet", method: "eth_sendTransaction" },
     modes: ["TestMode", "LiveMode", "data-mode"]
   },

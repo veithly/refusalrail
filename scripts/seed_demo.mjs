@@ -4,23 +4,24 @@ import { resolve } from "node:path";
 
 const baseUrl = process.env.SEED_BASE_URL || process.env.PLAYWRIGHT_BASE_URL || "http://localhost:4387";
 const manifestPath = resolve(".hunter/seed-manifest.json");
+const demoTestWallet = "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66";
 let cookie = "";
 
 const scenarios = [
   {
     label: "demo-market-halt",
     path: "/api/runs/refuse",
-    body: { shock: "MARKET_HALT", walletAddress: "seed-demo-wallet", roleId: "holder" }
+    body: { shock: "MARKET_HALT", walletAddress: demoTestWallet, roleId: "holder" }
   },
   {
     label: "demo-stale-price",
     path: "/api/runs/refuse",
-    body: { shock: "STALE_PRICE", walletAddress: "seed-demo-wallet", roleId: "holder" }
+    body: { shock: "STALE_PRICE", walletAddress: demoTestWallet, roleId: "holder" }
   },
   {
     label: "demo-safe-sweep",
     path: "/api/runs/safe",
-    body: { walletAddress: "seed-demo-wallet", roleId: "holder" }
+    body: { walletAddress: demoTestWallet, roleId: "holder" }
   }
 ];
 
@@ -67,7 +68,7 @@ await writeFile(
       mode: "explicit-demo-seed",
       records,
       reviewer_note:
-        "Normal guest receipts are created live. Seed rows use walletAddress=seed-demo-wallet and are marked as demo-only evidence."
+        "Normal guest receipts are created live. Optional seed rows use the funded Arbitrum Sepolia test wallet and are marked as demo-only evidence."
     },
     null,
     2

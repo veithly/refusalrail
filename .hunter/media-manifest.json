@@ -1,0 +1,51 @@
+{
+  "$schema": "media-manifest.v1",
+  "project": "RefusalRail",
+  "main_video": {
+    "path": "pitch/recording/pitch-demo-combined-final.mp4",
+    "url": "https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4",
+    "duration_s": 209.6,
+    "duration_label": "3:30",
+    "resolution": "1920x1200",
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "audio_channels": 1,
+    "audio_layout": "mono",
+    "purpose": "main HackQuest judge demo"
+  },
+  "quick_preview": {
+    "path": "pitch/recording/pitch-demo-preview-final.mp4",
+    "url": "https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-preview-final.mp4",
+    "duration_s": 96,
+    "duration_label": "1:36",
+    "resolution": "1920x1200",
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "audio_channels": 1,
+    "audio_layout": "mono",
+    "purpose": "short preview when a platform exposes a separate pitch video slot"
+  },
+  "deck": {
+    "path": "pitch/deck/index.html",
+    "style": "Swiss International evidence deck"
+  },
+  "narration": {
+    "path": "artifacts/full/narration.json",
+    "captions": "artifacts/full/captions.srt",
+    "coverage": "Core 3:30 main demo narration"
+  },
+  "screenshots": [
+    "pitch/deck/qa/latest/contact-sheet.jpg",
+    "pitch/deck/images/hero-latest-16x10.png",
+    "pitch/deck/images/workbench-refused-16x10.png",
+    "pitch/deck/images/receipt-detail-refused-16x10.png",
+    "pitch/deck/images/chain-submitted-16x10.png",
+    "pitch/deck/images/safe-sweep-16x10.png",
+    "pitch/deck/images/policy-page-16x10.png",
+    "pitch/deck/images/auditor-evidence-wall-16x10.png",
+    "pitch/deck/images/build-page-16x10.png",
+    "pitch/deck/images/mobile-first-run.png",
+    "pitch/polish-full/snapshots/contact-sheet.jpg",
+    "pitch/polish-combined/snapshots/contact-sheet.jpg"
+  ]
+}

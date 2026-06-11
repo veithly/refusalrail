@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:15,040
+RefusalRail gives an RWA agent one job: stop the trade it should not make. In this demo, the win condition is not a green checkmark. The win condition is a NO receipt that survives refresh, names the wallet, and points to chain evidence.
+
+2
+00:00:15,040 --> 00:00:32,640
+Picture a standing RWA agent while the holder is offline. It can claim a distribution. It can sweep proceeds. During a market halt, it must not sell principal. A chat warning is too weak for that moment. The user needs a rail that blocks the action before value moves, then leaves proof for the next reviewer.
+
+3
+00:00:32,640 --> 00:00:48,000
+A judge can run the product in under a minute. Open the live app, connect a browser wallet, or use the funded Arbitrum Sepolia test wallet. The address ending in 5c66 becomes the execution identity. That address is written into every receipt the judge creates.
+
+4
+00:00:48,000 --> 00:01:04,640
+The wallet button is real product surface, not decoration. RainbowKit handles normal wallet entry. The built-in test path keeps the judge flow open without asking anyone to import a private key. When the page changes, the wallet state follows the judge into the workbench.
+
+5
+00:01:04,640 --> 00:01:22,720
+Now run the failing case. Choose MARKET_HALT. Let the agent try a principal sale. RefusalRail evaluates the policy before execution, stamps NO, and writes the refusal into the ledger. The screen gives the judge a next step: open the receipt, not just watch a toast fade away.
+
+6
+00:01:22,720 --> 00:01:40,640
+The receipt is the audit object. It shows the refused action, the shock, the role, the wallet address, and the proof fields a reviewer needs. The raw JSON stays available, but the main page reads like a flight recorder. A second person can understand what the agent tried and why the rail stopped it.
+
+7
+00:01:40,640 --> 00:01:59,040
+The chain path is wired. From the receipt, the app prepares the RefusalHub transaction for Arbitrum Sepolia. The connected test wallet submits the transaction, and the receipt binds the explorer link back to the same record. The video shows the short label only because judges do not need a full hash read aloud.
+
+8
+00:01:59,040 --> 00:02:15,680
+A useful safety rail cannot block everything. The same policy allows a narrow distribution sweep and writes an OK receipt. That contrast matters: RefusalRail separates an unsafe principal sale from a routine action the user already allowed.
+
+9
+00:02:15,680 --> 00:02:30,080
+Switch to the auditor view and the product stops being a one-run demo. The receipt rail shows proof history across sessions. A reviewer can compare NO receipts with OK receipts and see that RefusalRail records decisions, not screenshots.
+
+10
+00:02:30,080 --> 00:02:51,840
+The mechanism stays small on purpose. The live app serves the browser flow and API. The receipt ledger stores wallet-owned proof across sessions. Solidity contracts on Arbitrum Sepolia hold the policy registry, receipt book, hub, and demo RWA asset. The product does not ask the judge to trust narration when the receipt and explorer link can carry the claim.
+
+11
+00:02:51,840 --> 00:03:10,080
+For judging, the path is short. Try the live app. Create one refused receipt. Open the detail page. Prepare and bind the chain proof. Then scan the README for contracts, deployment notes, limitations, and the exact public URL. The story and the product now point to the same thing.
+
+12
+00:03:10,080 --> 00:03:29,600
+The boundary is honest. RefusalRail does not trade real securities, predict prices, or connect to a brokerage account. It proves a testnet primitive for agentic RWA safety: policy decides first, the wallet identity is recorded, and the refusal becomes evidence.

@@ -9,7 +9,7 @@ test("fresh guest reaches first refusal receipt without signup", async ({ page }
   await page.getByRole("link", { name: /Run refused trade/i }).click();
   await expect(page).toHaveURL(/\/app$/);
 
-  await expect(page.getByText(/Choose the shock/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Choose what changed/i })).toBeVisible();
   await expect(page.getByText(/Receipt rail/i)).toBeVisible();
 
   await page.getByRole("radio", { name: /MARKET_HALT/i }).click();

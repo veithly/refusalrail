@@ -3,7 +3,7 @@
 ## Source
 
 - GPT Pro spec response: `pitch/gpt-pro/responses/spec/01-best-prd-uiux-response.md`
-- Selected idea: RefusalRail, "Reject 1 unsafe RWA trade, stamp NO."
+- Selected idea: RefusalRail, "Reject 1 unsafe RWA trade and block it with a NO receipt."
 - PRD: `pitch/project_prd.md`
 - Live product: `https://refusalrail.veithly.workers.dev`
 
@@ -17,7 +17,7 @@
 | `/app/policy` | Policy matrix | Inspect reason-code rows and contract cards | Loads policy evidence or static fallback | Optional policy fetch state | Policy hash, reason codes, deployed contract addresses |
 | `/app/receipts` | Receipt history | Switch holder/auditor role; open a receipt | Loads public receipt ledger and role-density view | Role view, selected receipt | Status, reason, owner/session, policy/calldata/proof hashes |
 | `/app/receipts/:id` | Receipt detail | Copy proof fields or return to history | Loads one receipt proof table | Detail fetch/copy state | Shock snapshot, reason code, policy hash, calldata hash, proof hash, tx/deploy fields |
-| `/about` | Architecture proof | Inspect deployment and limitation cards | Loads static proof plus optional health status | Optional health status | Cloudflare Worker, Durable Object, contract suite, deployed addresses, refused demo tx |
+| `/app/build` | Architecture proof | Inspect deployment and limitation cards | Loads static proof plus optional health status | Optional health status | Cloudflare Worker, Durable Object, contract suite, deployed addresses, refused demo tx |
 
 ## First-Run Flow
 
@@ -25,7 +25,7 @@
 - 10-30s: Judge lands on `/app`, selects a shock card, and sees the agent attempt preview change.
 - 30-60s: Judge clicks "Let the agent try"; the app calls the refusal API, stamps `NO`, and shows a saved refusal receipt.
 - 2-3min: Judge clicks into receipt detail, then runs the safe sweep to compare refused and allowed outcomes under the same policy.
-- 5min/Q&A: Judge opens `/app/policy` and `/about` to inspect policy hash, reason codes, deployed addresses, and the Arbitrum Sepolia refused demo transaction.
+- 5min/Q&A: Judge opens `/app/policy` and `/app/build` to inspect policy hash, reason codes, deployed addresses, and the Arbitrum Sepolia refused demo transaction.
 
 ## Interaction Details
 
@@ -34,7 +34,7 @@
 - Default state: Hero copy, RWA safety rail framing, proof badges, and primary CTA are visible.
 - Loading state: Not needed for static hero content.
 - Empty state: Not applicable.
-- Error state: If health status is unavailable, the hero remains usable and proof links still point to `/about`.
+- Error state: If health status is unavailable, the hero remains usable and proof links still point to `/app/build`.
 - Success state: CTA reaches `/app` in one click.
 - Keyboard/touch behavior: CTA is focusable, has a visible focus ring, and meets mobile tap target sizing.
 - Accessibility note: Hero claim is an `h1`; CTA text names the action.
@@ -83,7 +83,7 @@
 
 ### `/app/receipts/:id` Receipt Detail
 
-- Default state: Receipt status header, plain-language summary, proof table, copy buttons, and links to policy/about are visible.
+- Default state: Receipt status header, plain-language summary, proof table, copy buttons, and links to policy/build proof are visible.
 - Loading state: Skeleton proof rows preserve the page structure.
 - Empty state: Not applicable; unknown ids use not-found.
 - Error state: Show "Receipt not found" or retry copy, preserving the requested id in the URL.
@@ -94,7 +94,7 @@
 - Proof artifact: Receipt id, status, reason code, shock snapshot, policy hash, calldata hash, proof hash, owner/session fields, contract refs, and tx hash.
 - Test selectors: `[data-testid="receipt-detail-page"]`, `[data-testid="receipt-detail-status"]`, `[data-testid="receipt-detail-reason"]`, `[data-testid="receipt-detail-policy-hash"]`, `[data-testid="receipt-detail-calldata-hash"]`, `[data-testid="receipt-detail-proof-hash"]`, `[data-testid="receipt-detail-shock-snapshot"]`.
 
-### `/about` Architecture Proof
+### `/app/build` Architecture Proof
 
 - Default state: Cloudflare architecture, Durable Object ledger, contract suite, deployed addresses, refused demo tx, API route list, and limitations are visible.
 - Loading state: Optional `GET /api/health` chip may show loading without blocking static proof.
@@ -109,12 +109,12 @@
 
 ## Demo Choreography
 
-- Judge input: choose a shock card, run the unsafe action, inspect the refusal receipt, run the safe sweep, and open the policy/about proof screens.
+- Judge input: choose a shock card, run the unsafe action, inspect the refusal receipt, run the safe sweep, and open the policy/build proof screens.
 - Live consequence: unsafe action flips to `REFUSED`, `NO` stamp lands, receipt persists; safe sweep flips to `ALLOWED` under the same policy.
 - Proof artifact: refusal receipt, allowed receipt, policy matrix, deployed contract addresses, refused Arbitrum Sepolia demo tx, Cloudflare public URL.
-- Fallback: if API or explorer proof fails, keep Durable Object receipts and `/about` static proof visible; label fallback proof instead of pretending it is live.
-- Big-screen staging: start at `/`, zoom browser to keep CTA and `NO` stamp readable, use `MARKET_HALT` as default fastest path, then show receipt detail and `/about`.
-- Mobile QR behavior: QR may open `/app` directly for short demos; the mobile flow is tap shock, tap run, inspect latest receipt, then optional `/about`.
+- Fallback: if API or explorer proof fails, keep Durable Object receipts and `/app/build` static proof visible; label fallback proof instead of pretending it is live.
+- Big-screen staging: start at `/`, zoom browser to keep CTA and `NO` stamp readable, use `MARKET_HALT` as default fastest path, then show receipt detail and `/app/build`.
+- Mobile QR behavior: QR may open `/app` directly for short demos; the mobile flow is tap shock, tap run, inspect latest receipt, then optional `/app/build`.
 
 ## Implementation Notes
 
@@ -122,5 +122,5 @@
 - Data/API dependencies: `POST /api/runs/refuse`, `POST /api/runs/safe`, `GET /api/receipts`, `GET /api/receipts/:id`, `GET /api/policy`, `GET /api/health`.
 - Storage/state dependencies: Cloudflare Durable Object SQLite-backed ledger stores `id`, `status`, `reasonCode`, `shockSnapshot`, `policyHash`, `calldataHash`, `proofHash`, `ownerId`, `sessionId`, `roleId`, `walletAddress`, `contractRefs`, `txHash`, and `createdAt`.
 - External integrations: Cloudflare Workers, Durable Objects, Arbitrum Sepolia explorer links, deployed Solidity contracts, optional Robinhood Chain framing when public testnet resources are usable.
-- Test selectors: selectors listed above are the canonical Playwright handles for hero path, receipt detail, role switch, policy proof, and about proof.
+- Test selectors: selectors listed above are the canonical Playwright handles for hero path, receipt detail, role switch, policy proof, and build proof.
 - Mobile QR: the QR target should be the live Worker URL and may use `/app` when demo time is short; all critical controls must remain single-column and tappable at 390px width.

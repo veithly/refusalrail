@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-06-10T14:55:35.569Z",
+  "session": "gpt-pro-1781103035745-image-02",
+  "conversationUrl": "https://chatgpt.com/c/6a2979e8-3630-83a8-8f01-e815dc756fd3",
+  "prompt": "Generate five distinct 16:10 editorial product-support images for RefusalRail, a forensic RWA agent safety rail. Visual style: Swiss evidence workbench, high-end black/white/red financial safety instrument, ledger paper texture, refusal stamp ink, chain-binding geometry, wallet identity rail, policy circuit breaker, auditor evidence wall. IMPORTANT: do not include readable wallet addresses, fake transaction hashes, fake UI screenshots, or logos. No text except abstract unreadable microtype. Images should be usable as app/deck visual assets, not screenshots. Keep them realistic, premium, and non-stock.",
+  "imageDir": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw",
+  "images": [
+    {
+      "path": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-02-01.png",
+      "bytes": 2195234,
+      "mimeType": "image/png",
+      "width": 480,
+      "height": 300,
+      "src": "https://chatgpt.com/backend-api/estuary/content?id=file_00000000a5b0720bbbcfcc557a7f7048&ts=494750&p=fs&cid=1&sig=4d9bb20f3d5e6651d77adcd14e4cd1acfb280a57ab262ac0395ee20454f63f40&v=0"
+    }
+  ],
+  "failed": []
+}

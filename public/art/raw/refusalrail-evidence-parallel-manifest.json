@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-06-10T14:55:54.382Z",
+  "parallel": true,
+  "session": "gpt-pro-1781103035745",
+  "requestedImageCount": 5,
+  "imageConcurrency": 3,
+  "oneConversationPerImage": true,
+  "prompt": "Generate five distinct 16:10 editorial product-support images for RefusalRail, a forensic RWA agent safety rail. Visual style: Swiss evidence workbench, high-end black/white/red financial safety instrument, ledger paper texture, refusal stamp ink, chain-binding geometry, wallet identity rail, policy circuit breaker, auditor evidence wall. IMPORTANT: do not include readable wallet addresses, fake transaction hashes, fake UI screenshots, or logos. No text except abstract unreadable microtype. Images should be usable as app/deck visual assets, not screenshots. Keep them realistic, premium, and non-stock.",
+  "imageDir": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw",
+  "images": [
+    {
+      "path": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-02-01.png",
+      "bytes": 2195234,
+      "mimeType": "image/png",
+      "width": 480,
+      "height": 300,
+      "src": "https://chatgpt.com/backend-api/estuary/content?id=file_00000000a5b0720bbbcfcc557a7f7048&ts=494750&p=fs&cid=1&sig=4d9bb20f3d5e6651d77adcd14e4cd1acfb280a57ab262ac0395ee20454f63f40&v=0",
+      "session": "gpt-pro-1781103035745-image-02",
+      "jobIndex": 2
+    },
+    {
+      "path": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-03-01.png",
+      "bytes": 2219132,
+      "mimeType": "image/png",
+      "width": 480,
+      "height": 300,
+      "src": "https://chatgpt.com/backend-api/estuary/content?id=file_00000000b0e8720b8bf01dfca72335bc&ts=494750&p=fs&cid=1&sig=c92cbc248e7213c179d2a512da9c250f7707d8a35c83170ef70e1e41197595ea&v=0",
+      "session": "gpt-pro-1781103035745-image-03",
+      "jobIndex": 3
+    }
+  ],
+  "failed": [
+    {
+      "session": "gpt-pro-1781103035745-image-01",
+      "jobIndex": 1,
+      "exitCode": 4,
+      "error": "[extractImages] evaluate: daemon timeout",
+      "output": null
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-04",
+      "jobIndex": 4,
+      "exitCode": 4,
+      "error": "[ensureModel] could not ensure model=instant (current=unknown). Please switch manually in the browser, then re-run with --resume.",
+      "output": null
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-05",
+      "jobIndex": 5,
+      "exitCode": 4,
+      "error": "[open] navigate: daemon timeout",
+      "output": null
+    }
+  ],
+  "childManifests": [
+    {
+      "session": "gpt-pro-1781103035745-image-02",
+      "path": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-02-manifest.json"
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-03",
+      "path": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-03-manifest.json"
+    }
+  ],
+  "jobs": [
+    {
+      "session": "gpt-pro-1781103035745-image-01",
+      "jobIndex": 1,
+      "ok": false,
+      "output": null,
+      "imageCount": 0,
+      "error": "[extractImages] evaluate: daemon timeout"
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-02",
+      "jobIndex": 2,
+      "ok": true,
+      "output": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-02-manifest.json",
+      "imageCount": 1,
+      "error": ""
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-03",
+      "jobIndex": 3,
+      "ok": true,
+      "output": "/Users/rick/Documents/Project/Hackathon/RefusalRail/public/art/raw/refusalrail-evidence-03-manifest.json",
+      "imageCount": 1,
+      "error": ""
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-04",
+      "jobIndex": 4,
+      "ok": false,
+      "output": null,
+      "imageCount": 0,
+      "error": "[ensureModel] could not ensure model=instant (current=unknown). Please switch manually in the browser, then re-run with --resume."
+    },
+    {
+      "session": "gpt-pro-1781103035745-image-05",
+      "jobIndex": 5,
+      "ok": false,
+      "output": null,
+      "imageCount": 0,
+      "error": "[open] navigate: daemon timeout"
+    }
+  ]
+}

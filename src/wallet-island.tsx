@@ -7,7 +7,7 @@ import {
   useConnectModal
 } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { WagmiProvider, createConfig, http, useAccount, useChainId, useSendTransaction, useSwitchChain } from "wagmi";
 import { mainnet } from "viem/chains";
@@ -83,12 +83,28 @@ function walletConfig() {
 
 function AccountBridge() {
   const { address, chain, isConnected } = useAccount();
+  const [localWallet, setLocalWallet] = useState<{ mode: string; address: string }>(() => ({
+    mode: window.localStorage.getItem("rr_wallet_mode") || "guest",
+    address: window.localStorage.getItem("rr_wallet_address") || ""
+  }));
   const chainId = useChainId();
   const { openAccountModal } = useAccountModal();
   const { openConnectModal } = useConnectModal();
   const { switchChainAsync, isPending } = useSwitchChain();
   const { sendTransactionAsync } = useSendTransaction();
   const needsSwitch = isConnected && chainId !== ARBITRUM_SEPOLIA.id;
+
+  useEffect(() => {
+    const onLocalWallet = (event: Event) => {
+      const detail = (event as CustomEvent).detail || {};
+      setLocalWallet({
+        mode: String(detail.mode || "guest"),
+        address: String(detail.address || "")
+      });
+    };
+    window.addEventListener("rr:local-wallet", onLocalWallet);
+    return () => window.removeEventListener("rr:local-wallet", onLocalWallet);
+  }, []);
 
   useEffect(() => {
     window.dispatchEvent(
@@ -139,9 +155,14 @@ function AccountBridge() {
     };
   }, [chainId, isConnected, openConnectModal, sendTransactionAsync, switchChainAsync]);
 
+  const localLabel = localWallet.address
+    ? localWallet.mode === "test"
+      ? `${localWallet.address.slice(0, 6)}...${localWallet.address.slice(-4)} · Test wallet`
+      : `${localWallet.address.slice(0, 6)}...${localWallet.address.slice(-4)} · Browser wallet`
+    : "";
   const walletLabel = isConnected && address
     ? `${address.slice(0, 6)}...${address.slice(-4)} · ${chain?.name || "Wallet"}`
-    : "Connect wallet";
+    : localLabel || "Connect wallet";
 
   return (
     <div className="rr-rainbow-shell" data-testid="rainbowkit-wallet">

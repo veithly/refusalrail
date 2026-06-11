@@ -7,21 +7,21 @@
       "label": "demo-market-halt",
       "route": "/api/runs/refuse",
       "shock": "MARKET_HALT",
-      "walletAddress": "seed-demo-wallet",
+      "walletAddress": "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66",
       "expected": "refused"
     },
     {
       "label": "demo-stale-price",
       "route": "/api/runs/refuse",
       "shock": "STALE_PRICE",
-      "walletAddress": "seed-demo-wallet",
+      "walletAddress": "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66",
       "expected": "refused"
     },
     {
       "label": "demo-safe-sweep",
       "route": "/api/runs/safe",
       "shock": "NONE",
-      "walletAddress": "seed-demo-wallet",
+      "walletAddress": "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66",
       "expected": "allowed"
     }
   ],

@@ -5,7 +5,7 @@
     "entry": "/",
     "first_meaningful_action": "/app -> select shock -> POST /api/runs/refuse",
     "success_artifact": "persisted refusal receipt with reasonCode, policyHash, calldataHash, proofHash",
-    "fallback": "/about static deployment proof and receipt ledger retry states"
+    "fallback": "/app/build static deployment proof and receipt ledger retry states"
   },
   "latency_budget_ms": {
     "landing_visible": 3000,
@@ -18,7 +18,7 @@
     "/app/policy",
     "/app/receipts",
     "/app/receipts/[id]",
-    "/about"
+    "/app/build"
   ],
   "empty_state_contract": {
     "/app": ["receipt-empty-state", "calldata-preview-state"],

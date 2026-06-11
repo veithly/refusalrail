@@ -1,21 +1,21 @@
-# Reject 1 unsafe RWA trade, stamp NO
+# Reject 1 unsafe RWA trade and block it with a NO receipt
 
-> Reject 1 unsafe RWA trade, stamp NO.
+> Reject 1 unsafe RWA trade and block it with a NO receipt.
 
-RefusalRail is a Cloudflare Worker app for the Arbitrum Open House London Online Buildathon. A judge selects a market shock, lets a bounded RWA agent try an unsafe action, and gets a durable refusal receipt with policy hash, calldata hash, shock hash, owner, and proof hash.
+RefusalRail is a judge-ready safety rail for the Arbitrum Open House London Online Buildathon. A judge selects a market shock, lets a bounded RWA agent try an unsafe action, and gets a durable refusal receipt with policy hash, calldata hash, shock hash, wallet owner, and proof hash.
 
-[Live demo](https://refusalrail.veithly.workers.dev) · [Repository](https://github.com/veithly/refusalrail) · [Demo video](https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4) · [Deployment runbook](./docs/DEPLOYMENT.md) · [Submission pack](./SUBMISSION.md)
+[Live demo](https://refusalrail.veithly.workers.dev) · [Repository](https://github.com/veithly/refusalrail) · [Full demo video](https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4) · [Quick preview](https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-preview-final.mp4) · [Deployment runbook](./docs/DEPLOYMENT.md) · [Submission pack](./SUBMISSION.md)
 
 ## What Ships
 
-- Cloudflare Worker app with server-rendered HTML/CSS/JS.
-- Durable Object `RefusalLedger` with SQLite-backed receipt storage.
+- Live app with server-rendered HTML/CSS/JS and product API routes.
+- `RefusalLedger` receipt store with wallet-owned proof records.
 - Interactive surfaces: `/app`, `/app/policy`, `/app/receipts`, plus receipt detail routes.
 - Wallet entry in the product chrome: connect a browser wallet, choose the built-in test wallet, prepare RefusalHub calldata, send `eth_sendTransaction`, and bind the resulting tx hash back to a receipt.
 - Solidity proof contracts: `PolicyRegistry`, `RefusalReceipt`, `RefusalHub`, `DemoRWAAsset`.
-- Chain-ready receipt loop: prepare RefusalHub calldata from a receipt, submit with a wallet/script, then bind the explorer tx hash back to the Durable Object receipt.
+- Chain-ready receipt loop: prepare RefusalHub calldata from a receipt, submit with a wallet/script, then bind the explorer tx hash back to the same receipt.
 - Vitest policy tests and Playwright desktop/mobile hero-path tests.
-- HackathonHunter PRD, visual contract, stack lock, acceptance matrices, and submission pack.
+- HackathonHunter PRD, visual contract, stack lock, acceptance matrices, claim matrix, and submission pack.
 
 ## Commands
 
@@ -35,7 +35,7 @@ cp .env.example .env
 npm run contracts:deploy
 ```
 
-The deploy script writes `deployments/arbitrum-sepolia.json` and prints the Wrangler vars that turn on live chain proof preparation in the Worker UI.
+The deploy script writes `deployments/arbitrum-sepolia.json` and prints the runtime vars that turn on live chain proof preparation in the app UI.
 
 Current Arbitrum Sepolia deployment:
 
@@ -53,14 +53,14 @@ npm run dev
 
 Open `http://127.0.0.1:4387`.
 
-Deploy after Cloudflare login:
+Deploy after runtime login:
 
 ```bash
 npx wrangler login
 npm run deploy
 ```
 
-Live Worker:
+Live app:
 
 ```txt
 https://refusalrail.veithly.workers.dev
@@ -74,15 +74,16 @@ https://refusalrail.veithly.workers.dev
 - `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e`: 18 public tests passed.
 - `npm run deploy:dry`: passed with Wrangler 4.98.0.
 - `npm run contracts:deploy`: passed on Arbitrum Sepolia.
-- `npm run deploy`: published `https://refusalrail.veithly.workers.dev` as Worker version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.
+- `npm run deploy`: published `https://refusalrail.veithly.workers.dev` as deployment version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.
 - `visual_qa_scan.mjs --url https://refusalrail.veithly.workers.dev --fail-on error`: 0 errors and 0 warnings across desktop/mobile routes.
 - Runtime audit: `npm audit --omit=dev` found 0 vulnerabilities.
-- Dev audit note: `solc` currently brings dev-only `tmp` advisories; it is not shipped in the Worker runtime.
-- Final video: `pitch/recording/pitch-demo-combined-final.mp4`, 96 seconds, 1920x1200, H.264 High, AAC stereo, MiMo TTS narration.
+- Dev audit note: `solc` currently brings dev-only `tmp` advisories; it is not shipped in the deployed runtime bundle.
+- Full judge demo: `pitch/recording/pitch-demo-combined-final.mp4`, 3:30, 1920x1200, H.264, AAC mono.
+- Quick preview: `pitch/recording/pitch-demo-preview-final.mp4`, 1:36, 1920x1200, H.264, AAC mono.
 
-## Cloudflare Note
+## Deployment Note
 
-The Worker is live on Cloudflare with the Durable Object ledger and deployed Arbitrum Sepolia contract addresses configured. See `docs/DEPLOYMENT.md`.
+The public app is live with the receipt ledger and deployed Arbitrum Sepolia contract addresses configured. See `docs/DEPLOYMENT.md`.
 
 ## No Financial Advice
 

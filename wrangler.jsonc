@@ -21,7 +21,7 @@
   ],
   "vars": {
     "APP_ENV": "production",
-    "BUILD_ID": "wallet-rainbowkit-mimo-2026-06-09T150658Z",
+    "BUILD_ID": "forensic-swiss-2026-06-11T143834Z",
     "CHAIN_ID": "421614",
     "CHAIN_NAME": "Arbitrum Sepolia",
     "EXPLORER_BASE_URL": "https://sepolia.arbiscan.io",

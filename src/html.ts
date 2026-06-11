@@ -1,5 +1,6 @@
 import { POLICY, shortHash } from "./policy";
 import type { DeploymentInfo, PolicySnapshot, ReceiptRecord, ShockCode } from "./types";
+import { artAssets } from "./generated/art-assets";
 import { walletIslandCssBase64, walletIslandJsBase64 } from "./generated/wallet-island";
 
 const shockCopy: Record<ShockCode, string> = {
@@ -7,6 +8,17 @@ const shockCopy: Record<ShockCode, string> = {
   MARKET_HALT: "Market halt",
   STALE_PRICE: "Stale price",
   MAX_EXPOSURE: "Max exposure"
+};
+
+const PUBLIC_PROOF = {
+  testWallet: "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66",
+  chainName: "Arbitrum Sepolia",
+  chainId: "421614",
+  refusalHub: "0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8",
+  policyRegistry: "0xa9df142D14218CC99f3068CBADC1D1965f7623B7",
+  refusalReceipt: "0xf6aC320e7C4E865A72c588c89BE23Ff12ca543C3",
+  demoRwaAsset: "0x320392A010982f8F8F81e9E8aE8aaD083Be69810",
+  demoTx: "0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
 };
 
 function escapeHtml(value: string): string {
@@ -42,6 +54,56 @@ function receiptStatusLabel(receipt: ReceiptRecord): string {
   return receipt.status === "refused" ? "NO" : "OK";
 }
 
+function shortAddress(value: string): string {
+  if (!value) return "pending";
+  if (value.startsWith("0x") && value.length > 14) return `${value.slice(0, 6)}...${value.slice(-4)}`;
+  return value;
+}
+
+function resolvedProof(deployment?: DeploymentInfo): typeof PUBLIC_PROOF {
+  return {
+    ...PUBLIC_PROOF,
+    chainName: deployment?.chainName || PUBLIC_PROOF.chainName,
+    chainId: deployment?.chainId || PUBLIC_PROOF.chainId,
+    refusalHub: deployment?.refusalHub || PUBLIC_PROOF.refusalHub,
+    policyRegistry: deployment?.policyRegistry || PUBLIC_PROOF.policyRegistry,
+    refusalReceipt: deployment?.refusalReceipt || PUBLIC_PROOF.refusalReceipt,
+    demoRwaAsset: deployment?.demoRwaAsset || PUBLIC_PROOF.demoRwaAsset
+  };
+}
+
+function proofCell(label: string, value: string, options: { attr?: string; mono?: boolean } = {}): string {
+  return `<div class="proof-cell"${options.attr ? ` ${options.attr}` : ""}>
+    <span>${escapeHtml(label)}</span>
+    <strong class="${options.mono === false ? "" : "mono"}">${escapeHtml(value)}</strong>
+  </div>`;
+}
+
+function executionIdentityRail(deployment?: DeploymentInfo, compact = false): string {
+  const proof = resolvedProof(deployment);
+  return `<section class="identity-rail ${compact ? "compact" : ""}" aria-label="Execution identity rail">
+    ${proofCell("mode", "Guest proof mode", { attr: "data-wallet-status" })}
+    ${proofCell("wallet", "Connect or use test wallet", { attr: "data-wallet-address" })}
+    ${proofCell("chain", `${proof.chainName} · ${proof.chainId}`)}
+    ${proofCell("hub", shortAddress(proof.refusalHub))}
+    ${proofCell("registry", shortAddress(proof.policyRegistry))}
+    ${proofCell("demo tx", shortAddress(proof.demoTx))}
+  </section>`;
+}
+
+function receiptProofRail(receipt: ReceiptRecord | null, deployment?: DeploymentInfo): string {
+  const proof = resolvedProof(deployment);
+  const railReason = receipt?.reasonCode === "POLICY_PASS" ? "policy pass" : receipt?.reasonCode || "not run yet";
+  return `<section class="proof-rail" aria-label="Receipt proof rail">
+    ${proofCell("wallet", receipt ? shortAddress(receipt.walletAddress) : "waiting for run", { attr: "data-proof-field=\"wallet\"" })}
+    ${proofCell("reason", railReason, { attr: "data-proof-field=\"reason\"", mono: false })}
+    ${proofCell("policy", receipt ? shortHash(receipt.policyHash) : shortAddress(proof.policyRegistry), { attr: "data-proof-field=\"policy\"" })}
+    ${proofCell("calldata", receipt ? shortHash(receipt.calldataHash) : "pending", { attr: "data-proof-field=\"calldata\"" })}
+    ${proofCell("proof", receipt ? shortHash(receipt.proofHash) : "pending", { attr: "data-proof-field=\"proof\"" })}
+    ${proofCell("tx", receipt?.chainTxHash ? shortAddress(receipt.chainTxHash) : shortAddress(proof.demoTx), { attr: "data-proof-field=\"tx\"" })}
+  </section>`;
+}
+
 function receiptCard(receipt: ReceiptRecord): string {
   const tone = receipt.status === "refused" ? "danger" : "success";
   return `
@@ -54,6 +116,7 @@ function receiptCard(receipt: ReceiptRecord): string {
         </div>
       </div>
       <dl class="receipt-facts">
+        <div><dt>wallet</dt><dd>${escapeHtml(shortAddress(receipt.walletAddress))}</dd></div>
         <div><dt>proof</dt><dd>${escapeHtml(shortHash(receipt.proofHash))}</dd></div>
         <div><dt>policy</dt><dd>${escapeHtml(shortHash(receipt.policyHash))}</dd></div>
       </dl>
@@ -88,7 +151,7 @@ function emptyState(
     <p>${escapeHtml(body)}</p>
     <div class="example-row" aria-label="Try these examples">
       ${examples
-        .map((example) => `<a href="${escapeHtml(ctaHref)}" data-placeholder-example>${escapeHtml(example)} <span data-demo-badge>(demo)</span></a>`)
+        .map((example) => `<a href="${escapeHtml(ctaHref)}" data-placeholder-example>${escapeHtml(example)}</a>`)
         .join("")}
     </div>
     <a class="rr-btn rr-btn-danger" data-empty-cta data-next-step-cta href="${escapeHtml(ctaHref)}">${escapeHtml(ctaLabel)}</a>
@@ -116,7 +179,7 @@ function shell(title: string, body: string, options: { composition?: string; pat
   <style>${styles()}${walletIslandCss}</style>
 </head>
 <body>
-  <main class="shell" data-mode="test-mode" data-visual-lane="operational-dashboard" data-hero-composition="${escapeHtml(options.composition || "cockpit-workbench")}">
+  <main class="shell" data-mode="test-mode" data-route="${escapeHtml(options.path || "/")}" data-visual-lane="operational-dashboard" data-hero-composition="${escapeHtml(options.composition || "cockpit-workbench")}">
     <header class="topbar">
       <a class="brand" href="/" aria-label="RefusalRail home">
         <span class="brand-mark"><img src="/brand/logomark.svg" alt="RefusalRail logomark"></span>
@@ -127,8 +190,9 @@ function shell(title: string, body: string, options: { composition?: string; pat
         <a ${options.path === "/app" ? "aria-current=\"page\"" : ""} href="/app">Workbench</a>
         <a ${options.path === "/app/policy" ? "aria-current=\"page\"" : ""} href="/app/policy">Policy</a>
         <a ${options.path === "/app/receipts" ? "aria-current=\"page\"" : ""} href="/app/receipts">Receipts</a>
-        <a ${options.path === "/about" ? "aria-current=\"page\"" : ""} href="/about">Build</a>
+        <a ${options.path === "/app/build" ? "aria-current=\"page\"" : ""} href="/app/build">Build</a>
       </nav>
+      ${executionIdentityRail(deployment, true)}
       <div class="topbar-tools" aria-label="Workbench controls">
         <button class="tool-btn" type="button" data-command-toggle aria-label="Open command palette">Cmd-K</button>
         <button class="tool-btn" type="button" data-density-button="compact">Compact</button>
@@ -148,7 +212,7 @@ function shell(title: string, body: string, options: { composition?: string; pat
       <a href="/app">Run refused trade</a>
       <a href="/app/policy">Inspect policy</a>
       <a href="/app/receipts">Open receipt history</a>
-      <a href="/about">Check deployment</a>
+      <a href="/app/build">Check deployment</a>
       <a href="/api/health">Open health JSON</a>
     </div>
     <div class="layout-shell">
@@ -157,7 +221,7 @@ function shell(title: string, body: string, options: { composition?: string; pat
         <a ${options.path === "/app" ? "aria-current=\"page\"" : ""} href="/app">Workbench</a>
         <a ${options.path === "/app/policy" ? "aria-current=\"page\"" : ""} href="/app/policy">Policy</a>
         <a ${options.path === "/app/receipts" ? "aria-current=\"page\"" : ""} href="/app/receipts">Receipts</a>
-        <a ${options.path === "/about" ? "aria-current=\"page\"" : ""} href="/about">Build</a>
+        <a ${options.path === "/app/build" ? "aria-current=\"page\"" : ""} href="/app/build">Build</a>
       </aside>
       <section class="content-rail">
         ${body}
@@ -177,86 +241,101 @@ export function renderHome(receipts: ReceiptRecord[], deployment?: DeploymentInf
   const latest = receipts[0];
   return shell(
     "RefusalRail",
-    `<section class="hero-chapter" data-gsap="image-scale-fade">
+    `<section class="proof-hero" data-gsap="image-scale-fade">
       <div class="hero-copy">
-        <h1 data-hero-text>Reject 1 unsafe RWA agent trade in 60 seconds.</h1>
-        <p class="lede">Connect a wallet or use the built-in test wallet, choose a shock, and watch the policy rail refuse unsafe calldata while saving a durable receipt.</p>
+        <p class="kicker">Forensic RWA agent safety rail</p>
+        <h1 data-hero-text>Reject 1 unsafe RWA agent trade<br>in 60 seconds.</h1>
+        <p class="lede">A judge connects a wallet or uses the funded test wallet, chooses a shock, lets the agent attempt the bad action, and opens a durable refusal receipt.</p>
+        <div class="hero-proofline" aria-label="Judge path">
+          <span><strong>01</strong> Connect or use test wallet</span>
+          <span><strong>02</strong> Pick market shock</span>
+          <span><strong>03</strong> Save NO receipt</span>
+        </div>
+        <div class="hero-asset-strip" aria-label="Proof visuals">
+          <img src="/art/refusalrail/no-stamp-ledger.png" alt="NO stamp on a ledger surface">
+          <img src="/art/refusalrail/chain-lock-map.png" alt="Chain binding lock geometry">
+          <img src="/art/refusalrail/auditor-wall-texture.png" alt="Auditor evidence wall texture">
+        </div>
         <div class="hero-actions">
           <button class="rr-btn rr-btn-danger" data-testid="connect-wallet" data-cta-primary data-wallet-connect type="button">Connect wallet</button>
           <button class="rr-btn rr-btn-secondary" data-test-wallet type="button">Use test wallet</button>
           <a class="rr-btn rr-btn-ghost" href="/app">Run refused trade</a>
         </div>
       </div>
-      <section class="hero-console" aria-label="Wallet and refusal preview">
-        <div class="wallet-ledger-card">
-          <div class="panel-title">
-            <span>Execution identity</span>
-            <strong data-wallet-status>Guest proof mode</strong>
+      <section class="proof-cockpit" aria-label="Operable proof cockpit">
+        ${executionIdentityRail(deployment)}
+        <div class="cockpit-main">
+          <div class="shock-mini" aria-label="Shock choices">
+            <button type="button" data-shock="MARKET_HALT" class="selected">MARKET_HALT</button>
+            <button type="button" data-shock="STALE_PRICE">STALE_PRICE</button>
+            <button type="button" data-shock="MAX_EXPOSURE">MAX_EXPOSURE</button>
           </div>
-          <div class="wallet-address-line" data-wallet-address>Connect wallet or choose test wallet</div>
-          <div class="chain-mini-grid">
-            <div><span>chain</span><strong>Arbitrum Sepolia</strong></div>
-            <div><span>hub</span><strong>0x3540...0Cf8</strong></div>
+          <div class="verdict-stack" aria-label="Refusal preview">
+            <article class="verdict-layer layer-attempt">
+              <span>agent attempt</span>
+              <strong>sell_principal(tokenized_etf)</strong>
+            </article>
+            <article class="verdict-layer layer-policy">
+              <span>policy check</span>
+              <strong>no principal sale during shock</strong>
+            </article>
+            <article class="verdict-layer layer-no">
+              <span>verdict</span>
+              <strong aria-label="Refused">REFUSED</strong>
+            </article>
+          </div>
+          <div class="receipt-hero-card">
+            <span>latest proof artifact</span>
+            ${
+              latest
+                ? receiptCard(latest)
+                : `<div class="empty compact-empty"><strong>No receipt yet</strong><p>Run the refusal path to create wallet-linked proof.</p><a class="text-link" href="/app">Create receipt</a></div>`
+            }
           </div>
         </div>
-        <div class="action-card refusal-card">
-          <div class="action-meta">
-            <span class="status-dot danger"></span>
-            <span>Agent action</span>
-          </div>
-          <h2>Sell principal after market halt</h2>
-          <p>Policy allows distribution sweep only.</p>
-          <div class="refusal-slab" aria-label="Refused">REFUSED</div>
-        </div>
-        <div class="receipt-strip">
-          ${
-            latest
-              ? receiptCard(latest)
-              : emptyState(
-                  "home-empty",
-                  "Receipt rail is ready",
-                  "Use the test wallet if you do not have a browser wallet, then open the durable proof.",
-                  "/app",
-                  "Create first receipt",
-                  ["market halt", "stale price", "exposure breach"]
-                )
-          }
-        </div>
+        ${receiptProofRail(latest || null, deployment)}
       </section>
     </section>
     <section class="proof-bento" data-gsap="scrub-text" aria-label="Product proof surfaces">
       <article class="bento-card bento-wide">
-        <h2>Wallet identity is part of the receipt.</h2>
-        <p>Guest, test wallet, and connected wallet flows all write an explicit wallet address into the Durable Object proof record.</p>
+        <div>
+          <h2>Wallet identity is part of the artifact.</h2>
+          <p>Guest, test wallet, and connected wallet runs all write the execution identity into the persisted receipt.</p>
+        </div>
+        <div class="mini-proof-images" aria-hidden="true">
+          <img src="/art/refusalrail/wallet-key-proof.png" alt="">
+          <img src="/art/refusalrail/policy-breaker-device.png" alt="">
+        </div>
       </article>
-      <article class="bento-card bento-tall">
-        <h3>Send chain tx</h3>
-        <p>Receipt detail prepares RefusalHub calldata and can ask the connected wallet to send it on Arbitrum Sepolia.</p>
+      <article class="bento-card bento-tall media-card">
+        <h3>NO becomes evidence</h3>
+        <p>The refusal is only shown after the receipt is saved, so the visual moment matches real state.</p>
       </article>
       <article class="bento-card bento-small">
         <h3>Policy first</h3>
         <p>Shock state changes the verdict before value can move.</p>
       </article>
       <article class="bento-card bento-small">
-        <h3>Test wallet path</h3>
-        <p>Judges can run the whole flow without importing private keys.</p>
+        <h3>Safe contrast</h3>
+        <p>The same policy can allow a distribution sweep while blocking principal sale.</p>
       </article>
       <article class="bento-card bento-small">
-        <h3>Receipts persist</h3>
-        <p>Proof hashes survive refresh in the Cloudflare Durable Object ledger.</p>
+        <h3>Chain binding</h3>
+        <p>Receipt detail prepares RefusalHub calldata and can bind a real tx hash.</p>
       </article>
     </section>
-    <section class="marquee-band" aria-label="Proof loop">
-      <div class="marquee-track">
-        <span>Connect wallet</span><span>Choose shock</span><span>Refuse action</span><span>Save receipt</span><span>Prepare calldata</span><span>Send tx</span>
-        <span>Connect wallet</span><span>Choose shock</span><span>Refuse action</span><span>Save receipt</span><span>Prepare calldata</span><span>Send tx</span>
-      </div>
+    <section class="proof-sequence" data-gsap="card-stack" aria-label="Refusal sequence">
+      <div><span>wallet</span><strong data-wallet-address>Connect or use test wallet</strong></div>
+      <div><span>shock</span><strong>MARKET_HALT</strong></div>
+      <div><span>attempt</span><strong>SELL_PRINCIPAL</strong></div>
+      <div><span>verdict</span><strong>NO</strong></div>
+      <div><span>receipt</span><strong>${latest ? escapeHtml(shortHash(latest.proofHash)) : "created after run"}</strong></div>
     </section>
     <section class="final-cta">
-      <h2>Run the refusal path with a wallet in the loop.</h2>
+      <h2>Make the failed transaction the proof artifact.</h2>
       <a class="rr-btn rr-btn-danger" href="/app">Open workbench</a>
     </section>`,
-    { composition: "cockpit-workbench", path: "/", deployment }
+    { composition: "forensic-proof-cockpit", path: "/", deployment }
   );
 }
 
@@ -265,30 +344,22 @@ export function renderApp(
   deployment: DeploymentInfo,
   selectedShock: ShockCode = "MARKET_HALT"
 ): string {
+  const latest = receipts[0] || null;
   return shell(
     "RefusalRail Workbench",
-    `<section class="workbench">
-      <aside class="panel shock-panel" aria-label="Shock cards">
+    `<section class="workbench cockpit-workbench">
+      <div class="panel workbench-brief">
+        <div>
+          <p class="kicker">Live judge path</p>
+          <h1>Pick a shock. Let the agent fail. Open the receipt.</h1>
+          <p>Use a connected wallet for chain binding, or use the public test wallet to complete the product loop without importing keys.</p>
+        </div>
+        ${executionIdentityRail(deployment, true)}
+      </div>
+      <aside class="panel shock-panel lane-panel" aria-label="Shock cards">
         <div class="section-head">
           <p class="kicker">Judge input</p>
-          <h1>Choose the shock</h1>
-        </div>
-        <div class="shock-grid" role="radiogroup" aria-label="Shock code">
-          ${(["MARKET_HALT", "STALE_PRICE", "MAX_EXPOSURE"] as ShockCode[])
-            .map(
-              (shock) => `<button class="shock-card ${selectedShock === shock ? "selected" : ""}" type="button" role="radio" aria-checked="${selectedShock === shock}" data-shock="${shock}">
-                <span>${shock}</span>
-                <small>${shockCopy[shock]}</small>
-              </button>`
-            )
-            .join("")}
-        </div>
-      </aside>
-      <section class="panel action-panel">
-        <div class="section-head">
-          <p class="kicker">Agent action</p>
-          <h2>The trade should fail before principal moves.</h2>
-          <p>Policy: claim distribution and sweep proceeds; never sell principal during shock conditions.</p>
+          <h2>Choose what changed.</h2>
         </div>
         <div class="wallet-workbench" data-empty-state="wallet-state">
           <div>
@@ -301,51 +372,102 @@ export function renderApp(
             <button class="rr-btn rr-btn-secondary" type="button" data-testid="use-test-wallet-workbench" data-test-wallet>Use test wallet</button>
           </div>
         </div>
+        <div class="shock-grid" role="radiogroup" aria-label="Shock code">
+          ${(["MARKET_HALT", "STALE_PRICE", "MAX_EXPOSURE"] as ShockCode[])
+            .map(
+              (shock) => `<button class="shock-card ${selectedShock === shock ? "selected" : ""}" type="button" role="radio" aria-checked="${selectedShock === shock}" data-shock="${shock}">
+                <span>${shock}</span>
+                <small>${shockCopy[shock]}</small>
+              </button>`
+            )
+            .join("")}
+        </div>
+      </aside>
+      <section class="panel action-panel verdict-panel">
+        <div class="section-head">
+          <p class="kicker">Agent black box</p>
+          <h2>Try the action the policy must stop.</h2>
+          <p>Standing action policy: claim distributions and sweep proceeds; never sell principal during shock conditions.</p>
+        </div>
+        <div class="verdict-stack workbench-stack" aria-label="Attempt to receipt stack">
+          <article class="verdict-layer layer-attempt">
+            <span>attempted calldata</span>
+            <strong id="calldata-label">sell_principal(tokenized_etf, shock=${selectedShock})</strong>
+          </article>
+          <article class="verdict-layer layer-policy">
+            <span>policy gate</span>
+            <strong>no principal sale during shock</strong>
+          </article>
+          <article class="verdict-layer layer-no">
+            <span>result after persistence</span>
+            <div id="stamp-target" class="stamp-target" aria-live="polite">waiting for run</div>
+          </article>
+        </div>
         <div class="chain-banner ${deployment.status === "configured" ? "success" : "pending"}">
           <strong>${deployment.status === "configured" ? "Chain proof ready" : "Chain proof pending"}</strong>
           <span>${
             deployment.status === "configured"
-              ? `RefusalHub ${escapeHtml(shortHash(deployment.refusalHub))} on ${escapeHtml(deployment.chainName)}`
-              : "The full product flow works now. Add contract env vars after deployment to enable wallet transaction preparation."
+              ? `RefusalHub ${escapeHtml(shortAddress(deployment.refusalHub))} on ${escapeHtml(deployment.chainName)}`
+              : "Receipt proof works now. Contract env vars enable wallet transaction preparation."
           }</span>
         </div>
-        <div class="calldata-card" data-empty-state="calldata-preview">
-          <span>Attempted calldata</span>
-          <strong id="calldata-label">sell_principal(tokenized_etf, shock=${selectedShock})</strong>
-          <small>Policy executes before the agent can move principal.</small>
-          <div class="example-row" aria-label="Shock examples">
-            <button type="button" data-placeholder-example data-shock="MARKET_HALT">MARKET_HALT <span data-demo-badge>(demo)</span></button>
-            <button type="button" data-placeholder-example data-shock="STALE_PRICE">STALE_PRICE <span data-demo-badge>(demo)</span></button>
-            <button type="button" data-placeholder-example data-shock="MAX_EXPOSURE">MAX_EXPOSURE <span data-demo-badge>(demo)</span></button>
-          </div>
-        </div>
-        <div id="stamp-target" class="stamp-target" aria-live="polite"></div>
         <div class="button-row">
           <button class="rr-btn rr-btn-danger" data-testid="run-refusal" data-next-step-cta type="button">Let the agent try</button>
           <button class="rr-btn rr-btn-success" data-testid="run-safe" type="button">Run safe sweep</button>
         </div>
-        <p id="run-status" class="run-status" role="status">Connect a wallet, use the test wallet, or continue as a guest. Then run the unsafe attempt.</p>
+        <p id="run-status" class="run-status" role="status">Choose a wallet mode and shock, then run the unsafe attempt.</p>
       </section>
-      <aside class="panel receipt-panel">
+      <aside class="panel receipt-panel lane-panel">
         <div class="section-head">
-          <p class="kicker">Flight recorder</p>
-          <h2>Receipt rail</h2>
+          <p class="kicker">Receipt rail</p>
+          <h2>Latest proof artifact</h2>
         </div>
         <div id="receipt-list" class="receipt-list">${receiptList(receipts.slice(0, 4))}</div>
+        <figure class="panel-art receipt-art" aria-hidden="true">
+          <img src="/art/refusalrail/wallet-key-proof.png" alt="">
+        </figure>
       </aside>
+      <div class="panel wide proof-rail-panel">
+        <div class="section-head inline">
+          <div>
+            <p class="kicker">Proof rail</p>
+            <h2>Wallet, policy, calldata, proof, tx binding.</h2>
+          </div>
+          <a class="text-link" href="/app/receipts">Open auditor wall</a>
+        </div>
+        ${receiptProofRail(latest, deployment)}
+      </div>
     </section>`,
     { composition: "policy-flight-recorder", path: "/app", deployment }
   );
 }
 
 export function renderPolicy(policy: PolicySnapshot, deployment?: DeploymentInfo): string {
+  const proof = resolvedProof(deployment);
   return shell(
     "RefusalRail Policy",
-    `<section class="page-grid">
-      <div class="panel wide">
-        <p class="kicker">Policy matrix</p>
+    `<section class="page-grid policy-page">
+      <div class="panel wide policy-hero-panel">
+        <p class="kicker">Policy circuit breaker</p>
         <h1>Bounded standing actions</h1>
-        <p class="lede small">The same policy refuses unsafe principal sale and allows narrow distribution sweep.</p>
+        <p class="lede small">The same policy allows a narrow distribution sweep and refuses principal sales during market halt, stale price, or exposure breach.</p>
+        <div class="policy-circuit" aria-label="Policy circuit breaker map">
+          <div class="circuit-node allow">
+            <span>allowed path</span>
+            <strong>CLAIM_DISTRIBUTION</strong>
+            <small>sweep proceeds</small>
+          </div>
+          <div class="circuit-rule">
+            <span>policy hash</span>
+            <strong>${escapeHtml(shortHash(policy.policyHash))}</strong>
+            <small>RefusalHub ${escapeHtml(shortAddress(proof.refusalHub))}</small>
+          </div>
+          <div class="circuit-node deny">
+            <span>blocked path</span>
+            <strong>SELL_PRINCIPAL + SHOCK</strong>
+            <small>ActionRefused</small>
+          </div>
+        </div>
         <table class="policy-table">
           <tbody>
             <tr><th>Policy id</th><td>${escapeHtml(policy.id)}</td></tr>
@@ -353,18 +475,29 @@ export function renderPolicy(policy: PolicySnapshot, deployment?: DeploymentInfo
             <tr><th>Distribution sweep</th><td>${policy.allowDistributionSweep ? "allowed" : "blocked"}</td></tr>
             <tr><th>Max exposure</th><td>${policy.maxExposureBps / 100}%</td></tr>
             <tr><th>Stale price limit</th><td>${policy.stalePriceSeconds}s</td></tr>
-            <tr><th>Policy hash</th><td><code>${escapeHtml(policy.policyHash)}</code></td></tr>
+          <tr><th>Policy hash</th><td><code>${escapeHtml(policy.policyHash)}</code></td></tr>
           </tbody>
         </table>
+        <figure class="policy-art" aria-hidden="true">
+          <img src="/art/refusalrail/policy-breaker-device.png" alt="">
+          <img src="/art/refusalrail/chain-lock-map.png" alt="">
+        </figure>
       </div>
       <div class="panel">
-        <p class="kicker">Calldata preview</p>
-        <h2>Unsafe path</h2>
+        <p class="kicker">Unsafe path</p>
+        <h2>SELL_PRINCIPAL becomes ActionRefused.</h2>
         <pre class="code-block">actionType: SELL_PRINCIPAL
 shock: MARKET_HALT
 expected: ActionRefused</pre>
         <a class="rr-btn rr-btn-danger" href="/app">Run refusal</a>
         <p class="policy-note" contenteditable="true" data-inline-edit="policy-note">Reviewer note: distribution sweeps can pass; principal sales are refused during shocks.</p>
+      </div>
+      <div class="panel contract-card-list">
+        <p class="kicker">Contract references</p>
+        ${proofCell("RefusalHub", shortAddress(proof.refusalHub))}
+        ${proofCell("PolicyRegistry", shortAddress(proof.policyRegistry))}
+        ${proofCell("Receipt", shortAddress(proof.refusalReceipt))}
+        ${proofCell("Demo asset", shortAddress(proof.demoRwaAsset))}
       </div>
     </section>`,
     { composition: "policy-flight-recorder", path: "/app/policy", deployment }
@@ -372,18 +505,36 @@ expected: ActionRefused</pre>
 }
 
 export function renderReceipts(receipts: ReceiptRecord[], roleId: string, deployment?: DeploymentInfo): string {
+  const latest = receipts[0] || null;
   return shell(
     "RefusalRail Receipts",
-    `<section class="page-grid">
-      <div class="panel wide">
+    `<section class="page-grid receipts-page">
+      <div class="panel wide evidence-wall">
         <div class="section-head inline">
           <div>
             <p class="kicker">Receipt history</p>
             <h1>Persisted proof rail</h1>
+            <p class="lede small">Holder creates receipts. Reviewer lens inspects public proof across wallet, reason, policy, calldata, and tx fields.</p>
           </div>
           <div class="role-switch" data-empty-state="role-state">
             <a class="${roleId === "holder" ? "active" : ""}" href="/app/receipts?role=holder">holder</a>
             <a class="${roleId === "auditor" ? "active" : ""}" href="/app/receipts?role=auditor">auditor</a>
+          </div>
+        </div>
+        <div class="evidence-wall-grid">
+          <article class="lead-receipt ${latest?.status === "allowed" ? "success" : "danger"}">
+            <span>latest artifact</span>
+            ${
+              latest
+                ? `<strong>${receiptStatusLabel(latest)} · ${escapeHtml(latest.reasonCode)}</strong>
+                  <p>Wallet ${escapeHtml(shortAddress(latest.walletAddress))}. Proof ${escapeHtml(shortHash(latest.proofHash))}.</p>
+                  <a class="rr-btn rr-btn-danger" data-testid="open-latest-receipt" href="/app/receipts/${encodeURIComponent(latest.id)}">Open receipt</a>`
+                : `<strong>No receipts yet</strong><p>Run the workbench once to create the first proof artifact.</p><a class="rr-btn rr-btn-danger" href="/app">Run refusal</a>`
+            }
+            <img src="/art/refusalrail/auditor-wall-texture.png" alt="" aria-hidden="true">
+          </article>
+          <div class="proof-filter-strip" aria-label="Proof filters">
+            <span>NO</span><span>OK</span><span>MARKET_HALT</span><span>STALE_PRICE</span><span>MAX_EXPOSURE</span>
           </div>
         </div>
         <div class="receipt-list grid">${receiptList(receipts)}</div>
@@ -400,7 +551,7 @@ export function renderReceiptDetail(receipt: ReceiptRecord | null, deployment: D
       `<section class="panel"><h1>Receipt not found</h1><p>The proof id is not in this ledger.</p>${emptyState(
         "receipt-detail-empty",
         "Try a known proof path",
-        "Open receipt history or create a new refused action. Detail pages are generated only after the Durable Object saves a receipt.",
+        "Open receipt history or create a new refused action. Detail pages are generated only after the receipt ledger saves a record.",
         "/app/receipts",
         "Back to receipts",
         ["latest refused receipt", "prepared chain proof", "JSON export"]
@@ -437,7 +588,7 @@ export function renderReceiptDetail(receipt: ReceiptRecord | null, deployment: D
           <p>${
             deployment.status === "configured"
               ? "Contract addresses are configured. Prepare the RefusalHub transaction, send it with a wallet or script, then bind the tx hash here."
-              : "No contract addresses are configured yet. The receipt is complete as a Cloudflare proof, and this panel becomes actionable after deployment env vars are set."
+              : "No contract addresses are configured yet. The receipt is complete as an app proof, and this panel becomes actionable after deployment env vars are set."
           }</p>
           <div class="button-row">
             <button class="rr-btn rr-btn-secondary" type="button" data-testid="prepare-chain-action" data-receipt-id="${escapeHtml(receipt.id)}">Prepare tx data</button>
@@ -453,25 +604,45 @@ export function renderReceiptDetail(receipt: ReceiptRecord | null, deployment: D
         </div>`;
   return shell(
     `Receipt ${receipt.id}`,
-    `<section class="receipt-detail">
+    `<section class="receipt-detail forensic-receipt">
       <div class="panel receipt-hero ${receipt.status === "refused" ? "danger" : "success"}">
-        <span class="stamp-big">${receiptStatusLabel(receipt)}</span>
+        <span class="stamp-big" aria-label="${receipt.status === "refused" ? "Refused" : "Allowed"}">${receiptStatusLabel(receipt)}</span>
         <div>
           <p class="kicker">Receipt ${escapeHtml(receipt.id)}</p>
           <h1>${escapeHtml(receipt.reasonCode)}</h1>
-          <p>Created ${escapeHtml(receipt.createdAt)}. This proof survives refresh because it is stored by the RefusalLedger Durable Object.</p>
+          <p>Created ${escapeHtml(receipt.createdAt)}. This proof survives refresh because it is stored by the RefusalLedger receipt store.</p>
         </div>
+        ${executionIdentityRail(deployment, true)}
+      </div>
+      <div class="panel proof-story">
+        <p class="kicker">What happened</p>
+        <ol class="proof-timeline">
+          <li><span>wallet</span><strong>${escapeHtml(shortAddress(receipt.walletAddress))}</strong></li>
+          <li><span>attempt</span><strong>${escapeHtml(receipt.actionType)}</strong></li>
+          <li><span>shock</span><strong>${escapeHtml(receipt.shock)}</strong></li>
+          <li><span>verdict</span><strong>${escapeHtml(receipt.status.toUpperCase())}</strong></li>
+          <li><span>proof</span><strong>${escapeHtml(shortHash(receipt.proofHash))}</strong></li>
+        </ol>
       </div>
       <div class="panel wide">
-        <h2>Proof table</h2>
+        <div class="section-head inline">
+          <div>
+            <p class="kicker">Forensic record</p>
+            <h2>Proof table</h2>
+          </div>
+          <button class="rr-btn rr-btn-secondary" type="button" data-copy-proof>Copy proof bundle</button>
+        </div>
         <table class="policy-table proof-table">
           <tbody>${rows
-            .map(([key, value]) => `<tr><th>${escapeHtml(key)}</th><td><code>${escapeHtml(String(value))}</code></td></tr>`)
+            .map(
+              ([key, value]) =>
+                `<tr><th>${escapeHtml(key)}</th><td><code>${escapeHtml(String(value))}</code><button class="copy-mini" type="button" data-copy-value="${escapeHtml(String(value))}">Copy</button></td></tr>`
+            )
             .join("")}</tbody>
         </table>
         <details>
           <summary>JSON export</summary>
-          <pre class="code-block">${escapeHtml(JSON.stringify(receipt, null, 2))}</pre>
+          <pre class="code-block" id="receipt-json-export">${escapeHtml(JSON.stringify(receipt, null, 2))}</pre>
         </details>
       </div>
       ${chainPanel}
@@ -486,11 +657,22 @@ export function renderAbout(deployment: DeploymentInfo): string {
     `<section class="page-grid">
       <div class="panel wide">
         <p class="kicker">Architecture</p>
-        <h1>Cloudflare Worker, Durable Object ledger, Solidity policy contracts.</h1>
-        <p class="lede small">The hero path is deployable on Cloudflare without private keys. Contract deployment can be added once the target chain wallet is funded.</p>
+        <h1>Live app, receipt ledger, Solidity policy contracts.</h1>
+        <p class="lede small">The hero path is public without private keys. Contract deployment can be added once the target chain wallet is funded.</p>
+        <div class="system-map" aria-label="RefusalRail system map">
+          <div>holder wallet<br><span>or test wallet</span></div>
+          <div>RWA agent<br><span>standing action</span></div>
+          <div>policy gate<br><span>RefusalHub</span></div>
+          <div>receipt ledger<br><span>persistent store</span></div>
+          <div>tx binding<br><span>Arbitrum Sepolia</span></div>
+        </div>
+        <figure class="system-art" aria-hidden="true">
+          <img src="/art/refusalrail/chain-lock-map.png" alt="">
+          <img src="/art/refusalrail/auditor-wall-texture.png" alt="">
+        </figure>
         <div class="architecture-grid">
-          <div><strong>Worker</strong><span>HTML, API, session, health</span></div>
-          <div><strong>Durable Object</strong><span>SQLite-backed receipt ledger</span></div>
+          <div><strong>App/API</strong><span>HTML, API, session, health</span></div>
+          <div><strong>Receipt ledger</strong><span>SQLite-backed receipt store</span></div>
           <div><strong>Contracts</strong><span>RefusalHub, PolicyRegistry, RefusalReceipt</span></div>
           <div><strong>Tests</strong><span>policy, hero path, receipt detail</span></div>
         </div>
@@ -517,12 +699,22 @@ npm run contracts:deploy</pre>
         <a class="rr-btn rr-btn-secondary" href="/api/health">Open health JSON</a>
       </div>
     </section>`,
-    { composition: "policy-flight-recorder", path: "/about", deployment }
+    { composition: "policy-flight-recorder", path: "/app/build", deployment }
   );
 }
 
 export function renderAsset(pathname: string): Response | null {
   const svgHeaders = { "content-type": "image/svg+xml; charset=utf-8", "cache-control": "public, max-age=86400" };
+  const artAsset = artAssets[pathname];
+  if (artAsset) {
+    const bytes = Uint8Array.from(atob(artAsset.base64), (char) => char.charCodeAt(0));
+    return new Response(bytes, {
+      headers: {
+        "content-type": artAsset.mimeType,
+        "cache-control": "public, max-age=86400"
+      }
+    });
+  }
   if (pathname === "/brand/logomark.svg") {
     return new Response(`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail logomark"><rect width="100" height="100" rx="14" fill="#0b1019"/><g fill="none" stroke="#f4f7fb" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></svg>`, { headers: svgHeaders });
   }
@@ -530,7 +722,7 @@ export function renderAsset(pathname: string): Response | null {
     return new Response(`<svg viewBox="0 0 560 120" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail wordmark"><g transform="translate(0 10)"><rect width="100" height="100" rx="14" fill="#0b1019"/><g fill="none" stroke="#f4f7fb" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></g><text x="124" y="72" fill="#f4f7fb" font-family="Geist, Arial, sans-serif" font-size="48" font-weight="800">RefusalRail</text><text x="126" y="98" fill="#9ba9bd" font-family="Geist Mono, Menlo, monospace" font-size="16">policy flight recorder</text></svg>`, { headers: svgHeaders });
   }
   if (pathname === "/brand/og.svg") {
-    return new Response(`<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail social preview"><rect width="1200" height="630" fill="#0b1019"/><circle cx="980" cy="90" r="300" fill="#c52a24" opacity=".22"/><circle cx="120" cy="560" r="260" fill="#33885c" opacity=".16"/><g transform="translate(96 94)"><rect width="112" height="112" rx="16" fill="#f4f7fb"/><g fill="none" stroke="#0b1019" stroke-linecap="round" stroke-linejoin="round" transform="translate(6 6)"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></g><text x="96" y="284" fill="#f4f7fb" font-family="Geist, Arial, sans-serif" font-size="82" font-weight="850">Reject 1 unsafe RWA trade.</text><text x="100" y="354" fill="#b5becc" font-family="Geist, Arial, sans-serif" font-size="34">Connect a wallet, run the shock, stamp NO, save proof.</text><text x="100" y="512" fill="#f4f7fb" font-family="Geist Mono, Menlo, monospace" font-size="24">Arbitrum Sepolia · Cloudflare Worker · Durable receipts</text></svg>`, { headers: svgHeaders });
+    return new Response(`<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" aria-label="RefusalRail social preview"><rect width="1200" height="630" fill="#0b1019"/><circle cx="980" cy="90" r="300" fill="#c52a24" opacity=".22"/><circle cx="120" cy="560" r="260" fill="#33885c" opacity=".16"/><g transform="translate(96 94)"><rect width="112" height="112" rx="16" fill="#f4f7fb"/><g fill="none" stroke="#0b1019" stroke-linecap="round" stroke-linejoin="round" transform="translate(6 6)"><path d="M24 22v56" stroke-width="5"/><path d="M40 22v56" stroke-width="5"/><path d="M26 34h46" stroke-width="5"/><path d="M26 50h34" stroke-width="5"/><path d="M26 66h46" stroke-width="5"/><circle cx="72" cy="50" r="15" stroke-width="5"/><path d="M63 41l18 18" stroke="#c52a24" stroke-width="5"/></g></g><text x="96" y="284" fill="#f4f7fb" font-family="Geist, Arial, sans-serif" font-size="82" font-weight="850">Reject 1 unsafe RWA trade.</text><text x="100" y="354" fill="#b5becc" font-family="Geist, Arial, sans-serif" font-size="34">Connect a wallet, run the shock, stamp NO, save proof.</text><text x="100" y="512" fill="#f4f7fb" font-family="Geist Mono, Menlo, monospace" font-size="24">Arbitrum Sepolia · wallet receipts · Solidity policy contracts</text></svg>`, { headers: svgHeaders });
   }
   return null;
 }
@@ -719,19 +911,970 @@ code, .code-block { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 .architecture-grid div { padding: 18px; border: 1px solid var(--line); background: oklch(0.1 0.018 250); }
 .architecture-grid strong, .architecture-grid span { display: block; }
 .architecture-grid span { color: var(--muted); margin-top: 8px; }
+
+/* RefusalRail 2026 redesign: evidence workbench, not a trading dashboard. */
+:root {
+  color-scheme: light;
+  --bg: rgb(237, 242, 247);
+  --surface: rgb(255, 255, 255);
+  --surface-2: rgb(244, 247, 251);
+  --ink: rgb(18, 24, 34);
+  --muted: rgb(91, 103, 119);
+  --danger: rgb(190, 38, 30);
+  --danger-soft: rgb(255, 238, 236);
+  --success: rgb(24, 126, 81);
+  --success-soft: rgb(230, 248, 238);
+  --line: rgb(199, 210, 224);
+  --focus: rgb(0, 113, 74);
+}
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--ink); }
+.shell {
+  padding: 20px;
+  background:
+    linear-gradient(rgba(21, 35, 52, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 35, 52, 0.045) 1px, transparent 1px),
+    linear-gradient(135deg, rgb(246, 249, 252), rgb(232, 239, 247) 48%, rgb(241, 246, 242));
+  background-size: 80px 80px, 80px 80px, auto;
+}
+.topbar {
+  top: 14px;
+  max-width: 1600px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border-color: rgb(182, 195, 211);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+}
+.brand { color: var(--ink); }
+.brand-mark { border-radius: 7px; border-color: rgb(24, 32, 44); background: rgb(13, 18, 27); }
+nav a,
+.tool-btn,
+.side-rail a {
+  border-radius: 6px;
+  color: rgb(74, 86, 101);
+}
+nav a[aria-current="page"],
+nav a:hover {
+  color: var(--ink);
+  border-color: rgb(185, 199, 216);
+  background: rgb(240, 245, 250);
+}
+.topbar-tools { display: none; }
+.wallet-dock { margin-left: auto; }
+.wallet-status {
+  border-radius: 6px;
+  background: rgb(247, 250, 253);
+  color: var(--ink);
+  border-color: rgb(191, 204, 220);
+}
+.tool-btn,
+.rr-wallet-connect,
+.rr-chain-switch,
+.rr-btn,
+.example-row a,
+.example-row button,
+.shock-card,
+.role-switch a {
+  border-radius: 7px;
+}
+.rr-wallet-connect,
+.wallet-btn[data-wallet-connect] {
+  background: var(--danger);
+  color: white;
+}
+.layout-shell {
+  max-width: 1600px;
+  display: block;
+}
+.side-rail { display: none; }
+.hero-chapter {
+  grid-template-columns: minmax(0, 0.92fr) minmax(520px, 0.78fr);
+  gap: 56px;
+  min-height: 780px;
+  padding: 74px 0 96px;
+}
+.hero-chapter::before {
+  display: none;
+}
+.hero-copy {
+  padding: 18px 0;
+}
+.kicker {
+  color: rgb(71, 88, 105);
+  font-size: 0.9rem;
+}
+.hero-chapter h1 {
+  max-width: 980px;
+  color: rgb(11, 18, 30);
+  font-size: clamp(3.6rem, 6vw, 6rem);
+  line-height: 0.96;
+}
+.lede {
+  color: rgb(72, 85, 101);
+  font-size: 1.12rem;
+  max-width: 68ch;
+}
+.hero-proofline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+.hero-proofline span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid rgb(190, 203, 219);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: rgb(47, 60, 77);
+  font-weight: 800;
+}
+.hero-proofline strong {
+  color: var(--danger);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.hero-asset-strip {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 0.85fr;
+  gap: 8px;
+  width: min(680px, 100%);
+  margin-top: 24px;
+}
+.hero-asset-strip img,
+.mini-proof-images img,
+.panel-art img,
+.policy-art img,
+.system-art img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(0.86) contrast(1.08);
+}
+.hero-asset-strip img {
+  min-height: 84px;
+  max-height: 112px;
+  border: 1px solid rgb(190, 203, 219);
+  background: white;
+}
+.rr-btn {
+  border-color: rgb(185, 199, 216);
+  background: rgb(255, 255, 255);
+  color: var(--ink);
+}
+.rr-btn-danger,
+.rr-btn-primary {
+  border-color: transparent;
+  background: var(--danger);
+  color: white;
+}
+.rr-btn-secondary {
+  background: rgb(248, 251, 254);
+  color: var(--ink);
+}
+.rr-btn-ghost {
+  background: rgb(18, 24, 34);
+  color: white;
+}
+.hero-console {
+  padding: 14px;
+  border: 1px solid rgb(33, 43, 58);
+  border-radius: 8px;
+  background: rgb(12, 18, 27);
+}
+.wallet-ledger-card,
+.action-card,
+.receipt-card,
+.panel,
+.calldata-card,
+.chain-panel,
+.architecture-grid div,
+.empty {
+  border-radius: 8px;
+}
+.wallet-ledger-card {
+  background: rgb(246, 249, 252);
+  color: var(--ink);
+  border-color: rgb(204, 215, 229);
+}
+.wallet-ledger-card span,
+.panel-title span {
+  color: rgb(78, 91, 108);
+}
+.wallet-address-line {
+  border-color: rgb(190, 203, 219);
+  background: rgb(255, 255, 255);
+  color: var(--ink);
+}
+.chain-mini-grid div {
+  border-color: rgb(199, 210, 224);
+  background: rgb(236, 242, 248);
+}
+.action-card {
+  min-height: 396px;
+  border-color: rgb(61, 74, 94);
+  background:
+    linear-gradient(180deg, rgba(190, 38, 30, 0.1), transparent 45%),
+    rgb(10, 15, 23);
+  color: rgb(246, 249, 252);
+}
+.action-card h2 {
+  max-width: 16ch;
+  margin-top: 48px;
+}
+.action-card p {
+  max-width: 34ch;
+  color: rgb(192, 203, 218);
+}
+.refusal-slab {
+  width: min(100%, 420px);
+  border-radius: 7px;
+  border-color: rgb(232, 74, 62);
+  background: rgb(99, 24, 22);
+}
+.receipt-card {
+  border-color: rgb(199, 210, 224);
+  background: rgb(255, 255, 255);
+}
+.receipt-card.danger {
+  border-color: rgb(218, 100, 91);
+  background: rgb(255, 242, 240);
+}
+.receipt-card.success {
+  border-color: rgb(111, 180, 142);
+  background: rgb(235, 249, 241);
+}
+.receipt-top span:not(.stamp-mini),
+.receipt-facts dt,
+.empty,
+.run-status,
+.calldata-card span,
+.calldata-card small,
+.chain-banner span,
+.architecture-grid span,
+.policy-note {
+  color: rgb(82, 96, 114);
+}
+.proof-bento {
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+  padding: 18px 0 92px;
+}
+.bento-card {
+  border-radius: 8px;
+  border-color: rgb(199, 210, 224);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+}
+.bento-card p { color: rgb(82, 96, 114); }
+.bento-wide {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.75fr);
+  align-content: stretch;
+  align-items: stretch;
+}
+.bento-wide > div:first-child {
+  align-self: end;
+}
+.mini-proof-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-height: 300px;
+  height: 100%;
+}
+.mini-proof-images img {
+  border: 1px solid rgb(199, 210, 224);
+  background: rgb(245, 247, 251);
+}
+.bento-tall {
+  background:
+    linear-gradient(180deg, rgba(12, 18, 27, 0.18), rgba(12, 18, 27, 0.8)),
+    url("/art/refusalrail/no-stamp-ledger.png");
+  color: white;
+}
+.bento-tall p { color: rgb(221, 228, 238); }
+.marquee-band {
+  border-color: rgb(199, 210, 224);
+}
+.marquee-track span {
+  border-color: rgb(199, 210, 224);
+  background: rgba(255, 255, 255, 0.78);
+  color: rgb(47, 60, 77);
+}
+.final-cta {
+  border-top: 1px solid rgb(199, 210, 224);
+  padding-top: 64px;
+}
+.workbench {
+  max-width: 1600px;
+  grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1.35fr) minmax(330px, 0.82fr);
+  gap: 16px;
+}
+.workbench-brief {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  background:
+    linear-gradient(110deg, rgb(255, 255, 255), rgb(247, 250, 253) 60%, rgb(255, 244, 242));
+}
+.workbench-brief h1 {
+  max-width: 820px;
+  font-size: 3.2rem;
+  line-height: 1;
+}
+.workbench-brief p {
+  max-width: 76ch;
+  color: rgb(72, 85, 101);
+}
+.brief-proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 8px;
+  min-width: min(440px, 100%);
+}
+.brief-proof span {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border: 1px solid rgb(199, 210, 224);
+  border-radius: 7px;
+  background: rgb(255, 255, 255);
+  color: rgb(47, 60, 77);
+  font-weight: 850;
+  text-align: center;
+}
+.panel {
+  border-color: rgb(199, 210, 224);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+}
+.shock-panel,
+.receipt-panel {
+  align-self: start;
+}
+.shock-card {
+  min-height: 86px;
+  border-color: rgb(199, 210, 224);
+  background: rgb(248, 251, 254);
+  color: var(--ink);
+}
+.shock-card small { color: rgb(82, 96, 114); }
+.shock-card.selected {
+  background: var(--danger);
+  color: white;
+}
+.action-panel {
+  min-height: 0;
+  background: rgb(13, 19, 29);
+  color: rgb(246, 249, 252);
+  border-color: rgb(33, 43, 58);
+}
+.action-panel .kicker,
+.action-panel .section-head p,
+.action-panel .run-status,
+.action-panel .calldata-card span,
+.action-panel .calldata-card small {
+  color: rgb(185, 198, 214);
+}
+.run-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+}
+.action-panel .button-row {
+  margin-top: 18px;
+}
+.run-steps li {
+  display: grid;
+  gap: 5px;
+  min-height: 76px;
+  padding: 12px;
+  border: 1px solid rgb(58, 72, 92);
+  border-radius: 7px;
+  background: rgb(19, 29, 43);
+}
+.run-steps span {
+  color: rgb(156, 172, 193);
+  font-size: 0.86rem;
+}
+.run-steps strong {
+  color: rgb(246, 249, 252);
+  font-size: 0.92rem;
+}
+.wallet-workbench,
+.calldata-card {
+  border-color: rgb(58, 72, 92);
+  background: rgb(18, 27, 40);
+  color: rgb(246, 249, 252);
+}
+.wallet-workbench span,
+.wallet-workbench code {
+  color: rgb(202, 213, 228);
+}
+.shock-panel .wallet-workbench {
+  display: grid;
+}
+.shock-panel .wallet-actions {
+  justify-content: stretch;
+}
+.shock-panel .wallet-actions .rr-btn {
+  width: 100%;
+}
+.chain-banner.success,
+.chain-panel.success {
+  border-color: rgb(98, 182, 139);
+  background: rgb(228, 248, 237);
+  color: rgb(19, 72, 48);
+}
+.chain-banner.pending,
+.chain-panel.pending {
+  border-color: rgb(190, 148, 66);
+  background: rgb(255, 247, 226);
+  color: rgb(78, 56, 21);
+}
+.code-block {
+  border-color: rgb(199, 210, 224);
+  background: rgb(247, 250, 253);
+  color: var(--ink);
+}
+.action-panel .code-block {
+  border-color: rgb(58, 72, 92);
+  background: rgb(8, 13, 21);
+  color: rgb(239, 244, 250);
+}
+.stamp-target {
+  min-height: 24px;
+}
+.policy-table th,
+.policy-table td {
+  border-color: rgb(212, 221, 232);
+}
+.role-switch {
+  border-color: rgb(199, 210, 224);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.role-switch a.active {
+  background: rgb(18, 24, 34);
+  color: white;
+}
+.page-grid,
+.receipt-detail {
+  max-width: 1600px;
+}
+.receipt-hero {
+  background: rgb(255, 255, 255);
+}
+
+/* RefusalRail forensic evidence refresh. */
+:root {
+  --paper: rgb(243, 246, 248);
+  --paper-2: rgb(233, 238, 243);
+  --ink: rgb(11, 17, 28);
+  --ink-2: rgb(21, 29, 43);
+  --rail: rgb(9, 13, 20);
+  --line: rgb(200, 210, 223);
+  --line-dark: rgb(41, 51, 68);
+  --muted: rgb(102, 117, 138);
+  --text-on-dark: rgb(244, 247, 251);
+  --danger: oklch(0.55 0.19 24);
+  --danger-soft: rgb(255, 236, 233);
+  --success: rgb(20, 135, 90);
+  --success-soft: rgb(226, 247, 238);
+  --warning: rgb(183, 121, 31);
+  --focus: rgb(34, 197, 94);
+}
+.shell {
+  background:
+    linear-gradient(rgba(11,17,28,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,17,28,0.05) 1px, transparent 1px),
+    radial-gradient(circle at 82% 16%, rgba(190,38,30,0.11), transparent 34rem),
+    linear-gradient(135deg, var(--paper), var(--paper-2));
+  background-size: 72px 72px, 72px 72px, auto, auto;
+}
+.topbar {
+  display: grid;
+  grid-template-columns: auto auto minmax(280px, 1fr) auto;
+  align-items: center;
+  max-width: 1660px;
+  gap: 12px;
+}
+.topbar > nav { justify-content: center; }
+.topbar > .identity-rail.compact { min-width: 280px; }
+.identity-rail {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line-dark);
+  background: var(--line-dark);
+  color: var(--text-on-dark);
+}
+.identity-rail.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.proof-cell {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--rail);
+}
+.proof-cell span {
+  color: rgb(161, 174, 193);
+  font-size: 0.72rem;
+  font-weight: 780;
+}
+.proof-cell strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-on-dark);
+  font-size: 0.82rem;
+  font-weight: 820;
+}
+.mono,
+.proof-cell .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.proof-hero {
+  max-width: 1660px;
+  min-height: 780px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  align-items: center;
+  padding: 74px 0 104px;
+}
+.proof-hero .hero-copy {
+  grid-column: span 6;
+  padding: 0;
+}
+.proof-hero h1 {
+  max-width: min(1120px, 100%);
+  color: var(--ink);
+  font-size: 3.55rem;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.proof-cockpit {
+  grid-column: span 6;
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--rail);
+  background: var(--rail);
+  color: var(--text-on-dark);
+  overflow: hidden;
+}
+.cockpit-main {
+  display: grid;
+  grid-template-columns: 0.72fr 1.24fr 0.84fr;
+  gap: 12px;
+}
+.shock-mini {
+  display: grid;
+  gap: 8px;
+}
+.shock-mini button {
+  min-height: 64px;
+  border: 1px solid var(--line-dark);
+  background: rgb(17, 24, 37);
+  color: rgb(211, 220, 233);
+  text-align: left;
+  padding: 0 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+.shock-mini button.selected,
+.shock-mini button:hover {
+  background: var(--danger);
+  border-color: transparent;
+  color: white;
+}
+.verdict-stack {
+  position: relative;
+  min-height: 278px;
+  display: grid;
+  align-content: stretch;
+  gap: 8px;
+}
+.verdict-layer {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line-dark);
+  background: rgb(15, 22, 34);
+}
+.verdict-layer span {
+  color: rgb(166, 181, 201);
+  font-weight: 780;
+}
+.verdict-layer strong,
+.verdict-layer .stamp-target {
+  color: var(--text-on-dark);
+  overflow-wrap: anywhere;
+}
+.layer-no {
+  border-color: var(--danger);
+  background: rgb(72, 20, 21);
+}
+.layer-no > strong,
+.layer-no .stamp-target {
+  font-size: 2.2rem;
+  font-weight: 950;
+}
+.receipt-hero-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.receipt-hero-card > span {
+  color: rgb(166, 181, 201);
+  font-weight: 780;
+}
+.compact-empty {
+  border-color: var(--line-dark);
+  color: rgb(202, 213, 228);
+}
+.proof-rail {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line-dark);
+  background: var(--line-dark);
+}
+.proof-bento {
+  max-width: 1660px;
+  grid-auto-flow: dense;
+}
+.media-card {
+  background:
+    linear-gradient(180deg, rgba(9,13,20,0.1), rgba(9,13,20,0.86)),
+    url("/art/refusalrail/no-stamp-ledger.png");
+  color: white;
+}
+.proof-sequence {
+  max-width: 1660px;
+  margin: 0 auto 80px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+.proof-sequence div {
+  min-height: 104px;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  padding: 16px;
+  background: white;
+}
+.proof-sequence span {
+  color: var(--muted);
+  font-weight: 780;
+}
+.proof-sequence strong {
+  overflow-wrap: anywhere;
+}
+.cockpit-workbench {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  max-width: 1660px;
+}
+.cockpit-workbench .workbench-brief,
+.cockpit-workbench .proof-rail-panel {
+  grid-column: 1 / -1;
+}
+.cockpit-workbench .shock-panel {
+  grid-column: span 3;
+}
+.cockpit-workbench .verdict-panel {
+  grid-column: span 6;
+}
+.cockpit-workbench .receipt-panel {
+  grid-column: span 3;
+}
+.lane-panel {
+  min-height: 620px;
+}
+.panel-art {
+  margin: 18px 0 0;
+  min-height: 170px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: white;
+}
+.receipt-art {
+  min-height: 220px;
+}
+.workbench-brief {
+  align-items: center;
+}
+.workbench-brief .identity-rail {
+  width: min(760px, 100%);
+}
+.verdict-panel {
+  background: var(--rail);
+  color: var(--text-on-dark);
+}
+.verdict-panel .section-head p,
+.verdict-panel .run-status {
+  color: rgb(188, 201, 219);
+}
+.workbench-stack {
+  min-height: 360px;
+}
+.stamp-target {
+  min-height: 70px;
+  display: grid;
+  align-items: center;
+  color: rgb(245, 218, 216);
+}
+.stamp-target .stamp-big {
+  margin: 0;
+  background: transparent;
+}
+.proof-rail-panel .proof-rail {
+  margin-top: 12px;
+}
+.policy-circuit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.1fr minmax(0, 1fr);
+  gap: 1px;
+  margin: 28px 0;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+.circuit-node,
+.circuit-rule {
+  min-height: 220px;
+  display: grid;
+  align-content: space-between;
+  padding: 22px;
+  background: white;
+}
+.circuit-node span,
+.circuit-rule span {
+  color: var(--muted);
+  font-weight: 780;
+}
+.circuit-node strong,
+.circuit-rule strong {
+  font-size: 1.55rem;
+  line-height: 1.08;
+}
+.circuit-node small,
+.circuit-rule small {
+  color: var(--muted);
+  font-weight: 760;
+}
+.circuit-node.deny {
+  background: var(--danger);
+  color: white;
+}
+.circuit-node.deny span,
+.circuit-node.deny small {
+  color: rgb(255, 232, 229);
+}
+.circuit-rule {
+  background: var(--rail);
+  color: var(--text-on-dark);
+}
+.contract-card-list {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+}
+.contract-card-list .kicker {
+  margin: 0 0 10px;
+}
+.contract-card-list .proof-cell {
+  background: white;
+  color: var(--ink);
+}
+.contract-card-list .proof-cell span {
+  color: var(--muted);
+}
+.contract-card-list .proof-cell strong {
+  color: var(--ink);
+}
+.evidence-wall-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 14px;
+  margin: 22px 0;
+}
+.lead-receipt {
+  position: relative;
+  min-height: 270px;
+  display: grid;
+  align-content: end;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid var(--danger);
+  background: var(--danger-soft);
+  overflow: hidden;
+}
+.lead-receipt > *:not(img) {
+  position: relative;
+  z-index: 1;
+}
+.lead-receipt > img {
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: 48%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  filter: grayscale(0.1) contrast(1.1);
+}
+.lead-receipt.success {
+  border-color: var(--success);
+  background: var(--success-soft);
+}
+.lead-receipt span,
+.lead-receipt p {
+  color: var(--muted);
+}
+.lead-receipt strong {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+.proof-filter-strip {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.proof-filter-strip span {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  background: white;
+  font-weight: 850;
+}
+.proof-story {
+  background: var(--rail);
+  color: var(--text-on-dark);
+}
+.proof-story .kicker {
+  color: rgb(166, 181, 201);
+}
+.proof-timeline {
+  display: grid;
+  gap: 1px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line-dark);
+}
+.proof-timeline li {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  background: rgb(15, 22, 34);
+}
+.proof-timeline span {
+  color: rgb(166, 181, 201);
+  font-weight: 780;
+}
+.proof-timeline strong {
+  overflow-wrap: anywhere;
+}
+.proof-table td {
+  position: relative;
+}
+.copy-mini {
+  float: right;
+  min-height: 32px;
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+.system-map {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  margin: 28px 0;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+.system-map div {
+  min-height: 148px;
+  display: grid;
+  align-content: space-between;
+  padding: 18px;
+  background: white;
+  font-weight: 900;
+}
+.system-map span {
+  color: var(--muted);
+  font-weight: 760;
+}
+.system-map div:nth-child(3) {
+  background: var(--danger);
+  color: white;
+}
+.system-map div:nth-child(3) span {
+  color: rgb(255, 232, 229);
+}
+.policy-art,
+.system-art {
+  display: grid;
+  grid-template-columns: 0.86fr 1.14fr;
+  gap: 10px;
+  margin: 22px 0 0;
+}
+.policy-art img,
+.system-art img {
+  min-height: 190px;
+  border: 1px solid var(--line);
+  background: white;
+}
 @keyframes stampIn {
   from { opacity: 0; transform: translateY(-12px) rotate(-14deg) scale(1.08); }
   to { opacity: 1; transform: translateY(0) rotate(-10deg) scale(1); }
 }
 @media (max-width: 980px) {
   .shell { padding: 16px; }
-  .topbar { align-items: flex-start; }
+  .topbar { display: grid; grid-template-columns: 1fr; align-items: flex-start; }
   nav { justify-content: flex-end; }
+  .topbar > nav { justify-content: start; }
+  .identity-rail, .identity-rail.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .layout-shell { display: block; }
   .side-rail { display: none; }
-  .hero-grid, .hero-chapter, .workbench, .page-grid { grid-template-columns: 1fr; }
+  .hero-grid, .hero-chapter, .workbench, .page-grid, .proof-hero, .cockpit-workbench { grid-template-columns: 1fr; }
+  .proof-hero { min-height: auto; padding: 42px 0 80px; }
+  .proof-hero .hero-copy, .proof-cockpit, .cockpit-workbench .shock-panel, .cockpit-workbench .verdict-panel, .cockpit-workbench .receipt-panel, .cockpit-workbench .workbench-brief, .cockpit-workbench .proof-rail-panel { grid-column: auto; }
+  .proof-hero h1 { font-size: 3.2rem; }
+  .cockpit-main, .policy-circuit, .evidence-wall-grid, .system-map { grid-template-columns: 1fr; }
+  .proof-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proof-sequence { grid-template-columns: 1fr; }
   .hero-chapter { padding: 42px 0 80px; }
   .hero-chapter::before { width: 100%; height: 300px; inset: auto 0 40px; }
+  .workbench-brief { display: grid; align-items: start; }
+  .workbench-brief h1 { font-size: 2.6rem; }
+  .brief-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); min-width: 0; }
+  .hero-asset-strip, .mini-proof-images, .policy-art, .system-art { grid-template-columns: 1fr; }
+  .hero-asset-strip img { max-height: 150px; }
+  .run-steps { grid-template-columns: 1fr; }
   .proof-bento { grid-template-columns: 1fr; padding-bottom: 70px; }
   .bento-card, .bento-wide, .bento-tall, .bento-small { grid-column: auto; min-height: 180px; }
   .final-cta { display: grid; padding-top: 60px; }
@@ -744,9 +1887,14 @@ code, .code-block { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   .topbar { display: grid; }
   .wallet-dock { justify-content: start; }
   .topbar-tools { justify-content: start; }
+  .identity-rail, .identity-rail.compact, .proof-rail { grid-template-columns: 1fr; }
+  .proof-hero h1 { font-size: 2.35rem; }
   nav a { min-height: 48px; padding: 8px 10px; font-size: 0.9rem; }
   h1 { font-size: 2.35rem; }
   .hero-chapter h1 { font-size: 3rem; }
+  .hero-proofline span { width: 100%; justify-content: space-between; }
+  .workbench-brief h1 { font-size: 2.1rem; }
+  .brief-proof { grid-template-columns: 1fr; }
   .chain-mini-grid { grid-template-columns: 1fr; }
   .wallet-workbench { display: grid; }
   .wallet-actions { justify-content: stretch; }
@@ -768,7 +1916,7 @@ code, .code-block { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 function clientScript(): string {
   return `
 (() => {
-  const TEST_WALLET = "0x000000000000000000000000000000000000BEEF";
+  const TEST_WALLET = "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66";
   const ARBITRUM_SEPOLIA = {
     chainId: "0x66eee",
     chainName: "Arbitrum Sepolia",
@@ -807,6 +1955,7 @@ function clientScript(): string {
     walletStatusEls.forEach((el) => { el.textContent = statusText; });
     walletAddressEls.forEach((el) => { el.textContent = addressText; });
     if (shell) shell.setAttribute("data-wallet-mode", mode);
+    window.dispatchEvent(new CustomEvent("rr:local-wallet", { detail: { mode, address: state.walletAddress } }));
   }
   window.addEventListener("rr:rainbowkit-account", (event) => {
     const detail = event && event.detail ? event.detail : {};
@@ -925,9 +2074,20 @@ function clientScript(): string {
     const label = receipt.status === "refused" ? "NO" : "OK";
     return '<article class="receipt-card ' + tone + '">' +
       '<div class="receipt-top"><span class="stamp-mini">' + label + '</span><div><strong>' + escapeText(receipt.reasonCode) + '</strong><span>' + escapeText(receipt.shock) + '</span></div></div>' +
-      '<dl class="receipt-facts"><div><dt>proof</dt><dd>' + escapeText(shortHash(receipt.proofHash)) + '</dd></div><div><dt>policy</dt><dd>' + escapeText(shortHash(receipt.policyHash)) + '</dd></div></dl>' +
+      '<dl class="receipt-facts"><div><dt>wallet</dt><dd>' + escapeText(compactAddress(receipt.walletAddress)) + '</dd></div><div><dt>proof</dt><dd>' + escapeText(shortHash(receipt.proofHash)) + '</dd></div><div><dt>policy</dt><dd>' + escapeText(shortHash(receipt.policyHash)) + '</dd></div></dl>' +
       '<a class="text-link" data-testid="open-latest-receipt" href="/app/receipts/' + encodeURIComponent(receipt.id) + '">Open receipt</a>' +
       '</article>';
+  }
+  function setProofField(name, value) {
+    document.querySelectorAll("[data-proof-field='" + name + "'] strong").forEach((el) => { el.textContent = value; });
+  }
+  function updateProofRail(receipt) {
+    setProofField("wallet", compactAddress(receipt.walletAddress));
+    setProofField("reason", receipt.reasonCode === "POLICY_PASS" ? "policy pass" : receipt.reasonCode);
+    setProofField("policy", shortHash(receipt.policyHash));
+    setProofField("calldata", shortHash(receipt.calldataHash));
+    setProofField("proof", shortHash(receipt.proofHash));
+    setProofField("tx", receipt.chainTxHash ? compactAddress(receipt.chainTxHash) : "pending");
   }
   async function run(path, body) {
     setStatus("Writing receipt to the RefusalLedger...");
@@ -945,9 +2105,13 @@ function clientScript(): string {
   const refusalButton = document.querySelector("[data-testid='run-refusal']");
   if (refusalButton) refusalButton.addEventListener("click", async () => {
     try {
-      if (stampTarget) stampTarget.innerHTML = '<div class="stamp-big" aria-label="Refused">NO</div>';
       const result = await run("/api/runs/refuse", { shock: state.shock, roleId: "holder", walletAddress: state.walletAddress || "guest-wallet" });
-      if (receiptListEl) receiptListEl.insertAdjacentHTML("afterbegin", renderReceipt(result.receipt));
+      if (stampTarget) stampTarget.innerHTML = '<div class="stamp-big" aria-label="Refused">NO</div>';
+      if (receiptListEl) {
+        if (receiptListEl.querySelector(".empty")) receiptListEl.innerHTML = "";
+        receiptListEl.insertAdjacentHTML("afterbegin", renderReceipt(result.receipt));
+      }
+      updateProofRail(result.receipt);
       setStatus("Refused. Receipt " + result.receipt.id + " saved for " + compactAddress(result.receipt.walletAddress) + " with proof " + shortHash(result.receipt.proofHash) + ".");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Refusal run failed.");
@@ -956,9 +2120,13 @@ function clientScript(): string {
   const safeButton = document.querySelector("[data-testid='run-safe']");
   if (safeButton) safeButton.addEventListener("click", async () => {
     try {
-      if (stampTarget) stampTarget.innerHTML = '<div class="stamp-big" style="color: var(--success); border-color: var(--success); transform:none" aria-label="Allowed">OK</div>';
       const result = await run("/api/runs/safe", { roleId: "holder", walletAddress: state.walletAddress || "guest-wallet" });
-      if (receiptListEl) receiptListEl.insertAdjacentHTML("afterbegin", renderReceipt(result.receipt));
+      if (stampTarget) stampTarget.innerHTML = '<div class="stamp-big" style="color: var(--success); border-color: var(--success); transform:none" aria-label="Allowed">OK</div>';
+      if (receiptListEl) {
+        if (receiptListEl.querySelector(".empty")) receiptListEl.innerHTML = "";
+        receiptListEl.insertAdjacentHTML("afterbegin", renderReceipt(result.receipt));
+      }
+      updateProofRail(result.receipt);
       setStatus("Allowed. Safe sweep receipt " + result.receipt.id + " saved for " + compactAddress(result.receipt.walletAddress) + ".");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Safe sweep failed.");
@@ -1062,6 +2230,28 @@ function clientScript(): string {
       window.location.reload();
     } catch (error) {
       if (status) status.textContent = error instanceof Error ? error.message : "Could not bind tx hash.";
+    }
+  });
+  document.querySelectorAll("[data-copy-value]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const value = button.getAttribute("data-copy-value") || "";
+      const status = document.querySelector("#chain-bind-status") || document.querySelector("#run-status");
+      if (navigator.clipboard && value) {
+        navigator.clipboard.writeText(value)
+          .then(() => { if (status) status.textContent = "Copied proof value."; })
+          .catch(() => { if (status) status.textContent = "Copy blocked by the browser."; });
+      }
+    });
+  });
+  const copyProofButton = document.querySelector("[data-copy-proof]");
+  if (copyProofButton) copyProofButton.addEventListener("click", () => {
+    const json = document.querySelector("#receipt-json-export");
+    const status = document.querySelector("#chain-bind-status") || document.querySelector("#run-status");
+    const value = json ? json.textContent || "" : "";
+    if (navigator.clipboard && value) {
+      navigator.clipboard.writeText(value)
+        .then(() => { if (status) status.textContent = "Copied receipt proof bundle."; })
+        .catch(() => { if (status) status.textContent = "Copy blocked by the browser."; });
     }
   });
   if (window.gsap && window.ScrollTrigger && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

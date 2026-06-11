@@ -123,6 +123,28 @@
       "evidence": "RefusalHub deployed at 0x3540038833ae8750EfF20e7EfCaE16F206e90Cf8; refused demo tx 0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
     }
   ],
+  "sponsor_technology": [
+    {
+      "name": "Arbitrum Sepolia",
+      "type": "sponsor_chain",
+      "chain": "Arbitrum Sepolia",
+      "primitive": "EVM transaction and explorer proof for a RefusalHub refusal receipt",
+      "why_core": "The refusal receipt can be prepared and bound to a RefusalHub proof transaction instead of staying as an off-chain UI record.",
+      "visible_user_moment": "Receipt detail shows chain-action data, deployed contract addresses, tx binding, and the Arbitrum explorer link.",
+      "reviewer_visible_use": "The reviewer opens /app/receipts/[id], prepares RefusalHub calldata, binds the demo tx, and sees the Arbitrum Sepolia explorer link on the receipt.",
+      "proof": "https://sepolia.arbiscan.io/tx/0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
+    },
+    {
+      "name": "Solidity policy contracts",
+      "type": "smart_contracts",
+      "primitive": "RefusalHub policy gate plus RefusalReceipt artifact contract",
+      "contracts": ["RefusalHub", "PolicyRegistry", "RefusalReceipt", "DemoRWAAsset"],
+      "why_core": "The policy gate and NO receipt map to deployed contract addresses that make the product more than a local dashboard.",
+      "visible_user_moment": "/app/build and /app/receipts/[id] expose the contract addresses and chain proof path.",
+      "reviewer_visible_use": "The reviewer opens /app/build or receipt detail and sees RefusalHub, PolicyRegistry, RefusalReceipt, DemoRWAAsset, and the refused demo tx evidence.",
+      "proof": "deployments/arbitrum-sepolia.json"
+    }
+  ],
   "product_backbone": {
     "identity": "guest cookie plus role switch",
     "storage": "Durable Object SQLite-backed storage",
@@ -155,6 +177,22 @@
         "action_selector": "[data-testid='open-latest-receipt']",
         "state_change": "proof table shows calldata hash, policy hash, shock snapshot, ownerId, and proof hash",
         "backend_evidence": "GET /api/receipts/:id reads persisted receipt by id"
+      },
+      {
+        "user_case": "Auditor reviews saved proof",
+        "beat": "Judge switches receipt history to auditor role",
+        "route": "/app/receipts?role=auditor",
+        "action_selector": "a[href='/app/receipts?role=auditor']",
+        "state_change": "auditor lens lists public receipt proof across wallet, reason, policy, calldata, and tx fields",
+        "backend_evidence": "GET /api/receipts?scope=public reads receipt records for a second context"
+      },
+      {
+        "user_case": "Sponsor proof is checked",
+        "beat": "Judge opens the build proof page",
+        "route": "/app/build",
+        "action_selector": "a[href='/app/build']",
+        "state_change": "build page shows live app, receipt ledger, Solidity contract addresses, and Arbitrum Sepolia binding",
+        "backend_evidence": "GET /api/deployment and deployment vars expose RefusalHub, PolicyRegistry, RefusalReceipt, and DemoRWAAsset"
       }
     ]
   },

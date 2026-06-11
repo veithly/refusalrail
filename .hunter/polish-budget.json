@@ -1,0 +1,12 @@
+{
+  "$schema": "polish-budget.v1",
+  "project": "RefusalRail",
+  "locked_before_recording": true,
+  "hours_reserved": 5,
+  "no_video_before_product_pass": "G4 product realness, G5 public smoke, deployed E2E, and visual QA passed before the full judge video was rendered.",
+  "visual_qa_passed_at": "2026-06-09T15:16:35Z",
+  "hyperframes_skill_loaded": true,
+  "runtime_gate": ".hunter/runtime-interaction.report.json",
+  "main_video": "pitch/recording/pitch-demo-combined-final.mp4",
+  "quick_preview": "pitch/recording/pitch-demo-preview-final.mp4"
+}

@@ -32,26 +32,29 @@ test("safe sweep writes an allowed receipt", async ({ page }) => {
 });
 
 test("judge can run the full path with the built-in test wallet", async ({ page }) => {
+  const testWallet = "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66";
+
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.getByTestId("use-test-wallet").click();
   await expect(page.getByText(/Test wallet active/i).first()).toBeVisible();
+  await expect(page.getByTestId("rainbowkit-wallet")).toContainText("0x2eE8...5c66");
 
   await page.goto("/app", { waitUntil: "domcontentloaded" });
-  await expect(page.getByText(/0x0000...BEEF/i).first()).toBeVisible();
+  await expect(page.getByText(/0x2eE8...5c66/i).first()).toBeVisible();
   await page.getByRole("radio", { name: /MAX_EXPOSURE/i }).click();
   await page.getByTestId("run-refusal").click();
-  await expect(page.getByText(/saved for 0x0000...BEEF/i)).toBeVisible();
+  await expect(page.getByText(/saved for 0x2eE8...5c66/i)).toBeVisible();
 
   await page.getByTestId("open-latest-receipt").first().click();
   await expect(page.getByRole("rowheader", { name: "walletAddress" })).toBeVisible();
   const walletRow = page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: "walletAddress" }) });
-  await expect(walletRow).toContainText("0x000000000000000000000000000000000000BEEF");
+  await expect(walletRow).toContainText(testWallet);
 });
 
 test("connected browser wallet can send and bind a chain proof", async ({ page }) => {
-  const txHash = `0x${"2".repeat(64)}`;
+  const txHash = "0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372";
   await page.addInitScript((hash) => {
-    const account = "0x1111111111111111111111111111111111111111";
+    const account = "0x2eE81C112CA5A5Fd7123644f4c18262a05175c66";
     const browserWindow = globalThis as unknown as {
       ethereum: {
         on(): void;
@@ -79,7 +82,9 @@ test("connected browser wallet can send and bind a chain proof", async ({ page }
   await page.getByTestId("send-chain-wallet").click();
 
   await expect(page.getByRole("heading", { name: "Chain proof submitted" })).toBeVisible({ timeout: 20000 });
-  await expect(page.getByRole("link", { name: "Open explorer tx" })).toHaveAttribute("href", /0x2222/, { timeout: 20000 });
+  await expect(page.getByRole("link", { name: "Open explorer tx" })).toHaveAttribute("href", new RegExp(txHash), {
+    timeout: 20000
+  });
 });
 
 test("judge can bind a real tx hash to a receipt when chain proof is available", async ({ page }) => {
@@ -87,7 +92,7 @@ test("judge can bind a real tx hash to a receipt when chain proof is available",
   await page.getByTestId("run-refusal").click();
   await page.getByTestId("open-latest-receipt").first().click();
 
-  const txHash = `0x${"1".repeat(64)}`;
+  const txHash = "0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372";
   await page.getByLabel("Explorer tx hash").fill(txHash);
   await page.getByRole("button", { name: "Bind tx hash" }).click();
 
@@ -107,7 +112,7 @@ test("auditor role can inspect public receipts and build page shows contract sta
   await expect(page.getByRole("heading", { name: "Bounded standing actions" })).toBeVisible();
   await expect(page.getByText("No-sell principal")).toBeVisible();
 
-  await page.goto("/about", { waitUntil: "domcontentloaded" });
-  await expect(page.getByRole("heading", { name: /Cloudflare Worker/i })).toBeVisible();
+  await page.goto("/app/build", { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("heading", { name: /Live app, receipt ledger/i })).toBeVisible();
   await expect(page.getByRole("heading", { name: /Contracts pending|Contracts configured/i })).toBeVisible();
 });

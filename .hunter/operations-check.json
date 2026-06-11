@@ -1,0 +1,12 @@
+{
+  "$schema": "operations-check.v1",
+  "fresh_user_hero_path": "tests/onboard.spec.ts verifies a fresh guest can open /app, use the built-in test wallet, run the refusal path, and reach the first saved receipt without signup.",
+  "public_access": "The live Worker at https://refusalrail.veithly.workers.dev supports guest proof mode; no builder-local state, extension install, or private key is required for the hero path.",
+  "reset_or_seed_strategy": "Guest sessions are cookie-scoped, receipts are owner/session tagged, and public demo constants are testnet-only. Seed examples are UI hints, while reviewer-created receipts are persisted records.",
+  "abuse_limits": "The public path is limited to Arbitrum Sepolia/test wallet demo actions, no real brokerage or securities execution, no private key in browser, and invalid tx hashes are rejected before storage.",
+  "runtime_interaction_report": ".hunter/runtime-interaction.report.json",
+  "claim_matrix": ".hunter/claim-matrix.json",
+  "second_context_or_role_proof": "tests/hero.spec.ts verifies /app/receipts?role=auditor and receipt detail reopening after a created receipt.",
+  "support_contact_or_failure_state": "Receipt not-found, invalid tx hash, and missing chain-action cases show retry/back-to-history paths rather than fake success.",
+  "last_verified_at": "2026-06-12T01:55:50+08:00"
+}

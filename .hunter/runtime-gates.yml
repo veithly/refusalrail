@@ -1,0 +1,59 @@
+$schema: runtime-gates.v1
+rule: "Works on my machine is not evidence. Runtime gates must cover browsers, devices, states, performance, and security."
+
+browsers:
+  - chromium
+  - firefox
+  - webkit
+
+devices:
+  - name: "iPhone 13"
+    browser: webkit
+  - name: "Pixel 7"
+    browser: chromium
+
+core_flows:
+  - landing_to_first_action
+  - first_run_to_real_result
+  - refresh_persistence
+  - history_or_second_role
+  - sponsor_dependent_feature
+  - negative_validation_or_error_path
+
+a11y_pages:
+  - "/"
+  - "/app"
+  - "/app/receipts/[id]"
+  - "/app/receipts?role=auditor"
+
+lighthouse_pages:
+  - "/"
+  - "/app"
+
+performance_thresholds:
+  lcp_ms: 2500
+  inp_ms: 200
+  cls: 0.1
+  lighthouse_performance_min: 85
+  lighthouse_accessibility_min: 90
+
+security_checks:
+  - "No secrets in client bundle, repo, console output, or public docs."
+  - "No broken access control across guest, holder, auditor, and public receipt state."
+  - "No unsafe HTML rendering of user-entered tx hashes, wallet addresses, or receipt ids."
+  - "No unresolved 4xx/5xx on the hero path."
+  - "OWASP-style access control and secret handling checks are part of release review."
+
+llm_redteam_checks:
+  - "Not applicable: this app does not use an LLM in the runtime hero path."
+  - "Not applicable: there is no retrieved or uploaded content injection surface."
+  - "Not applicable: no sensitive data is sent to an LLM provider."
+  - "Unsafe output rendering still checked for wallet, tx hash, and receipt id fields."
+  - "Tool misuse is bounded by guest session, test wallet, testnet, and no private key in browser."
+
+required_artifacts_on_failure:
+  - playwright_trace_zip
+  - full_page_screenshot
+  - console_and_network_log
+  - reproduction_command
+  - video_or_screenshot_artifact

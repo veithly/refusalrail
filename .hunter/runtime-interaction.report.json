@@ -1,0 +1,35 @@
+{
+  "$schema": "runtime-interaction-report.v1",
+  "project": "RefusalRail",
+  "url": "https://refusalrail.veithly.workers.dev",
+  "checked_at": "2026-06-09T15:16:35Z",
+  "pass": true,
+  "metrics": {
+    "user_action_count": 9,
+    "case_count": 4,
+    "browser_count": 4,
+    "browsers_passed": 4,
+    "mobile_context": true,
+    "trace_on_failure": true,
+    "reload_assertion": true,
+    "second_context": true,
+    "console_errors": 0,
+    "failed_requests": 0,
+    "runtime_smells": 0
+  },
+  "evidence": {
+    "local_e2e": "16 passed, 2 deployed-only skips without DEPLOYED_URL",
+    "deployed_e2e": "18 passed with DEPLOYED_URL=https://refusalrail.veithly.workers.dev and PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev",
+    "visual_qa": "0 errors, 0 warnings across desktop/mobile routes",
+    "fresh_user": "tests/onboard.spec.ts verifies guest reaches first refusal receipt without signup",
+    "wallet_chain": "tests/hero.spec.ts verifies injected browser wallet send, tx hash binding, and explorer link",
+    "second_role": "tests/hero.spec.ts verifies /app/receipts?role=auditor"
+  },
+  "routes": ["/", "/app", "/app/policy", "/app/receipts", "/app/receipts/[id]", "/app/build"],
+  "artifacts": [
+    ".hunter/gates/G5-public-smoke.report.json",
+    "tests/hero.spec.ts",
+    "tests/onboard.spec.ts",
+    "pitch/_qa/forensic-redesign-v2"
+  ]
+}

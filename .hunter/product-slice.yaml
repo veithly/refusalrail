@@ -1,0 +1,40 @@
+$schema: product-slice.v1
+rule: "One complete workflow is the unit of success. A homepage plus one mocked result is a shell."
+
+user: "RWA protocol builder or hackathon judge testing an agentic standing action."
+job_to_be_done: "Try one unsafe RWA trade, see it refused by policy, and reopen the saved proof."
+single_sentence_promise: "Reject 1 unsafe RWA trade and block it with a NO receipt."
+single_sentence_output: "The user gets a persisted refusal receipt with wallet, policy hash, calldata hash, shock hash, proof hash, and optional Arbitrum Sepolia tx binding."
+
+primary_actor: "Holder or reviewer using guest proof mode and the built-in test wallet."
+secondary_actor_or_return_flow: "Auditor role and receipt history reopen the saved proof after refresh."
+
+public_url: "https://refusalrail.veithly.workers.dev"
+demo_credentials: "No signup required; guest session cookie plus Use test wallet creates the public demo path."
+
+core_loop_steps:
+  - "Open /app, use the test wallet or connect a browser wallet, and choose MARKET_HALT, STALE_PRICE, or MAX_EXPOSURE."
+  - "POST /api/runs/refuse evaluates SELL_PRINCIPAL against the Solidity-aligned policy snapshot and writes the receipt to the Durable Object ledger."
+  - "The workbench shows a red NO receipt with reason, policy hash, calldata hash, shock hash, proof hash, and latest receipt link."
+  - "The user opens /app/receipts/[id], refreshes, switches to /app/receipts?role=auditor, or prepares/binds RefusalHub transaction proof."
+
+real_output_type: "Durable refusal receipt record plus optional Arbitrum Sepolia explorer transaction link."
+history_surface: "/app/receipts and /app/receipts/[id]"
+
+empty_states:
+  - "Empty receipt rail shows 'No receipts yet' with a Run refusal CTA and shock examples."
+loading_states:
+  - "Workbench buttons enter a saving state while the refusal or safe sweep request writes the receipt."
+error_states:
+  - "Receipt detail and chain bind surfaces show recoverable 404, missing wallet, invalid tx hash, or chain-action retry messages."
+
+sponsor_component: "Arbitrum Sepolia contracts: RefusalHub, PolicyRegistry, RefusalReceipt, and DemoRWAAsset."
+sponsor_user_moment: "Receipt detail prepares RefusalHub calldata and can bind an Arbitrum Sepolia tx/explorer link to the refusal record."
+sponsor_state_change: "Removing Arbitrum removes the public chain proof path; the product can still save a local receipt, but it cannot prove the refusal against the sponsor-chain contract."
+
+proof_links:
+  - "tests/hero.spec.ts covers refusal, safe sweep, receipt detail, chain action, tx binding, and auditor role."
+  - ".hunter/runtime-interaction.report.json records deployed cross-browser and mobile proof."
+  - "https://sepolia.arbiscan.io/tx/0x0b809bc31f75b6ff5947ccb5875dc5df975e1fe379b3a533f8e84454e42bf372"
+  - "deployments/arbitrum-sepolia.json records deployed contract addresses."
+known_limits: "This is a testnet RWA safety rail for demo review, not a production broker, custodian, or legal compliance engine."

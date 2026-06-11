@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title">
+  <title id="title">Chain binding system geometric map</title>
+  <rect width="1600" height="900" fill="#fafaf8"/>
+  <g stroke="#d4d4d2" stroke-width="1">
+    <path d="M0 150h1600M0 300h1600M0 450h1600M0 600h1600M0 750h1600"/>
+    <path d="M200 0v900M400 0v900M600 0v900M800 0v900M1000 0v900M1200 0v900M1400 0v900"/>
+  </g>
+  <g fill="#0a0a0a">
+    <rect x="105" y="330" width="190" height="190"/>
+    <rect x="405" y="330" width="190" height="190"/>
+    <rect x="705" y="330" width="190" height="190"/>
+    <rect x="1005" y="330" width="190" height="190"/>
+    <rect x="1305" y="330" width="190" height="190"/>
+  </g>
+  <g fill="#be261e">
+    <rect x="735" y="360" width="130" height="130"/>
+  </g>
+  <g fill="none" stroke="#0a0a0a" stroke-width="12" stroke-linecap="square">
+    <path d="M295 425h110M595 425h110M895 425h110M1195 425h110"/>
+    <path d="M355 405l50 20-50 20M655 405l50 20-50 20M955 405l50 20-50 20M1255 405l50 20-50 20"/>
+  </g>
+  <g fill="#fafaf8">
+    <circle cx="200" cy="425" r="38"/>
+    <path d="M455 380h90v90h-90z"/>
+    <path d="M780 375l55 95h-110z"/>
+    <rect x="1062" y="382" width="76" height="86"/>
+    <circle cx="1400" cy="425" r="52"/>
+  </g>
+  <g fill="none" stroke="#be261e" stroke-width="10">
+    <circle cx="800" cy="425" r="118"/>
+    <path d="M725 350l150 150M875 350L725 500"/>
+  </g>
+</svg>

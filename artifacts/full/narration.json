@@ -1,0 +1,93 @@
+{
+  "$schema": "narration.v1",
+  "project": "RefusalRail",
+  "language": "en",
+  "voice": "tts:selected-by-env",
+  "first_sentence": "RefusalRail gives an RWA agent one job: stop the trade it should not make.",
+  "scenes": [
+    {
+      "id": "01_hook",
+      "title": "Hook",
+      "text": "RefusalRail gives an RWA agent one job: stop the trade it should not make. In this demo, the win condition is not a green checkmark. The win condition is a NO receipt that survives refresh, names the wallet, and points to chain evidence.",
+      "audio_path": "artifacts/full/tts_chunks/01_hook.wav",
+      "duration_ms": 15040
+    },
+    {
+      "id": "02_stakes",
+      "title": "Stakes",
+      "text": "Picture a standing RWA agent while the holder is offline. It can claim a distribution. It can sweep proceeds. During a market halt, it must not sell principal. A chat warning is too weak for that moment. The user needs a rail that blocks the action before value moves, then leaves proof for the next reviewer.",
+      "audio_path": "artifacts/full/tts_chunks/02_stakes.wav",
+      "duration_ms": 17600
+    },
+    {
+      "id": "03_judge_path",
+      "title": "Judge path",
+      "text": "A judge can run the product in under a minute. Open the live app, connect a browser wallet, or use the funded Arbitrum Sepolia test wallet. The address ending in 5c66 becomes the execution identity. That address is written into every receipt the judge creates.",
+      "audio_path": "artifacts/full/tts_chunks/03_judge_path.wav",
+      "duration_ms": 15360
+    },
+    {
+      "id": "04_wallet_entry",
+      "title": "Wallet entry",
+      "text": "The wallet button is real product surface, not decoration. RainbowKit handles normal wallet entry. The built-in test path keeps the judge flow open without asking anyone to import a private key. When the page changes, the wallet state follows the judge into the workbench.",
+      "audio_path": "artifacts/full/tts_chunks/04_wallet_entry.wav",
+      "duration_ms": 16640
+    },
+    {
+      "id": "05_live_refusal",
+      "title": "Live refusal",
+      "text": "Now run the failing case. Choose MARKET_HALT. Let the agent try a principal sale. RefusalRail evaluates the policy before execution, stamps NO, and writes the refusal into the ledger. The screen gives the judge a next step: open the receipt, not just watch a toast fade away.",
+      "audio_path": "artifacts/full/tts_chunks/05_live_refusal.wav",
+      "duration_ms": 18080
+    },
+    {
+      "id": "06_receipt_detail",
+      "title": "Receipt detail",
+      "text": "The receipt is the audit object. It shows the refused action, the shock, the role, the wallet address, and the proof fields a reviewer needs. The raw JSON stays available, but the main page reads like a flight recorder. A second person can understand what the agent tried and why the rail stopped it.",
+      "audio_path": "artifacts/full/tts_chunks/06_receipt_detail.wav",
+      "duration_ms": 17920
+    },
+    {
+      "id": "07_chain_path",
+      "title": "Chain path",
+      "text": "The chain path is wired. From the receipt, the app prepares the RefusalHub transaction for Arbitrum Sepolia. The connected test wallet submits the transaction, and the receipt binds the explorer link back to the same record. The video shows the short label only because judges do not need a full hash read aloud.",
+      "audio_path": "artifacts/full/tts_chunks/07_chain_path.wav",
+      "duration_ms": 18400
+    },
+    {
+      "id": "08_safe_contrast",
+      "title": "Safe contrast",
+      "text": "A useful safety rail cannot block everything. The same policy allows a narrow distribution sweep and writes an OK receipt. That contrast matters: RefusalRail separates an unsafe principal sale from a routine action the user already allowed.",
+      "audio_path": "artifacts/full/tts_chunks/08_safe_contrast.wav",
+      "duration_ms": 16640
+    },
+    {
+      "id": "09_auditor_view",
+      "title": "Auditor view",
+      "text": "Switch to the auditor view and the product stops being a one-run demo. The receipt rail shows proof history across sessions. A reviewer can compare NO receipts with OK receipts and see that RefusalRail records decisions, not screenshots.",
+      "audio_path": "artifacts/full/tts_chunks/09_auditor_view.wav",
+      "duration_ms": 14400
+    },
+    {
+      "id": "10_mechanism",
+      "title": "Mechanism",
+      "text": "The mechanism stays small on purpose. The live app serves the browser flow and API. The receipt ledger stores wallet-owned proof across sessions. Solidity contracts on Arbitrum Sepolia hold the policy registry, receipt book, hub, and demo RWA asset. The product does not ask the judge to trust narration when the receipt and explorer link can carry the claim.",
+      "audio_path": "artifacts/full/tts_chunks/10_mechanism.wav",
+      "duration_ms": 21760
+    },
+    {
+      "id": "11_judge_package",
+      "title": "Judge package",
+      "text": "For judging, the path is short. Try the live app. Create one refused receipt. Open the detail page. Prepare and bind the chain proof. Then scan the README for contracts, deployment notes, limitations, and the exact public URL. The story and the product now point to the same thing.",
+      "audio_path": "artifacts/full/tts_chunks/11_judge_package.wav",
+      "duration_ms": 18240
+    },
+    {
+      "id": "12_limits_next",
+      "title": "Limits and next step",
+      "text": "The boundary is honest. RefusalRail does not trade real securities, predict prices, or connect to a brokerage account. It proves a testnet primitive for agentic RWA safety: policy decides first, the wallet identity is recorded, and the refusal becomes evidence.",
+      "audio_path": "artifacts/full/tts_chunks/12_limits_next.wav",
+      "duration_ms": 19520
+    }
+  ]
+}

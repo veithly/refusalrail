@@ -1,4 +1,8 @@
-# RefusalRail Combined Demo Director Board
+# RefusalRail Video Director Board
+
+This board is for the main HackQuest judge artifact: `pitch/recording/pitch-demo-combined-final.mp4`, a 3:30 full product proof cut rendered from `pitch/polish-full/index.html`, `pitch/recording/full-demo.mp4`, refreshed product screenshots, and `artifacts/full/narration.json`.
+
+The shorter `pitch/recording/pitch-demo-preview-final.mp4` remains a 1:36 preview only. It is not the primary submission video.
 
 ## Source Truth
 
@@ -6,55 +10,51 @@
 - PRD: `pitch/project_prd.md`
 - UIUX interaction plan: `pitch/uiux_interaction_plan.md`
 - Video outline: `pitch/recording/video-outline.md`
+- Swiss deck: `pitch/deck/index.html`
 - Live URL: `https://refusalrail.veithly.workers.dev`
 
 ## Commercial Motion Thesis
 
-The video should feel like a product proof package, not a screen recording. The first beat shows the shipped artifact stack, the middle beat makes the refusal feel like the successful outcome, and the close turns receipts, deployed contracts, tests, and Cloudflare proof into one judge-readable trail.
+The video makes failure feel like the product. The opening frames name the rule, the middle shows a judge-controlled unsafe action failing, and the close ties the receipt to Arbitrum Sepolia contracts, the public app, and a plain limitation statement.
 
 ## Scene Board
 
 | Scene | Time | Judge belief | Screen action | Proof surface | HyperFrames treatment | QA frame |
 |---|---:|---|---|---|---|---|
-| `01_cold_open` | 0-5s | This is a real shipped package, not a repo script. | Show live app, receipts, policy, contracts, and submission as a floating product bundle. | Live URL, README, receipt, tx, submission cards. | `artifact_stack_3d` with perspective, preserve-3d, parallax push-in. | `pitch/polish-combined/qa/frame-01.png` |
-| `02_hero_claim` | 5-14s | The demo has a sharp win condition. | Bring in the hero frame and the seven-word rumor. | `Reject 1 unsafe RWA trade, stamp NO.` | Deck micro-motion, marker sweep, shared-object receipt chip. | `pitch/polish-combined/qa/frame-02.png` |
-| `03_shock_to_demo` | 14-25s | The judge can change the result. | Move a shock card from pitch layer into the app screenshot. | Shock card and app workbench. | `shared_object` handoff into live demo plate. | `pitch/polish-combined/qa/frame-03.png` |
-| `04_refusal_loop` | 25-45s | The policy rail, not the agent, decides. | Play `tight.mp4` product demo plate. | NO stamp, receipt rail, receipt detail, policy page. | `component-lift` zoom cards over dimmed browser plate. | `pitch/polish-combined/qa/frame-04.png` |
-| `05_proof_montage` | 45-58s | The refusal left durable evidence. | Convert outputs into proof cards. | policy hash, calldata hash, proof hash, refused tx. | `proof_montage` with receipt cards and lower thirds. | `pitch/polish-combined/qa/frame-05.png` |
-| `06_architecture_reveal` | 58-73s | There is a real mechanism behind the UI. | Reveal Worker, Durable Object ledger, policy contracts, explorer tx. | Cloudflare + Durable Object + Arbitrum Sepolia contracts. | `architecture_reveal` as floating 4-block pipeline with depth. | `pitch/polish-combined/qa/frame-06.png` |
-| `07_outro` | 73-80s | The next step is clear. | Lock product name, live URL, and inspectable proof. | live Worker URL and deployed tx. | Brand lockup with proof rail settle. | `pitch/polish-combined/qa/frame-07.png` |
-
-## Judge Attention Pass
-
-| Scene | Judge should think | Rubric / Q&A answered | Proof shown |
-|---|---|---|---|
-| `01_cold_open` | The team shipped the whole package. | Public URL, repo readiness, deploy confidence. | Artifact cards and live URL. |
-| `02_hero_claim` | The project is retellable. | 5-second clarity. | Hero and seven-word rumor. |
-| `03_shock_to_demo` | I control the failure condition. | Product/demo interactivity. | Shock card becomes app input. |
-| `04_refusal_loop` | The refusal is the product. | Agentic bounded authority. | NO stamp and persisted receipt. |
-| `05_proof_montage` | It is not UI-only. | Smart contract quality and proof. | Hashes, tx, contracts. |
-| `06_architecture_reveal` | The implementation is real. | Cloudflare, storage, contracts, tests. | Worker, DO ledger, Arbitrum contracts. |
-| `07_outro` | I can open and inspect it now. | Submission readiness. | URL, proof path. |
+| `01_hook` | 0:00-0:15 | The winning action is the blocked trade. | Hero claim plus current product screenshot. | `NO` receipt thesis, receipt action, Arbitrum Sepolia path. | Product-launch opener with proof card stack. | `pitch/polish-full/snapshots/frame-00-at-4.0s.png` |
+| `02_stakes` | 0:15-0:32 | RWA agents need a brake that creates evidence. | Shock/normal/audit card stack. | Market halt, distribution sweep, audit result. | Deck-style card reveal with dark launch background. | `pitch/polish-full/snapshots/frame-01-at-32.0s.png` |
+| `03_judge_path` | 0:32-0:54 | Judges can run it without wallet setup blocking first value. | Connect wallet, test wallet, receipt identity. | Test wallet `0x2eE8...5c66`. | Three-card path reveal. | `pitch/polish-full/snapshots/frame-02-at-54.0s.png` |
+| `04_wallet_entry` | 0:54-1:04 | Wallet identity follows into the workbench. | Live product plate starts with wallet rail. | Browser wallet/test wallet state. | Single active demo plate, no duplicate video. | `pitch/polish-full/snapshots/frame-03-at-72.0s.png` |
+| `05_live_refusal` | 1:04-1:22 | The policy rail decides before execution. | Choose `MARKET_HALT`, let the agent try, show `NO`. | Saved refusal receipt and latest proof artifact. | Component-lift card over dimmed browser plate. | `pitch/polish-full/snapshots/frame-04-at-92.0s.png` |
+| `06_receipt_detail` | 1:22-1:40 | The refusal is inspectable after refresh. | Open latest receipt. | walletAddress, policyHash, calldataHash, shockHash, proofHash. | Receipt detail lift and lower-third. | `pitch/polish-full/snapshots/frame-05-at-112.0s.png` |
+| `07_chain_path` | 1:40-1:59 | The receipt can bind Arbitrum Sepolia proof. | Prepare/send RefusalHub calldata and bind explorer tx. | RefusalHub, PolicyRegistry, demo tx. | Evidence-card matrix. | `pitch/polish-full/snapshots/frame-06-at-128.0s.png` |
+| `08_safe_contrast` | 1:59-2:15 | Safety is selective. | Run safe sweep and compare OK/NO. | Policy page and allowed receipt. | Policy contrast card. | `pitch/polish-full/snapshots/frame-06-at-128.0s.png` |
+| `09_auditor_view` | 2:15-2:35 | The ledger outlives one run. | Open auditor receipt history. | Persisted proof rail with NO and OK rows. | Four-block pipeline reveal. | `pitch/polish-full/snapshots/frame-07-at-166.0s.png` |
+| `10_mechanism` | 2:35-3:08 | The mechanism is small and real. | Show live app/API, receipt ledger, Solidity contracts, explorer proof. | Runtime proof, contract suite, public tx. | Floating proof checks. | `pitch/polish-full/snapshots/frame-08-at-190.0s.png` |
+| `11_limits_next` | 3:08-3:30 | The boundary is honest and judge action is clear. | Final lockup with URL and limitations. | No real securities, no brokerage integration, no price prediction. | Brand lockup with URL. | `pitch/polish-full/snapshots/frame-09-at-205.0s.png` |
 
 ## Focus / Polish Plan
 
-| Scene | Selector or asset source | Overlay type | QA frame path |
+| Scene | Source | Overlay type | QA frame path |
 |---|---|---|---|
-| `02_hero_claim` | `docs/ui-mockups/01-hero-frame.png` | Hero frame lift | `pitch/polish-combined/qa/frame-02.png` |
-| `03_shock_to_demo` | `pitch/visual-qa/desktop-app.png` | Shared-object shock card | `pitch/polish-combined/qa/frame-03.png` |
-| `04_refusal_loop` | `pitch/recording/tight.mp4` | Component-lift proof card | `pitch/polish-combined/qa/frame-04.png` |
-| `05_proof_montage` | deployed address + tx fields | Proof-receipt montage | `pitch/polish-combined/qa/frame-05.png` |
-| `06_architecture_reveal` | `wrangler.jsonc`, contracts, deployments | Floating architecture blocks | `pitch/polish-combined/qa/frame-06.png` |
+| `01_hook` | `pitch/deck/images/hero-latest-16x10.png` | Hero proof card | `pitch/polish-full/snapshots/frame-00-at-4.0s.png` |
+| `05_live_refusal` | `pitch/recording/full-demo.mp4` plus `pitch/deck/images/workbench-refused-16x10.png` | Component-lift refusal card | `pitch/polish-full/snapshots/frame-04-at-92.0s.png` |
+| `06_receipt_detail` | `pitch/deck/images/receipt-detail-refused-16x10.png` | Receipt lift and lower-third | `pitch/polish-full/snapshots/frame-05-at-112.0s.png` |
+| `07_chain_path` | `pitch/deck/images/chain-submitted-16x10.png` | Proof matrix | `pitch/polish-full/snapshots/frame-06-at-128.0s.png` |
+| `09_auditor_view` | `pitch/deck/images/auditor-evidence-wall-16x10.png` | Proof-history pipeline | `pitch/polish-full/snapshots/frame-07-at-166.0s.png` |
+| `10_mechanism` | `pitch/deck/images/build-page-16x10.png` | Runtime proof cards | `pitch/polish-full/snapshots/frame-08-at-190.0s.png` |
 
 ## Audio Plan
 
-- Pitch narration lives under `pitch/polish-combined/assets/pitch-narration-*.mp3`.
-- Demo narration lives at `pitch/polish-combined/assets/narration-tight.mp3`.
-- The HyperFrames DOM stays visual-only. Audio is muxed once in ffmpeg for `pitch-demo-combined-final.mp4`.
-- BGM source: HackathonHunter music assets, mixed quietly under narration.
+- Full narration source: `artifacts/full/narration.json`.
+- Full narration bus: `artifacts/full/vo.wav`.
+- Captions source: `artifacts/full/captions.srt`.
+- HyperFrames DOM stays visual-only; final audio is muxed once with ffmpeg.
+- The public mechanism chapter says `live app/API`, `receipt ledger`, `Solidity contracts`, and `explorer proof`; helper vendors and deployment-provider details stay out of the spoken pitch.
 
 ## Exit Notes
 
-- First 30 seconds include the final package, hero claim, judge shock input, and product demo plate.
-- The video uses one active base video plate at a time.
-- Proof data is presented as cards and lower thirds, not raw JSON.
+- The first 30 seconds include the product thesis and user stake.
+- The live demo plate shows one active base video at a time.
+- Proof data appears as receipts, proof cards, and readable tables, not raw JSON as the main surface.
+- The final frame leaves one action: open the live app and inspect the receipt proof.
