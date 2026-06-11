@@ -113,7 +113,7 @@ Refused demo tx: https://sepolia.arbiscan.io/tx/0x0b809bc31f75b6ff5947ccb5875dc5
 
 Live app: https://refusalrail.veithly.workers.dev
 
-Deployment version: `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`
+Deployment version: `ff33feb4-2174-4da8-8785-8e01af8a5c58`
 
 ## Team members
 

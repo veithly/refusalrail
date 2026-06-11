@@ -34,10 +34,10 @@
 
 - `npm run build` passed.
 - `npm test` passed.
-- `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4392 npm run test:e2e` passed locally with 16 tests and 2 deployed-only skips after the wallet-path update.
+- `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4395 npm run test:e2e` passed locally with 16 tests and 2 deployed-only skips after the wallet-path update.
 - `npm run deploy:dry` passed with Wrangler 4.98.0.
-- `npm run deploy` published `https://refusalrail.veithly.workers.dev` as Worker version `07ec3378-01eb-4df1-ab1c-c9ad9e40038e`.
-- `curl -fsS https://refusalrail.veithly.workers.dev/api/health` returned `buildId=wallet-rainbowkit-mimo-2026-06-09T150658Z` and `chainStatus=configured`.
+- `npm run deploy` published `https://refusalrail.veithly.workers.dev` as Worker version `ff33feb4-2174-4da8-8785-8e01af8a5c58`.
+- `curl -fsS https://refusalrail.veithly.workers.dev/api/health` returned `buildId=forensic-swiss-2026-06-11T143834Z` and `chainStatus=configured`.
 - `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e` passed with 18 tests after the wallet-path redeploy.
 - `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/visual_qa_scan.mjs . --url https://refusalrail.veithly.workers.dev --fail-on warning` passed with 0 errors and 0 warnings.
 

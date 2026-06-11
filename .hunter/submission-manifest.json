@@ -2,7 +2,7 @@
   "project": "RefusalRail",
   "tagline": "Reject 1 unsafe RWA trade and block it with a NO receipt.",
   "live_url": "https://refusalrail.veithly.workers.dev",
-  "deployment_version_id": "07ec3378-01eb-4df1-ab1c-c9ad9e40038e",
+  "deployment_version_id": "ff33feb4-2174-4da8-8785-8e01af8a5c58",
   "build_id": "forensic-swiss-2026-06-11T143834Z",
   "repo_url": "https://github.com/veithly/refusalrail",
   "video_url": "https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4",
