@@ -1,0 +1,50 @@
+{
+  "challenge_type": "online buildathon",
+  "hackathon_url": "https://www.hackquest.io/projects/RefusalRail",
+  "deadline": "2026-06-12",
+  "platform": "HackQuest",
+  "prize_targets": ["Arbitrum Open House London: Online Buildathon"],
+  "primary_prize": "Arbitrum Open House London: Online Buildathon",
+  "backup_prize": "none",
+  "non_primary_prizes_to_ignore": ["generic AI assistant", "NFT showcase", "portfolio optimizer"],
+  "selected_prize_or_track": "Arbitrum Open House London: Online Buildathon",
+  "judging_criteria": {
+    "product_realness": "fresh judge can run the refusal loop on the public URL",
+    "arbitrum_usage": "deployed Arbitrum Sepolia contracts and refused tx proof",
+    "technical_depth": "policy engine, receipt store, wallet path, calldata preparation, tx binding",
+    "rwa_fit": "market halt, stale price, max exposure, and no-sell-principal hazards"
+  },
+  "sponsor_or_domain_primitives": ["Arbitrum Sepolia", "EVM smart contracts", "explorer-verifiable transaction proof"],
+  "submission_fields": ["short description", "description", "progress", "deployment details", "demo video", "project images"],
+  "demo_format": "public URL plus 3:30 combined pitch/demo video",
+  "first_surfaces_judges_see": ["live URL", "running app", "demo video", "GitHub repo", "HackQuest project images", "submission prose"],
+  "must_prove_before_submission": ["NO receipt saved", "wallet identity shown", "proof hashes shown", "Arbitrum Sepolia contract path", "safe OK contrast", "auditor history"],
+  "killer_proof_phrase": "1 NO receipt names wallet and hashes",
+  "max_public_built_with_tags": 10,
+  "judge_recall_requirement": "At least 2 of 3 cold judges can recall user + sponsor + outcome + proof after 10 seconds.",
+  "primary_sponsor_centrality_requirement": ">=8.5/10 and removing the primary sponsor primitive breaks the core user outcome.",
+  "target_user_or_community": "RWA builders and agentic wallet teams that need delegated action limits with reviewable proof.",
+  "winner_slot_sentence": "Win the Arbitrum online buildathon by proving a refused RWA agent action becomes wallet-linked Arbitrum Sepolia receipt proof in 60 seconds.",
+  "hard_disqualifiers": ["no public path", "no saved receipt", "no Arbitrum contract proof", "real securities trading claims"],
+  "proof_paths_ranked": [
+    {
+      "type": "sponsor_native_or_live_data_proof",
+      "target": "Arbitrum Sepolia RefusalHub deployment and refused tx",
+      "how_to_get_before_submission": "deploy contracts, prepare receipt calldata, bind the demo tx, and list addresses in deployment docs",
+      "status": "complete"
+    },
+    {
+      "type": "evaluation_or_benchmark",
+      "target": "18 deployed E2E tests plus policy unit tests",
+      "how_to_get_before_submission": "run public Playwright and Vitest suites against the deployed URL",
+      "status": "complete"
+    },
+    {
+      "type": "adoption_or_user_proof",
+      "target": "fresh judge path with no login",
+      "how_to_get_before_submission": "ship built-in test wallet and public receipt/auditor routes",
+      "status": "complete"
+    }
+  ],
+  "kill_or_mutate_rules": ["Kill if the receipt cannot survive refresh.", "Mutate if Arbitrum proof is decorative.", "Cut features before cutting the refusal receipt loop."]
+}

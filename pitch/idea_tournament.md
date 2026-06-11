@@ -9,6 +9,15 @@
 - Rubric: smart contract quality, product-market fit, innovation/creativity, solving a real problem.
 - Sponsor primitives: Robinhood Chain RWA finance, Arbitrum/Stylus, ZeroDev, Dune, OpenZeppelin, GMX, Fhenix, Alchemy, AWS.
 
+## G0 Winner-Slot Handoff
+
+- winner slot fit: primary story is Arbitrum product realness for an agentic RWA refusal receipt, not a generic AI assistant.
+- selectedWinnerSlot: prove one refused RWA agent action becomes wallet-linked Arbitrum Sepolia receipt proof in 60 seconds.
+- proofPathBeforeSubmission: public live app, saved `NO` receipt, deployed Arbitrum Sepolia contracts, refused explorer tx, 18 deployed E2E checks, and HackQuest-hosted video/images.
+- saturationRisk: medium; adjacent HackQuest cards cluster around DeFi/RWA primitives and wallet defense, but not refusal receipts.
+- nearestCompetitor: shieldai for wallet safety, bitUSD for DeFi contract proof, and EduBricks for RWA positioning.
+- required mutation: make the failed action the durable artifact: 1 NO receipt names wallet and hashes.
+
 ## Raw GPT Pro Ideation Windows
 
 | Window | Prompt | Response | Ideas returned |

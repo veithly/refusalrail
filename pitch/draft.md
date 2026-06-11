@@ -1,6 +1,6 @@
 # Draft Pitch
 
-## Slide 1 - Reject 1 unsafe RWA trade, stamp NO
+## Slide 1 - Reject 1 unsafe RWA agent trade in 60 seconds.
 
 RefusalRail rejects one unsafe RWA agent trade in 60 seconds.
 

@@ -4,7 +4,11 @@
 
 ## One-line rumor
 
-Reject 1 unsafe RWA trade and block it with a NO receipt.
+Reject 1 unsafe RWA agent trade in 60 seconds.
+
+## Killer proof phrase
+
+1 NO receipt names wallet and hashes
 
 ## Judge hooks
 
@@ -48,8 +52,8 @@ Reject 1 unsafe RWA trade and block it with a NO receipt.
 ## Field strategy
 
 - Tagline angle: a concrete refusal result, not a category label.
-- Short description angle: judge action, visible NO receipt, Arbitrum proof.
-- Long description spine: wallet or test identity -> shock -> agent attempt -> refusal receipt -> tx binding -> auditor history.
+- Short description angle: judge action, visible `NO` receipt, Arbitrum proof, and the exact killer proof phrase.
+- HackQuest Description spine: in the first 500 visible characters, show the judge action, the `NO` receipt, and the exact proof fields; then explain the RWA standing-action risk, live product loop, Arbitrum Sepolia contract path, proof links, and limits.
 - Challenges angle: binding a wallet-facing chain path to a no-login judge flow without gating the first minute.
 - Accomplishment angle: shipped live product, deployed contracts, real tx, 18 public E2E tests, 3:30 main video.
 

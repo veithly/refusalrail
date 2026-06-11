@@ -1,8 +1,8 @@
-# Reject 1 unsafe RWA trade and block it with a NO receipt
+# Reject 1 unsafe RWA agent trade in 60 seconds.
 
-> Reject 1 unsafe RWA trade and block it with a NO receipt.
+> Reject 1 unsafe RWA agent trade in 60 seconds.
 
-RefusalRail is a judge-ready safety rail for the Arbitrum Open House London Online Buildathon. A judge selects a market shock, lets a bounded RWA agent try an unsafe action, and gets a durable refusal receipt with policy hash, calldata hash, shock hash, wallet owner, and proof hash.
+RefusalRail is a judge-ready safety rail for the Arbitrum Open House London Online Buildathon. A judge selects a market shock, lets a bounded RWA agent try an unsafe action, and gets a `NO` receipt that names the wallet and hashes: policy hash, calldata hash, shock hash, wallet owner, and proof hash.
 
 [Live demo](https://refusalrail.veithly.workers.dev) · [Repository](https://github.com/veithly/refusalrail) · [Full demo video](https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4) · [Quick preview](https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-preview-final.mp4) · [Deployment runbook](./docs/DEPLOYMENT.md) · [Submission pack](./SUBMISSION.md)
 

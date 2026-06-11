@@ -1,0 +1,15 @@
+{
+  "primary_prize": "Arbitrum Open House London: Online Buildathon",
+  "primary_sponsor": {
+    "name": "Arbitrum",
+    "primitive": "Arbitrum Sepolia EVM contracts for refusal receipt proof",
+    "centrality_score": 9.1,
+    "score_reason": "Removing the Arbitrum contract path breaks the visible outcome: the user can still see a web receipt, but cannot connect the refusal to RefusalHub calldata, deployed addresses, or an explorer transaction."
+  },
+  "core_user_action": "The judge runs an unsafe RWA agent action and opens the saved refusal receipt.",
+  "visible_outcome": "The screen shows a NO receipt with wallet identity, proof hashes, and Arbitrum Sepolia proof controls.",
+  "proof_surface": "/app/receipts/[id], deployments/arbitrum-sepolia.json, tests/hero.spec.ts, refused demo tx",
+  "removal_breaks": "If Arbitrum is removed, the product loses its chain-bound proof surface and becomes a web-only policy log. The reviewer can no longer verify the contract path or explorer record.",
+  "non_primary_sponsors": [],
+  "judge_sentence": "Arbitrum Sepolia contracts -> refused RWA action becomes chain-bound receipt proof -> receipt detail plus explorer tx"
+}

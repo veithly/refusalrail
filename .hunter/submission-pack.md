@@ -8,6 +8,10 @@ RefusalRail, RWA refusal receipts
 
 RefusalRail lets a judge run one unsafe RWA agent trade, watch policy refuse it, and inspect a durable receipt with wallet identity, hashes, and Arbitrum Sepolia proof.
 
+## HackQuest long-description spine
+
+The public Description should open with the live judge action: choose a shock, click `Let the agent try`, see policy stamp `NO`, and inspect wallet/proof hashes on the saved receipt. It should then explain why RWA standing actions need refusal records, show the complete live loop from workbench to chain proof to auditor history, name the Arbitrum Sepolia contract path, link the main video and repo, and state the testnet/non-advice limitation in plain language.
+
 ## Who it's for
 
 Hackathon judges, RWA builders, and agentic wallet teams who need delegated finance actions with visible limits before a user trusts automation with tokenized assets.

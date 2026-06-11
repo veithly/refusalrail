@@ -65,3 +65,10 @@
 - Upgraded the judge-facing video package from a 1:36 quick preview to a 3:30 full pitch/demo, while keeping the short video as a quick-preview asset.
 - Generated the HackQuest cover plus four 1280x720 project images from the latest guizang Swiss deck and stateful product screenshots under `pitch/hackquest-assets/`.
 - HackQuest project page should use the 3:30 full demo URL as the main Demo Video when the editor exposes a video URL or upload control.
+- Added missing Hunter G0/G1 evidence files for final-copy grounding: `pitch/prize_thesis.md`, `.hunter/sponsor-centrality.json`, `.hunter/track-calibration.json`, `pitch/winner_slot.md`, `pitch/gallery-saturation-audit.md`, `pitch/judge_recall_test.md`, and `pitch/killer_artifact.md`.
+- Rewrote HackQuest `Project Intro`, `Description`, and `Progress During Hackathon` with the proof phrase `1 NO receipt names wallet and hashes`, a product-scene first paragraph, Arbitrum Sepolia contract proof, live judge path, media links, and plain testnet limitations.
+- Kimi WebBridge public readback on 2026-06-12 confirmed `hasNewIntro=true`, `hasNewDesc=true`, `hasNewProgress=true`, HackQuest-hosted demo video `qL2qsogCADKn1XVlzr4Gd.mp4` duration `209.625`, and four project images at 1280x720.
+- Public media screenshot evidence: `pitch/hackquest-assets/hackquest-public-media-after.png` shows the HackQuest-hosted 3:29 video plus the new cover/workbench/receipt/chain-proof project images.
+- `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/audit_project.mjs . --phase prize-thesis` passed after adding the winner-slot evidence.
+- `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/audit_project.mjs . --phase submission` passed after the rewrite.
+- `node /Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/audit_hero.mjs .` passed with README, narration, slide, and submission sync.
