@@ -25,6 +25,8 @@ Reject 1 unsafe RWA trade and block it with a NO receipt.
 - Live product: `https://refusalrail.veithly.workers.dev`, click `Run refused trade`, choose a shock, click `Let the agent try`.
 - Main video: `https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4`, 3:30 full judge demo.
 - Quick preview: `https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-preview-final.mp4`, 1:36 highlights cut.
+- HackQuest cover: `pitch/hackquest-assets/cover.png`.
+- HackQuest project images: `pitch/hackquest-assets/01-live-url-hero.png`, `02-refusal-workbench.png`, `03-receipt-detail.png`, `04-chain-proof.png`.
 - Repo proof: `contracts/RefusalHub.sol`, `contracts/PolicyRegistry.sol`, `src/policy.ts`, `src/index.ts`, `tests/hero.spec.ts`.
 - Sponsor/domain proof: Arbitrum Sepolia contract deployment and refused tx listed in `deployments/arbitrum-sepolia.json`.
 - User/state proof: Durable receipt records include `walletAddress`, `policyHash`, `calldataHash`, `shockHash`, `proofHash`, status, and tx binding.

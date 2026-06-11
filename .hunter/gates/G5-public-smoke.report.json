@@ -3,7 +3,7 @@
   "status": "passed",
   "checked_at": "2026-06-11T18:13:30Z",
   "wrangler_version": "4.98.0",
-  "worker_version_id": "ff33feb4-2174-4da8-8785-8e01af8a5c58",
+  "worker_version_id": "29b87c4d-a444-4381-8d9e-3b4b579b3fae",
   "build_id": "forensic-swiss-2026-06-11T143834Z",
   "commands": {
     "build": "passed",

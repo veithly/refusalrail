@@ -44,7 +44,15 @@ The project is a testnet hackathon prototype. It does not trade real securities,
 
 ## Video storybeat
 
-The 3:30 main video opens with the product thesis, shows the no-login judge path, runs a live refusal, opens the receipt detail, binds the chain proof path, runs the safe contrast, and closes on the deployed contracts and limitations. The 1:36 cut stays as a quick preview.
+The 3:30 main video opens with the product thesis, shows the no-login judge path, runs a live refusal, opens the receipt detail, binds the chain proof path, runs the safe contrast, and closes on the deployed contracts and limitations. It is mixed with real Hunter BGM through sidechain ducking so narration stays readable. The 1:36 cut stays as a quick preview.
+
+## HackQuest media
+
+- Cover: `pitch/hackquest-assets/cover.png`
+- Project image 1: `pitch/hackquest-assets/01-live-url-hero.png`
+- Project image 2: `pitch/hackquest-assets/02-refusal-workbench.png`
+- Project image 3: `pitch/hackquest-assets/03-receipt-detail.png`
+- Project image 4: `pitch/hackquest-assets/04-chain-proof.png`
 
 ## Deck vertebrae
 

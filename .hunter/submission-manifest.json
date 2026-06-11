@@ -2,7 +2,7 @@
   "project": "RefusalRail",
   "tagline": "Reject 1 unsafe RWA trade and block it with a NO receipt.",
   "live_url": "https://refusalrail.veithly.workers.dev",
-  "deployment_version_id": "ff33feb4-2174-4da8-8785-8e01af8a5c58",
+  "deployment_version_id": "29b87c4d-a444-4381-8d9e-3b4b579b3fae",
   "build_id": "forensic-swiss-2026-06-11T143834Z",
   "repo_url": "https://github.com/veithly/refusalrail",
   "video_url": "https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4",
@@ -14,7 +14,19 @@
   "deck_url": "",
   "deck_file": "pitch/deck/index.html",
   "deck_style": "Swiss International / IKB evidence deck",
+  "cover_image": "pitch/hackquest-assets/cover.png",
+  "project_images": [
+    "pitch/hackquest-assets/01-live-url-hero.png",
+    "pitch/hackquest-assets/02-refusal-workbench.png",
+    "pitch/hackquest-assets/03-receipt-detail.png",
+    "pitch/hackquest-assets/04-chain-proof.png"
+  ],
   "visual_assets": [
+    "pitch/hackquest-assets/cover.png",
+    "pitch/hackquest-assets/01-live-url-hero.png",
+    "pitch/hackquest-assets/02-refusal-workbench.png",
+    "pitch/hackquest-assets/03-receipt-detail.png",
+    "pitch/hackquest-assets/04-chain-proof.png",
     "public/art/refusalrail/no-stamp-ledger.png",
     "public/art/refusalrail/chain-lock-map.png",
     "public/art/refusalrail/wallet-key-proof.png",
@@ -47,8 +59,9 @@
     "visual_qa": "latest stateful screenshots captured under pitch/deck/images and pitch/polish-combined/assets",
     "cloudflare_dry_run": "passed",
     "cloudflare_deploy": "passed",
-    "final_video": "3:30, 1920x1200, H.264, AAC mono",
-    "quick_preview": "1:36, 1920x1200, H.264, AAC mono"
+    "final_video": "3:30, 1920x1200, H.264, AAC stereo with real Hunter BGM, mean -17.0 dB, max -1.2 dB",
+    "quick_preview": "1:36, 1920x1200, H.264, AAC stereo with real Hunter BGM, mean -17.2 dB, max -1.3 dB",
+    "hackquest_images": "cover plus 4 latest 1280x720 project screenshots under pitch/hackquest-assets"
   },
   "status": "ready-for-final-submit",
   "human_confirmation_required_before_final_submit": true

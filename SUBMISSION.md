@@ -77,13 +77,24 @@ https://github.com/veithly/refusalrail
 
 ## Video URL
 
-Main judge demo, 3:30: https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4
+Main judge demo, 3:30, with narration and ducked BGM: https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-combined-final.mp4
 
-Quick preview, 1:36: https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-preview-final.mp4
+Quick preview, 1:36, with narration and ducked BGM: https://raw.githubusercontent.com/veithly/refusalrail/main/pitch/recording/pitch-demo-preview-final.mp4
 
 ## Deck URL
 
 Deck source: https://github.com/veithly/refusalrail/tree/main/pitch/deck
+
+## HackQuest media assets
+
+Cover image: `pitch/hackquest-assets/cover.png`
+
+Project images:
+
+- `pitch/hackquest-assets/01-live-url-hero.png`
+- `pitch/hackquest-assets/02-refusal-workbench.png`
+- `pitch/hackquest-assets/03-receipt-detail.png`
+- `pitch/hackquest-assets/04-chain-proof.png`
 
 ## Documentation URL
 
@@ -91,7 +102,7 @@ https://github.com/veithly/refusalrail/blob/main/docs/DEPLOYMENT.md
 
 ## Progress During Hackathon
 
-Built during the hackathon: PRD, UI interaction plan, logo system, forensic product redesign, wallet dock, browser-wallet path, built-in test wallet, receipt ledger, receipt detail views, Solidity contracts, Arbitrum Sepolia deployment, public app deployment, 3:30 main judge video, 1:36 preview video, GitHub repo, claim matrix, and public E2E verification. A judge can now run the whole proof path: live app, refusal receipt, chain proof, and auditor history.
+Built during the hackathon: PRD, UI interaction plan, logo system, forensic product redesign, wallet dock, browser-wallet path, built-in test wallet, receipt ledger, receipt detail views, Solidity contracts, Arbitrum Sepolia deployment, public app deployment, guizang Swiss deck, HackQuest cover/project images, 3:30 main judge video with BGM, 1:36 preview video with BGM, GitHub repo, claim matrix, and public E2E verification. A judge can now run the whole proof path: live app, refusal receipt, chain proof, and auditor history.
 
 ## Fundraising Status
 
@@ -113,7 +124,7 @@ Refused demo tx: https://sepolia.arbiscan.io/tx/0x0b809bc31f75b6ff5947ccb5875dc5
 
 Live app: https://refusalrail.veithly.workers.dev
 
-Deployment version: `ff33feb4-2174-4da8-8785-8e01af8a5c58`
+Deployment version: `29b87c4d-a444-4381-8d9e-3b4b579b3fae`
 
 ## Team members
 

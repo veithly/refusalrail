@@ -78,7 +78,7 @@
       "surface": "https://refusalrail.veithly.workers.dev",
       "user_action": "Open the live URL and run the deployed Playwright smoke path.",
       "visible_result": "The public hero and workbench CTA load, then the deployed E2E path passes.",
-      "backend_or_storage_proof": ".hunter/gates/G5-public-smoke.report.json records deployed 18-test pass and deployment version ff33feb4-2174-4da8-8785-8e01af8a5c58.",
+      "backend_or_storage_proof": ".hunter/gates/G5-public-smoke.report.json records deployed 18-test pass and deployment version 29b87c4d-a444-4381-8d9e-3b4b579b3fae.",
       "proof_type": "Public smoke report and test command",
       "repo_path": ".hunter/gates/G5-public-smoke.report.json",
       "test": "DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e",

@@ -9,9 +9,24 @@
     "resolution": "1920x1200",
     "video_codec": "h264",
     "audio_codec": "aac",
-    "audio_channels": 1,
-    "audio_layout": "mono",
-    "purpose": "main HackQuest judge demo"
+    "audio_channels": 2,
+    "audio_layout": "stereo",
+    "purpose": "main HackQuest judge demo",
+    "audio_mix": {
+      "mixer": "/Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/mix_audio.sh",
+      "voice_bus": "artifacts/full/vo.wav",
+      "bgm_source": "/Users/rick/Documents/MySkill/hackathonhunter-skill/assets/music",
+      "bgm_tracks": [
+        "Future Forward_no-watermark.mp3",
+        "Future Forward_no-watermark (2).mp3"
+      ],
+      "bgm_mode": "two sequential non-overlapping beds with sidechain ducking",
+      "volumedetect": {
+        "mean_volume_db": -17.0,
+        "max_volume_db": -1.2,
+        "stereo_diff_mean_db": -38.7
+      }
+    }
   },
   "quick_preview": {
     "path": "pitch/recording/pitch-demo-preview-final.mp4",
@@ -21,9 +36,23 @@
     "resolution": "1920x1200",
     "video_codec": "h264",
     "audio_codec": "aac",
-    "audio_channels": 1,
-    "audio_layout": "mono",
-    "purpose": "short preview when a platform exposes a separate pitch video slot"
+    "audio_channels": 2,
+    "audio_layout": "stereo",
+    "purpose": "short preview when a platform exposes a separate pitch video slot",
+    "audio_mix": {
+      "mixer": "/Users/rick/Documents/MySkill/hackathonhunter-skill/scripts/mix_audio.sh",
+      "voice_bus": "artifacts/vo.wav",
+      "bgm_source": "/Users/rick/Documents/MySkill/hackathonhunter-skill/assets/music",
+      "bgm_tracks": [
+        "Future Forward_no-watermark.mp3"
+      ],
+      "bgm_mode": "single loop with sidechain ducking",
+      "volumedetect": {
+        "mean_volume_db": -17.2,
+        "max_volume_db": -1.3,
+        "stereo_diff_mean_db": -36.0
+      }
+    }
   },
   "deck": {
     "path": "pitch/deck/index.html",
@@ -34,7 +63,23 @@
     "captions": "artifacts/full/captions.srt",
     "coverage": "Core 3:30 main demo narration"
   },
+  "hackquest_images": {
+    "cover": "pitch/hackquest-assets/cover.png",
+    "project_images": [
+      "pitch/hackquest-assets/01-live-url-hero.png",
+      "pitch/hackquest-assets/02-refusal-workbench.png",
+      "pitch/hackquest-assets/03-receipt-detail.png",
+      "pitch/hackquest-assets/04-chain-proof.png"
+    ],
+    "dimensions": "1280x720",
+    "source": "latest guizang Swiss deck and stateful product screenshots"
+  },
   "screenshots": [
+    "pitch/hackquest-assets/cover.png",
+    "pitch/hackquest-assets/01-live-url-hero.png",
+    "pitch/hackquest-assets/02-refusal-workbench.png",
+    "pitch/hackquest-assets/03-receipt-detail.png",
+    "pitch/hackquest-assets/04-chain-proof.png",
     "pitch/deck/qa/latest/contact-sheet.jpg",
     "pitch/deck/images/hero-latest-16x10.png",
     "pitch/deck/images/workbench-refused-16x10.png",

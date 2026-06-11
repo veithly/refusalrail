@@ -74,12 +74,12 @@ https://refusalrail.veithly.workers.dev
 - `DEPLOYED_URL=https://refusalrail.veithly.workers.dev PLAYWRIGHT_BASE_URL=https://refusalrail.veithly.workers.dev npm run test:e2e`: 18 public tests passed.
 - `npm run deploy:dry`: passed with Wrangler 4.98.0.
 - `npm run contracts:deploy`: passed on Arbitrum Sepolia.
-- `npm run deploy`: published `https://refusalrail.veithly.workers.dev` as deployment version `ff33feb4-2174-4da8-8785-8e01af8a5c58`.
+- `npm run deploy`: published `https://refusalrail.veithly.workers.dev` as deployment version `29b87c4d-a444-4381-8d9e-3b4b579b3fae`.
 - `visual_qa_scan.mjs --url https://refusalrail.veithly.workers.dev --fail-on error`: 0 errors and 0 warnings across desktop/mobile routes.
 - Runtime audit: `npm audit --omit=dev` found 0 vulnerabilities.
 - Dev audit note: `solc` currently brings dev-only `tmp` advisories; it is not shipped in the deployed runtime bundle.
-- Full judge demo: `pitch/recording/pitch-demo-combined-final.mp4`, 3:30, 1920x1200, H.264, AAC mono.
-- Quick preview: `pitch/recording/pitch-demo-preview-final.mp4`, 1:36, 1920x1200, H.264, AAC mono.
+- Full judge demo: `pitch/recording/pitch-demo-combined-final.mp4`, 3:30, 1920x1200, H.264, AAC stereo with ducked Hunter BGM.
+- Quick preview: `pitch/recording/pitch-demo-preview-final.mp4`, 1:36, 1920x1200, H.264, AAC stereo with ducked Hunter BGM.
 
 ## Deployment Note
 
